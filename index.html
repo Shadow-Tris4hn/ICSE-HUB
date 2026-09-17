@@ -164,7 +164,6 @@
   <header class="sticky top-0 z-40 px-4 md:px-8 py-3.5 backdrop-blur-2xl bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/80 dark:border-slate-800 shadow-xs">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
       <div class="flex items-center gap-3 flex-1">
-        <!-- NORMAL GRADUATION HAT EMOJI CONTAINER -->
         <div class="w-10 h-10 rounded-2xl glass-panel flex items-center justify-center text-lg text-blue-600 dark:text-blue-400 shadow-xs shrink-0 font-black">
           🎓
         </div>
@@ -221,7 +220,7 @@
   <!-- ================= MAIN APP CONTAINER ================= -->
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 md:px-8 pt-4 md:pt-6 space-y-4 z-10 relative">
 
-    <!-- ANNOUNCEMENT BANNER -->
+    <!-- PERSISTENT CLOUD NOTICE BANNER -->
     <div id="announcementBanner" onclick="showLatestAnnouncementModal()" class="cursor-pointer hidden glass-panel rounded-2xl p-3 border border-amber-300 dark:border-amber-700 bg-amber-50/80 dark:bg-amber-950/40 flex items-center justify-between text-xs text-amber-900 dark:text-amber-200 shadow-xs">
       <div class="flex items-center gap-2.5 truncate pr-2">
         <span class="text-sm">📢</span>
@@ -593,7 +592,6 @@
           </form>
         </div>
 
-        <!-- Automated Duplicate/Phantom Cleaner -->
         <div class="glass-panel rounded-3xl p-6 border border-amber-300 dark:border-amber-700 bg-amber-50/20 dark:bg-amber-950/20">
           <h4 class="text-sm font-bold text-amber-900 dark:text-amber-400 mb-1">Clean Duplicate & Inactive Profiles</h4>
           <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">Scans Firestore to delete duplicate student entries with 0 progress.</p>
@@ -647,7 +645,25 @@
 
   <!-- ================= MODALS ================= -->
 
-  <!-- 1. STUDENT INSPECTION MODAL (ADMIN) -->
+  <!-- 1. CLOUD POP-UP NOTICE MODAL -->
+  <div id="bigAnnouncementModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-panel max-w-md w-full rounded-3xl p-6 md:p-8 shadow-2xl border border-amber-300 dark:border-amber-700 relative">
+      <div class="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 flex items-center justify-center text-xl mb-3 shadow-xs">
+        📢
+      </div>
+      <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 mb-2 inline-block">Notice</span>
+      <h3 id="bigAnnouncementTitle" class="text-base font-extrabold text-slate-900 dark:text-white mt-1">Notice</h3>
+      <p id="bigAnnouncementBody" class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed whitespace-pre-wrap"></p>
+      
+      <div class="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800">
+        <button onclick="closeBigAnnouncementModal(true)" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-xl text-xs shadow-xs transition">
+          I Acknowledge & Understand
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. STUDENT INSPECTION MODAL (ADMIN) -->
   <div id="adminStudentDetailModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
     <div class="glass-panel max-w-3xl w-full max-h-[85vh] flex flex-col rounded-3xl p-6 shadow-2xl">
       <div class="flex justify-between items-center pb-3 border-b border-slate-200 dark:border-slate-800">
@@ -661,7 +677,7 @@
     </div>
   </div>
 
-  <!-- 2. TICKET SUBMISSION MODAL -->
+  <!-- 3. TICKET SUBMISSION MODAL -->
   <div id="ticketModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
     <div class="glass-panel max-w-md w-full rounded-3xl p-6 shadow-xl">
       <h3 class="text-base font-bold text-slate-900 dark:text-white mb-1">Submit Ticket</h3>
@@ -676,7 +692,7 @@
     </div>
   </div>
 
-  <!-- 3. STUDY MATERIAL UPLOAD MODAL -->
+  <!-- 4. STUDY MATERIAL UPLOAD MODAL -->
   <div id="uploadModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
     <div class="glass-panel max-w-md w-full rounded-3xl p-6 shadow-xl">
       <div class="flex justify-between items-center mb-2">
@@ -701,7 +717,7 @@
     </div>
   </div>
 
-  <!-- 4. STUDENT PROFILE SETTINGS MODAL -->
+  <!-- 5. STUDENT PROFILE SETTINGS MODAL -->
   <div id="profileSettingsModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
     <div class="glass-panel max-w-md w-full rounded-3xl p-6 shadow-2xl">
       <div class="flex justify-between items-center mb-3">
@@ -744,7 +760,7 @@
     </div>
   </div>
 
-  <!-- 5. FIRST TIME ONBOARDING MODAL -->
+  <!-- 6. FIRST TIME ONBOARDING MODAL -->
   <div id="firstTimeLoginModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
     <div class="glass-panel max-w-md w-full rounded-3xl p-7 md:p-8 text-center shadow-2xl">
       <div class="w-14 h-14 rounded-2xl glass-panel flex items-center justify-center text-3xl mx-auto mb-3 text-blue-600 shadow-xs">🎓</div>
@@ -791,7 +807,7 @@
     </div>
   </div>
 
-  <!-- 6. ADMIN PASSCODE MODAL -->
+  <!-- 7. ADMIN PASSCODE MODAL -->
   <div id="adminPassModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
     <div class="glass-panel max-w-sm w-full rounded-3xl p-6 shadow-xl">
       <h3 class="text-base font-bold text-slate-900 dark:text-white text-center mb-1">Admin Verification</h3>
@@ -968,11 +984,10 @@
       return [...base, lang, app];
     }
 
-    // ================= REALTIME FIREBASE LISTENERS =================
+    // ================= REALTIME FIREBASE CLOUD LISTENERS =================
     function initFirebaseListeners() {
       if (typeof db === "undefined") return;
 
-      // 1. Board Exam Target Date
       db.collection("settings").doc("board_exam_target").onSnapshot((snap) => {
         if (snap.exists && snap.data().date) {
           targetExamDate = snap.data().date;
@@ -981,7 +996,6 @@
         }
       });
 
-      // 2. Admin Passcode
       db.collection("settings").doc("admin_config").onSnapshot((snap) => {
         if (snap.exists && snap.data().passcode) {
           adminPasscode = snap.data().passcode;
@@ -989,7 +1003,6 @@
         }
       });
 
-      // 3. Announcements
       db.collection("announcements").onSnapshot((querySnapshot) => {
         noticesList = [];
         querySnapshot.forEach(dSnap => noticesList.push({ id: dSnap.id, ...dSnap.data() }));
@@ -999,7 +1012,6 @@
         checkInstantAnnouncements();
       });
 
-      // 4. Students Live Sync
       db.collection("students").onSnapshot((querySnapshot) => {
         allStudentsLive = [];
         querySnapshot.forEach(docSnap => allStudentsLive.push(docSnap.data()));
@@ -1009,7 +1021,6 @@
         populateDeleteStudentDropdown();
       });
 
-      // 5. Chat
       db.collection("chat_messages").orderBy("timestamp", "asc").limit(100).onSnapshot((snapshot) => {
         liveChatMessages = [];
         snapshot.forEach(docSnap => liveChatMessages.push(docSnap.data()));
@@ -1017,7 +1028,6 @@
         renderAdminChatLog();
       });
 
-      // 6. Tickets
       db.collection("tickets").onSnapshot((snapshot) => {
         ticketsList = [];
         snapshot.forEach(docSnap => ticketsList.push({ id: docSnap.id, ...docSnap.data() }));
@@ -1025,7 +1035,6 @@
         renderAdminTickets();
       });
 
-      // 7. Materials
       db.collection("study_materials").onSnapshot((querySnapshot) => {
         materialsList = [];
         querySnapshot.forEach(dSnap => materialsList.push({ id: dSnap.id, ...dSnap.data() }));
@@ -1634,16 +1643,10 @@
       }
     }
 
-    // ================= PERSISTENT AUTH & ONBOARDING =================
+    // ================= PERSISTENT AUTH & ONBOARDING WITH PASSWORD =================
     function checkLogin() {
       const savedId = localStorage.getItem("current_icse_student_id");
       const cachedProfile = localStorage.getItem("current_student_profile_cache");
-      const adminSession = localStorage.getItem("icse_admin_session_active");
-
-      if (adminSession === "true") {
-        setAdminSessionUI();
-        return;
-      }
 
       if (!savedId) {
         document.getElementById('firstTimeLoginModal').classList.remove('hidden');
@@ -1665,60 +1668,75 @@
       }
     }
 
-    function setAdminSessionUI() {
-      isAdminActive = true;
-      document.getElementById('firstTimeLoginModal').classList.add('hidden');
-      document.getElementById('navStudentName').innerText = "🛡️ Administrator";
-      document.getElementById('studentSubjectChoicesSub').innerText = "Administrator Console (All Subjects)";
-      initSubjectDropdowns();
-      renderSubjectsView();
-      computeAnalyticsAndPercentiles();
-    }
-
+    // Handles both new registration and logging in from multi-device with password verification
     async function handleFirstTimeLogin(e) {
       e.preventDefault();
       const nameInput = document.getElementById('firstTimeNameInput');
       const name = nameInput.value.trim();
+      const password = document.getElementById('firstTimePasswordInput').value.trim();
       const lang = document.getElementById('firstTimeLangChoice').value;
       const app = document.getElementById('firstTimeAppChoice').value;
       const alertBox = document.getElementById('onboardingNameTakenAlert');
       const submitBtn = document.getElementById('submitOnboardingBtn');
 
-      if (!name) return;
+      if (!name || !password) return;
 
       submitBtn.disabled = true;
-      submitBtn.innerText = "Checking availability...";
+      submitBtn.innerText = "Verifying profile...";
 
-      let isTaken = false;
+      let existingStudent = null;
+      let existingDocId = null;
+
       if (typeof db !== "undefined") {
         try {
           const snap = await db.collection("students").get();
           snap.forEach(docSnap => {
             const data = docSnap.data();
             if (data.name && data.name.trim().toLowerCase() === name.toLowerCase()) {
-              isTaken = true;
+              existingStudent = data;
+              existingDocId = docSnap.id;
             }
           });
         } catch (err) {
-          console.error("Name lookup check error:", err);
+          console.error("Lookup error:", err);
         }
       }
 
-      if (isTaken) {
-        alertBox.classList.remove('hidden');
-        alert("Name already taken by someone else! Please choose another name or add your initial.");
-        nameInput.focus();
-        submitBtn.disabled = false;
-        submitBtn.innerText = "Open Personalized Tracker →";
+      if (existingStudent) {
+        // Name already exists in cloud -> Check password for multi-device access
+        if (existingStudent.password && existingStudent.password !== password) {
+          alertBox.innerText = "⚠️ Incorrect password for this name! Please enter the correct password to log in.";
+          alertBox.classList.remove('hidden');
+          nameInput.focus();
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Open Personalized Tracker →";
+          return;
+        }
+
+        // Password matches or legacy account without password -> Link device
+        alertBox.classList.add('hidden');
+        if (!existingStudent.password) {
+          existingStudent.password = password; // set password if it was missing
+          await db.collection("students").doc(existingDocId).update({ password: password });
+        }
+
+        currentStudent = existingStudent;
+        localStorage.setItem("current_icse_student_id", existingDocId);
+        localStorage.setItem("current_student_profile_cache", JSON.stringify(currentStudent));
+
+        document.getElementById('firstTimeLoginModal').classList.add('hidden');
+        bindStudentProfile(existingDocId);
         return;
       }
 
+      // Brand new registration
       alertBox.classList.add('hidden');
 
       const studentId = "stu_" + Date.now();
       const newStudentDoc = {
         id: studentId,
         name: name,
+        password: password,
         langChoice: lang,
         appChoice: app,
         chapterProgress: {},
@@ -1769,12 +1787,9 @@
     }
 
     function openProfileSettingsModal() {
-      if (isAdminActive) {
-        alert("You are logged in as Administrator. To track individual chapters, switch to a student account.");
-        return;
-      }
       if (!currentStudent) return;
       document.getElementById('editStudentNameInput').value = currentStudent.name || "";
+      document.getElementById('editStudentPasswordInput').value = currentStudent.password || "";
       document.getElementById('editLangChoice').value = currentStudent.langChoice || "Bengali";
       document.getElementById('editAppChoice').value = currentStudent.appChoice || "Computer Applications";
       document.getElementById('profileSettingsModal').classList.remove('hidden');
@@ -1788,29 +1803,13 @@
       e.preventDefault();
       if (!currentStudent) return;
       const newName = document.getElementById('editStudentNameInput').value.trim();
+      const newPassword = document.getElementById('editStudentPasswordInput').value.trim();
       const newLang = document.getElementById('editLangChoice').value;
       const newApp = document.getElementById('editAppChoice').value;
-      if (!newName) return;
-
-      if (newName.toLowerCase() !== currentStudent.name.toLowerCase() && typeof db !== "undefined") {
-        let isTaken = false;
-        try {
-          const snap = await db.collection("students").get();
-          snap.forEach(docSnap => {
-            if (docSnap.id !== currentStudent.id && docSnap.data().name && docSnap.data().name.trim().toLowerCase() === newName.toLowerCase()) {
-              isTaken = true;
-            }
-          });
-        } catch(err) {
-          console.error(err);
-        }
-        if (isTaken) {
-          alert("Name already taken by someone else! Please pick another name.");
-          return;
-        }
-      }
+      if (!newName || !newPassword) return;
 
       currentStudent.name = newName;
+      currentStudent.password = newPassword;
       currentStudent.langChoice = newLang;
       currentStudent.appChoice = newApp;
 
@@ -1836,24 +1835,24 @@
       if (typeof db !== "undefined") {
         await db.collection("students").doc(currentStudent.id).update({
           name: newName,
+          password: newPassword,
           langChoice: newLang,
           appChoice: newApp,
           chapterProgress: currentStudent.chapterProgress
         });
       }
-      alert("Profile updated successfully!");
+      alert("Profile and password updated successfully!");
     }
 
     function switchStudentAccount() {
-      if (confirm("Switch student account?")) {
+      if (confirm("Log out?")) {
         localStorage.removeItem("current_icse_student_id");
         localStorage.removeItem("current_student_profile_cache");
-        localStorage.removeItem("icse_admin_session_active");
         location.reload();
       }
     }
 
-    // ================= ADMIN WORKSPACE & ZERO-PROFILE LOGIN =================
+    // ================= ADMIN WORKSPACE =================
     function openAdminDirectFromOnboarding() {
       document.getElementById('firstTimeLoginModal').classList.add('hidden');
       openAdminModal();
@@ -1862,7 +1861,7 @@
     function openAdminModal() { document.getElementById('adminPassModal').classList.remove('hidden'); }
     function closeAdminModal() { 
       document.getElementById('adminPassModal').classList.add('hidden'); 
-      if (!currentStudent && !isAdminActive) {
+      if (!currentStudent) {
         document.getElementById('firstTimeLoginModal').classList.remove('hidden');
       }
     }
@@ -1871,9 +1870,6 @@
       e.preventDefault();
       if (document.getElementById('adminPassField').value.trim() === adminPasscode) {
         closeAdminModal();
-        localStorage.setItem("icse_admin_session_active", "true");
-        setAdminSessionUI();
-
         document.getElementById('studentContainer').classList.add('hidden');
         document.getElementById('adminContainer').classList.remove('hidden');
         switchAdminTab('dashboard');
@@ -1885,12 +1881,7 @@
     function exitAdmin() {
       document.getElementById('adminContainer').classList.add('hidden');
       document.getElementById('studentContainer').classList.remove('hidden');
-      if (currentStudent) {
-        document.getElementById('navStudentName').innerText = currentStudent.name;
-        renderSubjectsView();
-      } else {
-        document.getElementById('firstTimeLoginModal').classList.remove('hidden');
-      }
+      renderSubjectsView();
     }
 
     function switchAdminTab(tag) {
