@@ -730,6 +730,10 @@
           <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Your Full Name:</label>
           <input type="text" id="editStudentNameInput" class="w-full glass-interactive rounded-xl p-2.5 text-xs outline-none font-bold" required>
         </div>
+        <div>
+          <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Password:</label>
+          <input type="password" id="editStudentPasswordInput" class="w-full glass-interactive rounded-xl p-2.5 text-xs outline-none font-bold" required>
+        </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
@@ -760,24 +764,28 @@
     </div>
   </div>
 
-  <!-- 6. FIRST TIME ONBOARDING MODAL -->
+  <!-- 6. FIRST TIME ONBOARDING MODAL (NAME FIRST, THEN PASSWORD) -->
   <div id="firstTimeLoginModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
     <div class="glass-panel max-w-md w-full rounded-3xl p-7 md:p-8 text-center shadow-2xl">
       <div class="w-14 h-14 rounded-2xl glass-panel flex items-center justify-center text-3xl mx-auto mb-3 text-blue-600 shadow-xs">🎓</div>
-      <h3 class="text-xl font-extrabold text-slate-900 dark:text-white">Student Profile & Electives</h3>
-      <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-4">Choose your name & electives to setup your tracking console.</p>
+      <h3 class="text-xl font-extrabold text-slate-900 dark:text-white">Student Profile Setup</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-4">Enter your name and password to sync your account across devices.</p>
       
       <div id="onboardingNameTakenAlert" class="hidden p-3 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 text-rose-700 dark:text-rose-400 text-xs font-bold mb-3 text-center">
-        ⚠️ Name already taken by someone else! Please choose another name or add your initial.
+        ⚠️ Incorrect password for this name! Enter correct password to log in.
       </div>
 
-      <form onsubmit="handleFirstTimeLogin(event)" class="space-y-4 text-left">
+      <form onsubmit="handleFirstTimeLogin(event)" class="space-y-3.5 text-left">
         <div>
           <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Your Full Name:</label>
           <input type="text" id="firstTimeNameInput" placeholder="Enter your full name" class="w-full glass-interactive rounded-xl p-3 text-xs outline-none font-bold" required autofocus>
         </div>
+        <div>
+          <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Password:</label>
+          <input type="password" id="firstTimePasswordInput" placeholder="Set or enter your account password" class="w-full glass-interactive rounded-xl p-3 text-xs outline-none font-bold" required>
+        </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
           <div>
             <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">2nd Language:</label>
             <select id="firstTimeLangChoice" class="w-full glass-interactive rounded-xl p-2.5 text-xs outline-none font-semibold">
@@ -795,7 +803,7 @@
         </div>
 
         <button type="submit" id="submitOnboardingBtn" class="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-2xl text-xs shadow-xs mt-2 transition">
-          Open Personalized Tracker →
+          Continue to Tracker →
         </button>
 
         <div class="pt-3 text-center border-t border-slate-200 dark:border-slate-800">
@@ -939,7 +947,6 @@
     };
 
     let currentStudent = null;
-    let isAdminActive = false;
     let allStudentsLive = [];
     let liveChatMessages = [];
     let ticketsList = [];
@@ -1132,23 +1139,21 @@
 
     // ================= ANALYTICS & COHORT PERCENTILES =================
     function computeAnalyticsAndPercentiles() {
-      if (!currentStudent && !isAdminActive) return;
+      if (!currentStudent) return;
 
-      const mySubjects = currentStudent ? getStudentSubjectList(currentStudent) : Object.keys(MASTER_SYLLABUS).slice(0, 9);
+      const mySubjects = getStudentSubjectList(currentStudent);
       let totalCurriculumChapters = 0;
       mySubjects.forEach(s => totalCurriculumChapters += (MASTER_SYLLABUS[s] ? MASTER_SYLLABUS[s].length : 0));
 
       let myCompleted = 0;
       let weakCount = 0;
-      if (currentStudent) {
-        mySubjects.forEach(s => {
-          (MASTER_SYLLABUS[s] || []).forEach(c => {
-            const st = currentStudent.chapterProgress?.[s]?.[c] || 'Not Started';
-            if (st === 'Completed') myCompleted++;
-            if (st === 'Need Revision') weakCount++;
-          });
+      mySubjects.forEach(s => {
+        (MASTER_SYLLABUS[s] || []).forEach(c => {
+          const st = currentStudent.chapterProgress?.[s]?.[c] || 'Not Started';
+          if (st === 'Completed') myCompleted++;
+          if (st === 'Need Revision') weakCount++;
         });
-      }
+      });
 
       const myPercent = totalCurriculumChapters > 0 ? Math.round((myCompleted / totalCurriculumChapters) * 100) : 0;
 
@@ -1187,8 +1192,8 @@
         percentile = Math.max(1, Math.round((peersBelow / totalStudents) * 100));
       }
 
-      document.getElementById('statPercentileRank').innerText = currentStudent ? `${percentile}th Percentile` : `Overview`;
-      document.getElementById('statPercentileSub').innerText = currentStudent ? `Ranked #${myRankIndex + 1} of ${totalStudents} active peers` : `${totalStudents} registered students`;
+      document.getElementById('statPercentileRank').innerText = `${percentile}th Percentile`;
+      document.getElementById('statPercentileSub').innerText = `Ranked #${myRankIndex + 1} of ${totalStudents} active peers`;
 
       // Leaderboard
       const rankBody = document.getElementById('cohortRankingsBody');
@@ -1218,11 +1223,9 @@
       mySubjects.forEach(sub => {
         const chaps = MASTER_SYLLABUS[sub] || [];
         let mySubDone = 0;
-        if (currentStudent) {
-          chaps.forEach(c => {
-            if (currentStudent.chapterProgress?.[sub]?.[c] === 'Completed') mySubDone++;
-          });
-        }
+        chaps.forEach(c => {
+          if (currentStudent.chapterProgress?.[sub]?.[c] === 'Completed') mySubDone++;
+        });
         const mySubPct = chaps.length > 0 ? Math.round((mySubDone / chaps.length) * 100) : 0;
 
         let cohortSubSum = 0;
@@ -1323,10 +1326,6 @@
 
     async function setChapterStatus(sub, chap, status) {
       if (!currentStudent) {
-        if (isAdminActive) {
-          alert("You are viewing as Administrator. To track personal progress, set up a student profile!");
-          return;
-        }
         document.getElementById('firstTimeLoginModal').classList.remove('hidden');
         return;
       }
@@ -1387,17 +1386,15 @@
 
     async function handleSendChatMessage(e) {
       e.preventDefault();
+      if (!currentStudent) return;
       const input = document.getElementById('chatMessageInput');
       const text = input.value.trim();
       if (!text) return;
 
-      const studentName = currentStudent ? currentStudent.name : (isAdminActive ? "Admin (Trishan)" : "Anonymous");
-      const studentId = currentStudent ? currentStudent.id : "admin_broadcast";
-
       const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       const messageObj = {
-        studentId: studentId,
-        studentName: studentName,
+        studentId: currentStudent.id,
+        studentName: currentStudent.name,
         text: text,
         timeStr: timeString,
         timestamp: Date.now()
@@ -1643,7 +1640,7 @@
       }
     }
 
-    // ================= PERSISTENT AUTH & ONBOARDING WITH PASSWORD =================
+    // ================= PERSISTENT AUTH & ONBOARDING (NAME FIRST, THEN PASSWORD) =================
     function checkLogin() {
       const savedId = localStorage.getItem("current_icse_student_id");
       const cachedProfile = localStorage.getItem("current_student_profile_cache");
@@ -1668,7 +1665,6 @@
       }
     }
 
-    // Handles both new registration and logging in from multi-device with password verification
     async function handleFirstTimeLogin(e) {
       e.preventDefault();
       const nameInput = document.getElementById('firstTimeNameInput');
@@ -1703,7 +1699,7 @@
       }
 
       if (existingStudent) {
-        // Name already exists in cloud -> Check password for multi-device access
+        // Name exists -> verify password for multi-device sync
         if (existingStudent.password && existingStudent.password !== password) {
           alertBox.innerText = "⚠️ Incorrect password for this name! Please enter the correct password to log in.";
           alertBox.classList.remove('hidden');
@@ -1713,10 +1709,9 @@
           return;
         }
 
-        // Password matches or legacy account without password -> Link device
         alertBox.classList.add('hidden');
         if (!existingStudent.password) {
-          existingStudent.password = password; // set password if it was missing
+          existingStudent.password = password;
           await db.collection("students").doc(existingDocId).update({ password: password });
         }
 
