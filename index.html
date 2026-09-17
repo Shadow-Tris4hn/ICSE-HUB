@@ -9,6 +9,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
@@ -31,7 +32,7 @@
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
   <!-- ================= FIREBASE COMPAT SDK ================= -->
@@ -55,51 +56,84 @@
 
   <style>
     body {
+      -webkit-tap-highlight-color: transparent;
+      overflow-x: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    body:not(.dark) {
       background-color: #f1f5f9;
       background-image: 
         radial-gradient(at 0% 0%, rgba(219, 234, 254, 0.7) 0px, transparent 50%),
         radial-gradient(at 100% 0%, rgba(224, 231, 255, 0.7) 0px, transparent 50%),
         radial-gradient(at 50% 100%, rgba(240, 253, 244, 0.75) 0px, transparent 50%);
       color: #0f172a;
-      -webkit-tap-highlight-color: transparent;
-      overflow-x: hidden;
+    }
+
+    body.dark {
+      background-color: #090d16;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.35) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(88, 28, 135, 0.3) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(15, 23, 42, 0.8) 0px, transparent 50%);
+      color: #f8fafc;
     }
 
     .glass-panel {
-      background: rgba(255, 255, 255, 0.82);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    body:not(.dark) .glass-panel {
+      background: rgba(255, 255, 255, 0.82);
       border: 1px solid rgba(255, 255, 255, 0.95);
       box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.04), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
     }
+    body.dark .glass-panel {
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+    }
 
     .glass-interactive {
-      background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(14px);
-      border: 1px solid rgba(203, 213, 225, 0.65);
       transition: all 0.2s ease;
+    }
+    body:not(.dark) .glass-interactive {
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(203, 213, 225, 0.65);
+      color: #0f172a;
+    }
+    body.dark .glass-interactive {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #f8fafc;
     }
     .glass-interactive:focus {
       border-color: #2563eb;
-      background: #ffffff;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
     }
 
     .pill-active-light {
-      background: #ffffff !important;
-      color: #1d4ed8 !important;
+      background: #2563eb !important;
+      color: #ffffff !important;
       font-weight: 700 !important;
-      border: 1px solid rgba(219, 234, 254, 0.9) !important;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12) !important;
+      border: 1px solid #1d4ed8 !important;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25) !important;
     }
 
     .glass-progress-track {
       background: rgba(226, 232, 240, 0.75);
       border: 1px solid rgba(255, 255, 255, 0.8);
     }
+    body.dark .glass-progress-track {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
     .glass-fill-primary {
       background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
-      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
     }
 
     .chat-bubble-me {
@@ -107,10 +141,16 @@
       color: #ffffff;
       border-bottom-right-radius: 4px;
     }
-    .chat-bubble-other {
+    body:not(.dark) .chat-bubble-other {
       background: #ffffff;
       color: #0f172a;
       border: 1px solid rgba(226, 232, 240, 0.9);
+      border-bottom-left-radius: 4px;
+    }
+    body.dark .chat-bubble-other {
+      background: #1e293b;
+      color: #f8fafc;
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-bottom-left-radius: 4px;
     }
 
@@ -118,43 +158,51 @@
     .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
-<body class="min-h-screen flex flex-col font-sans pb-24 md:pb-12 relative antialiased text-slate-800">
+<body class="min-h-screen flex flex-col font-sans pb-24 md:pb-12 relative antialiased">
 
   <!-- ================= TOP FROSTED HEADER ================= -->
-  <header class="sticky top-0 z-40 px-4 md:px-8 py-3.5 backdrop-blur-2xl bg-white/80 border-b border-slate-200/80 shadow-xs">
+  <header class="sticky top-0 z-40 px-4 md:px-8 py-3.5 backdrop-blur-2xl bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/80 dark:border-slate-800 shadow-xs">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
       <div class="flex items-center gap-3 flex-1">
-        <div class="w-10 h-10 rounded-2xl glass-panel flex items-center justify-center text-lg text-blue-600 shadow-xs border border-white shrink-0 font-black">
+        <div class="w-10 h-10 rounded-2xl glass-panel flex items-center justify-center text-lg text-blue-600 dark:text-blue-400 shadow-xs shrink-0 font-black">
           🎓
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <h1 class="text-sm font-extrabold text-slate-900 leading-tight">ICSE Board Tracker</h1>
-            <span id="cloudStatusBadge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-              🟢 Firebase Live
+            <h1 class="text-sm font-extrabold text-slate-900 dark:text-white leading-tight">ICSE Board Tracker</h1>
+            <span id="cloudStatusBadge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+              🟢 Live
             </span>
           </div>
-          <p class="text-[11px] text-slate-500 font-medium">made by Trishan</p>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">made by Trishan</p>
         </div>
       </div>
 
       <!-- Navigation Tabs -->
       <nav id="studentHeaderNav" class="hidden lg:flex items-center gap-1.5 p-1 rounded-2xl glass-panel text-xs font-semibold">
         <button onclick="switchTab('analytics')" class="desk-nav-btn pill-active-light px-3.5 py-2 rounded-xl transition" data-target="analytics">📊 Analytics</button>
-        <button onclick="switchTab('subjects')" class="desk-nav-btn text-slate-600 hover:text-slate-900 px-3.5 py-2 rounded-xl transition" data-target="subjects">📖 Syllabus Tracker</button>
-        <button onclick="switchTab('materials')" class="desk-nav-btn text-slate-600 hover:text-slate-900 px-3.5 py-2 rounded-xl transition" data-target="materials">📄 Study Materials</button>
-        <button onclick="switchTab('chat')" class="desk-nav-btn text-slate-600 hover:text-slate-900 px-3.5 py-2 rounded-xl transition" data-target="chat">💬 Class Lounge</button>
-        <button onclick="switchTab('tickets')" class="desk-nav-btn text-slate-600 hover:text-slate-900 px-3.5 py-2 rounded-xl transition" data-target="tickets">🎫 Tickets</button>
+        <button onclick="switchTab('subjects')" class="desk-nav-btn text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-3.5 py-2 rounded-xl transition" data-target="subjects">📖 Syllabus Tracker</button>
+        <button onclick="switchTab('materials')" class="desk-nav-btn text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-3.5 py-2 rounded-xl transition" data-target="materials">📄 Study Materials</button>
+        <button onclick="switchTab('chat')" class="desk-nav-btn text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-3.5 py-2 rounded-xl transition" data-target="chat">💬 Class Lounge</button>
+        <button onclick="switchTab('tickets')" class="desk-nav-btn text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-3.5 py-2 rounded-xl transition" data-target="tickets">🎫 Tickets</button>
       </nav>
 
-      <!-- Profile & Admin Switcher -->
+      <!-- Profile, Theme Toggle & Admin Switcher -->
       <div class="flex items-center gap-2 shrink-0">
-        <button onclick="openProfileSettingsModal()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-2xl glass-interactive text-xs font-semibold text-slate-700 hover:bg-white transition" title="Manage Profile & Settings">
+        <!-- Theme Toggle -->
+        <button onclick="toggleTheme()" id="themeToggleBtn" class="w-9 h-9 rounded-2xl glass-interactive flex items-center justify-center text-sm shadow-xs hover:scale-105 transition" title="Toggle Light / Dark Mode">
+          🌙
+        </button>
+
+        <!-- Profile Settings Trigger -->
+        <button id="userProfileBtn" onclick="openProfileSettingsModal()" class="flex items-center gap-1.5 px-3 py-2 rounded-2xl glass-interactive text-xs font-semibold text-slate-700 dark:text-slate-200 transition" title="Manage Profile & Settings">
           <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
           <span id="navStudentName">Connecting...</span>
           <span class="text-slate-400 text-[10px]">⚙️</span>
         </button>
-        <button onclick="openAdminModal()" class="px-3.5 py-1.5 rounded-2xl glass-interactive hover:bg-white text-xs font-semibold text-indigo-700 border border-indigo-200 shadow-xs">
+
+        <!-- Admin Access Trigger -->
+        <button onclick="openAdminModal()" class="px-3.5 py-1.5 rounded-2xl glass-interactive text-xs font-semibold text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800 shadow-xs">
           🔒 Admin
         </button>
       </div>
@@ -165,10 +213,10 @@
   <div id="studentMobileNav" class="lg:hidden px-4 pt-3 z-10 relative">
     <nav class="flex items-center gap-1.5 p-1.5 glass-panel rounded-2xl overflow-x-auto scrollbar-none text-xs font-semibold">
       <button onclick="switchTab('analytics')" class="mob-tab-btn pill-active-light px-3.5 py-2 rounded-xl whitespace-nowrap transition" data-target="analytics">📊 Analytics</button>
-      <button onclick="switchTab('subjects')" class="mob-tab-btn text-slate-600 hover:text-slate-900 px-3.5 py-2 rounded-xl whitespace-nowrap transition" data-target="subjects">📖 Syllabus</button>
-      <button onclick="switchTab('materials')" class="mob-tab-btn text-slate-600 hover:text-slate-900 px-3.5 py-2 rounded-xl whitespace-nowrap transition" data-target="materials">📄 Materials</button>
-      <button onclick="switchTab('chat')" class="mob-tab-btn text-slate-600 hover:text-slate-900 px-3.5 py-2 rounded-xl whitespace-nowrap transition" data-target="chat">💬 Lounge</button>
-      <button onclick="switchTab('tickets')" class="mob-tab-btn text-slate-600 hover:text-slate-900 px-3.5 py-2 rounded-xl whitespace-nowrap transition" data-target="tickets">🎫 Tickets</button>
+      <button onclick="switchTab('subjects')" class="mob-tab-btn text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap transition" data-target="subjects">📖 Syllabus</button>
+      <button onclick="switchTab('materials')" class="mob-tab-btn text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap transition" data-target="materials">📄 Materials</button>
+      <button onclick="switchTab('chat')" class="mob-tab-btn text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap transition" data-target="chat">💬 Lounge</button>
+      <button onclick="switchTab('tickets')" class="mob-tab-btn text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap transition" data-target="tickets">🎫 Tickets</button>
     </nav>
   </div>
 
@@ -176,42 +224,42 @@
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 md:px-8 pt-4 md:pt-6 space-y-4 z-10 relative">
 
     <!-- PERSISTENT CLOUD NOTICE BANNER -->
-    <div id="announcementBanner" onclick="showLatestAnnouncementModal()" class="cursor-pointer hidden glass-panel rounded-2xl p-3 border border-amber-300 bg-amber-50/80 flex items-center justify-between text-xs text-amber-900 shadow-xs">
+    <div id="announcementBanner" onclick="showLatestAnnouncementModal()" class="cursor-pointer hidden glass-panel rounded-2xl p-3 border border-amber-300 dark:border-amber-700 bg-amber-50/80 dark:bg-amber-950/40 flex items-center justify-between text-xs text-amber-900 dark:text-amber-200 shadow-xs">
       <div class="flex items-center gap-2.5 truncate pr-2">
         <span class="text-sm">📢</span>
         <p id="announcementBannerText" class="font-bold truncate"></p>
       </div>
-      <span class="text-[10px] uppercase font-extrabold text-amber-800 bg-amber-200/70 px-2 py-0.5 rounded-full shrink-0">View Notice</span>
+      <span class="text-[10px] uppercase font-extrabold text-amber-800 dark:text-amber-300 bg-amber-200/70 dark:bg-amber-900/60 px-2 py-0.5 rounded-full shrink-0">View Notice</span>
     </div>
 
     <!-- ***************** STUDENT WORKSPACE ***************** -->
     <div id="studentContainer" class="space-y-6">
 
       <!-- Board Countdown Banner -->
-      <section class="glass-panel rounded-3xl p-5 md:p-6 flex flex-col sm:flex-row items-center justify-between gap-4 border border-white">
+      <section class="glass-panel rounded-3xl p-5 md:p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
-          <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-700 mb-1">
+          <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-1">
             <span>⏰</span> ICSE CLASS 10 BOARD EXAMINATION
           </div>
-          <h2 id="targetDateDisplayHeading" class="text-lg md:text-xl font-extrabold text-slate-900">Target: 18 February 2027</h2>
-          <p id="studentSubjectChoicesSub" class="text-xs text-slate-500 font-medium">Personalized for your electives and 2nd language.</p>
+          <h2 id="targetDateDisplayHeading" class="text-lg md:text-xl font-extrabold text-slate-900 dark:text-white">Target: 18 February 2027</h2>
+          <p id="studentSubjectChoicesSub" class="text-xs text-slate-500 dark:text-slate-400 font-medium">Personalized for your electives and 2nd language.</p>
         </div>
         <div class="grid grid-cols-4 gap-2.5 text-center shrink-0">
-          <div class="glass-interactive rounded-2xl px-3 py-2 bg-white">
-            <span id="cd-days" class="block font-mono text-xl md:text-2xl font-black text-slate-900">--</span>
-            <span class="text-[9px] uppercase font-bold text-slate-500">Days</span>
+          <div class="glass-interactive rounded-2xl px-3 py-2">
+            <span id="cd-days" class="block font-mono text-xl md:text-2xl font-black text-slate-900 dark:text-white">--</span>
+            <span class="text-[9px] uppercase font-bold text-slate-500 dark:text-slate-400">Days</span>
           </div>
-          <div class="glass-interactive rounded-2xl px-3 py-2 bg-white">
-            <span id="cd-hours" class="block font-mono text-xl md:text-2xl font-black text-slate-900">--</span>
-            <span class="text-[9px] uppercase font-bold text-slate-500">Hours</span>
+          <div class="glass-interactive rounded-2xl px-3 py-2">
+            <span id="cd-hours" class="block font-mono text-xl md:text-2xl font-black text-slate-900 dark:text-white">--</span>
+            <span class="text-[9px] uppercase font-bold text-slate-500 dark:text-slate-400">Hours</span>
           </div>
-          <div class="glass-interactive rounded-2xl px-3 py-2 bg-white">
-            <span id="cd-mins" class="block font-mono text-xl md:text-2xl font-black text-slate-900">--</span>
-            <span class="text-[9px] uppercase font-bold text-slate-500">Mins</span>
+          <div class="glass-interactive rounded-2xl px-3 py-2">
+            <span id="cd-mins" class="block font-mono text-xl md:text-2xl font-black text-slate-900 dark:text-white">--</span>
+            <span class="text-[9px] uppercase font-bold text-slate-500 dark:text-slate-400">Mins</span>
           </div>
-          <div class="glass-interactive rounded-2xl px-3 py-2 border-blue-300 bg-blue-50/70">
-            <span id="cd-secs" class="block font-mono text-xl md:text-2xl font-black text-blue-600">--</span>
-            <span class="text-[9px] uppercase font-bold text-blue-600">Secs</span>
+          <div class="glass-interactive rounded-2xl px-3 py-2 border-blue-300 dark:border-blue-700 bg-blue-50/70 dark:bg-blue-950/40">
+            <span id="cd-secs" class="block font-mono text-xl md:text-2xl font-black text-blue-600 dark:text-blue-400">--</span>
+            <span class="text-[9px] uppercase font-bold text-blue-600 dark:text-blue-400">Secs</span>
           </div>
         </div>
       </section>
@@ -220,32 +268,32 @@
       <section id="tab-analytics" class="space-y-6">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div class="glass-panel rounded-3xl p-5 border-l-4 border-l-blue-600">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Cohort Percentile Rank</span>
-            <h3 id="statPercentileRank" class="text-3xl font-black text-blue-600 font-mono mt-1">-- Percentile</h3>
-            <p id="statPercentileSub" class="text-xs text-slate-500 mt-1">Calculating against classmates...</p>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">Cohort Percentile Rank</span>
+            <h3 id="statPercentileRank" class="text-3xl font-black text-blue-600 dark:text-blue-400 font-mono mt-1">-- Percentile</h3>
+            <p id="statPercentileSub" class="text-xs text-slate-500 dark:text-slate-400 mt-1">Calculating against classmates...</p>
           </div>
 
           <div class="glass-panel rounded-3xl p-5 border-l-4 border-l-emerald-500">
             <div class="flex justify-between items-start">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Syllabus Covered</span>
-              <span id="statOverallPct" class="text-xs font-black font-mono text-emerald-600">0%</span>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Syllabus Covered</span>
+              <span id="statOverallPct" class="text-xs font-black font-mono text-emerald-600 dark:text-emerald-400">0%</span>
             </div>
-            <h3 id="statCompletedRatio" class="text-3xl font-black text-slate-900 font-mono mt-1">0 / 0</h3>
+            <h3 id="statCompletedRatio" class="text-3xl font-black text-slate-900 dark:text-white font-mono mt-1">0 / 0</h3>
             <div class="w-full glass-progress-track h-2 rounded-full overflow-hidden mt-2">
               <div id="statOverallBar" class="h-full glass-fill-primary" style="width: 0%"></div>
             </div>
           </div>
 
           <div class="glass-panel rounded-3xl p-5 border-l-4 border-l-rose-500">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Needs Revision</span>
-            <h3 id="statWeakCount" class="text-3xl font-black text-rose-600 font-mono mt-1">0 Chapters</h3>
-            <p class="text-xs text-slate-500 mt-1">Marked 🔴 for revision</p>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">Needs Revision</span>
+            <h3 id="statWeakCount" class="text-3xl font-black text-rose-600 dark:text-rose-400 font-mono mt-1">0 Chapters</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Marked 🔴 for revision</p>
           </div>
 
           <div class="glass-panel rounded-3xl p-5 border-l-4 border-l-indigo-600">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Preparation Target</span>
-            <h3 class="text-2xl font-black text-indigo-700 font-mono mt-1">95%+ Aggregate</h3>
-            <p class="text-xs text-slate-500 mt-1">Target Pace</p>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">Preparation Target</span>
+            <h3 class="text-2xl font-black text-indigo-700 dark:text-indigo-400 font-mono mt-1">95%+ Aggregate</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Target Pace</p>
           </div>
         </div>
 
@@ -253,8 +301,8 @@
         <div class="glass-panel rounded-3xl p-6">
           <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-6">
             <div>
-              <h3 class="text-base font-bold text-slate-900">Subject-by-Subject Progression Benchmark</h3>
-              <p class="text-xs text-slate-500">Comparing your syllabus completion % directly with the cohort average.</p>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white">Subject-by-Subject Progression Benchmark</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400">Comparing your syllabus completion % directly with the cohort average.</p>
             </div>
             <div class="flex items-center gap-4 text-xs font-semibold">
               <div class="flex items-center gap-1.5">
@@ -262,8 +310,8 @@
                 <span>Your Progress</span>
               </div>
               <div class="flex items-center gap-1.5">
-                <span class="w-3 h-3 rounded-full bg-slate-300"></span>
-                <span class="text-slate-500">Class Average</span>
+                <span class="w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-700"></span>
+                <span class="text-slate-500 dark:text-slate-400">Class Average</span>
               </div>
             </div>
           </div>
@@ -272,12 +320,12 @@
 
         <!-- Leaderboard Table -->
         <div class="glass-panel rounded-3xl p-6 overflow-hidden">
-          <h3 class="text-base font-bold text-slate-900 mb-1">Live Peer Accountability Leaderboard</h3>
-          <p class="text-xs text-slate-500 mb-4">Rankings update in real time as students mark chapters complete.</p>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white mb-1">Live Peer Accountability Leaderboard</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Rankings update in real time as students mark chapters complete.</p>
           
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs border-collapse">
-              <thead class="text-slate-400 font-mono uppercase pb-2 border-b border-slate-100">
+              <thead class="text-slate-400 font-mono uppercase pb-2 border-b border-slate-200 dark:border-slate-800">
                 <tr>
                   <th class="py-2.5 px-3">Rank</th>
                   <th class="py-2.5 px-3">Student Name</th>
@@ -286,7 +334,7 @@
                   <th class="py-2.5 px-3 text-right">Cohort Tier</th>
                 </tr>
               </thead>
-              <tbody id="cohortRankingsBody" class="divide-y divide-slate-100"></tbody>
+              <tbody id="cohortRankingsBody" class="divide-y divide-slate-100 dark:divide-slate-800/60"></tbody>
             </table>
           </div>
         </div>
@@ -296,26 +344,26 @@
       <section id="tab-subjects" class="hidden space-y-4">
         <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
           <div>
-            <h3 class="text-base md:text-lg font-bold text-slate-900">ICSE Curriculum Tracker</h3>
-            <p class="text-xs text-slate-500">Toggle chapter status: Not Started, In Progress, Completed, or 🔴 Need Revision</p>
+            <h3 class="text-base md:text-lg font-bold text-slate-900 dark:text-white">ICSE Curriculum Tracker</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Toggle chapter status: Not Started, In Progress, Completed, or 🔴 Need Revision</p>
           </div>
           <div class="flex items-center gap-2">
-            <label class="text-xs font-semibold text-slate-700">Subject:</label>
-            <select id="studentSubjectFilter" onchange="renderSubjectsView()" class="glass-interactive text-xs font-bold text-blue-800 rounded-xl px-3.5 py-2 outline-none bg-white">
+            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">Subject:</label>
+            <select id="studentSubjectFilter" onchange="renderSubjectsView()" class="glass-interactive text-xs font-bold text-blue-800 dark:text-blue-400 rounded-xl px-3.5 py-2 outline-none">
             </select>
           </div>
         </div>
 
         <div class="glass-panel rounded-2xl p-4 flex items-center justify-between">
           <div>
-            <span id="currentSubjectName" class="text-sm font-extrabold text-slate-900">Physics</span>
-            <p id="currentSubjectStats" class="text-xs text-slate-500 mt-0.5">0 of 0 chapters completed</p>
+            <span id="currentSubjectName" class="text-sm font-extrabold text-slate-900 dark:text-white">Physics</span>
+            <p id="currentSubjectStats" class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">0 of 0 chapters completed</p>
           </div>
           <div class="flex items-center gap-3">
             <div class="w-24 sm:w-40 glass-progress-track h-2.5 rounded-full overflow-hidden">
               <div id="currentSubjectBar" class="h-full glass-fill-primary" style="width: 0%"></div>
             </div>
-            <span id="currentSubjectPct" class="text-sm font-black font-mono text-blue-600">0%</span>
+            <span id="currentSubjectPct" class="text-sm font-black font-mono text-blue-600 dark:text-blue-400">0%</span>
           </div>
         </div>
 
@@ -326,8 +374,8 @@
       <section id="tab-materials" class="hidden space-y-4">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
           <div>
-            <h3 class="text-base md:text-lg font-bold text-slate-900">Verified Study Materials & Notes</h3>
-            <p class="text-xs text-slate-500">Upload notes, formula sheets, or sample papers from your device</p>
+            <h3 class="text-base md:text-lg font-bold text-slate-900 dark:text-white">Verified Study Materials & Notes</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Upload notes, formula sheets, or sample papers from your device</p>
           </div>
           <div class="flex flex-col sm:flex-row sm:items-center gap-2 w-full sm:w-auto">
             <span class="text-[11px] text-slate-400 font-medium italic">
@@ -346,21 +394,21 @@
       <section id="tab-chat" class="hidden space-y-4">
         <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
           <div>
-            <h3 class="text-base md:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <h3 class="text-base md:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
               <span>💬</span> Class 10 Live Lounge
             </h3>
-            <p class="text-xs text-slate-500">Ask questions, share problem solutions, and keep classmates accountable.</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Ask questions, share problem solutions, and keep classmates accountable.</p>
           </div>
         </div>
 
-        <div class="glass-panel rounded-3xl flex flex-col h-[560px] border border-white overflow-hidden shadow-sm">
-          <div id="chatMessagesArea" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3.5 bg-slate-50/40">
+        <div class="glass-panel rounded-3xl flex flex-col h-[560px] overflow-hidden shadow-sm">
+          <div id="chatMessagesArea" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3.5 bg-slate-50/40 dark:bg-slate-950/30">
             <div class="text-center py-12 text-xs text-slate-400">Loading live messages...</div>
           </div>
 
-          <div class="p-3 sm:p-4 bg-white/90 border-t border-slate-200/80 backdrop-blur-md">
+          <div class="p-3 sm:p-4 bg-white/90 dark:bg-slate-900/90 border-t border-slate-200/80 dark:border-slate-800 backdrop-blur-md">
             <form onsubmit="handleSendChatMessage(event)" class="flex items-center gap-2">
-              <input type="text" id="chatMessageInput" placeholder="Type a question or message to classmates..." class="flex-1 glass-interactive rounded-2xl px-4 py-2.5 text-xs sm:text-sm text-slate-800 outline-none bg-white placeholder-slate-400" required autocomplete="off">
+              <input type="text" id="chatMessageInput" placeholder="Type a question or message to classmates..." class="flex-1 glass-interactive rounded-2xl px-4 py-2.5 text-xs sm:text-sm outline-none placeholder-slate-400" required autocomplete="off">
               <button type="submit" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl text-xs sm:text-sm shadow-xs transition flex items-center gap-1.5 shrink-0">
                 <span>Send</span>
                 <span class="text-xs">➤</span>
@@ -374,8 +422,8 @@
       <section id="tab-tickets" class="hidden space-y-4">
         <div class="flex justify-between items-center">
           <div>
-            <h3 class="text-base md:text-lg font-bold text-slate-900">Feedback & Resource Tickets</h3>
-            <p class="text-xs text-slate-500">Report curriculum issues, request topics, or ask the admin directly.</p>
+            <h3 class="text-base md:text-lg font-bold text-slate-900 dark:text-white">Feedback & Resource Tickets</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Report curriculum issues, request topics, or ask the admin directly.</p>
           </div>
           <button onclick="openTicketModal()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-xs">
             + New Ticket
@@ -387,10 +435,10 @@
 
     <!-- ***************** ADMIN WORKSPACE (icse2026) ***************** -->
     <div id="adminContainer" class="hidden space-y-6">
-      <div class="glass-panel rounded-3xl p-6 border border-indigo-200 flex justify-between items-center bg-indigo-50/50">
+      <div class="glass-panel rounded-3xl p-6 border border-indigo-200 dark:border-indigo-800 bg-indigo-50/50 dark:bg-indigo-950/30 flex justify-between items-center">
         <div>
-          <span class="text-[10px] uppercase font-bold tracking-widest bg-indigo-100 text-indigo-800 px-2.5 py-0.5 rounded-full">Admin Center</span>
-          <h2 class="text-lg font-extrabold text-slate-900 mt-1">Class 10 Administrative Suite</h2>
+          <span class="text-[10px] uppercase font-bold tracking-widest bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-300 px-2.5 py-0.5 rounded-full">Admin Center</span>
+          <h2 class="text-lg font-extrabold text-slate-900 dark:text-white mt-1">Class 10 Administrative Suite</h2>
         </div>
         <button onclick="exitAdmin()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold">Exit Admin Mode</button>
       </div>
@@ -398,32 +446,32 @@
       <!-- Admin Tab Switcher -->
       <div class="flex gap-2 overflow-x-auto scrollbar-none p-1.5 glass-panel rounded-2xl text-xs font-semibold">
         <button onclick="switchAdminTab('dashboard')" class="adm-pill pill-active-light px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="dashboard">Dashboard</button>
-        <button onclick="switchAdminTab('announcements')" class="adm-pill text-slate-600 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="announcements">📢 Announcements</button>
-        <button onclick="switchAdminTab('students')" class="adm-pill text-slate-600 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="students">Students Roster</button>
-        <button onclick="switchAdminTab('materials')" class="adm-pill text-slate-600 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="materials">Study Materials</button>
-        <button onclick="switchAdminTab('chatadmin')" class="adm-pill text-slate-600 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="chatadmin">💬 Live Lounge</button>
-        <button onclick="switchAdminTab('tickets')" class="adm-pill text-slate-600 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="tickets">Tickets</button>
-        <button onclick="switchAdminTab('settings')" class="adm-pill text-slate-600 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="settings">⚙️ Settings</button>
+        <button onclick="switchAdminTab('announcements')" class="adm-pill text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="announcements">📢 Announcements</button>
+        <button onclick="switchAdminTab('students')" class="adm-pill text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="students">Students Roster</button>
+        <button onclick="switchAdminTab('materials')" class="adm-pill text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="materials">Study Materials</button>
+        <button onclick="switchAdminTab('chatadmin')" class="adm-pill text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="chatadmin">💬 Live Lounge</button>
+        <button onclick="switchAdminTab('tickets')" class="adm-pill text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="tickets">Tickets</button>
+        <button onclick="switchAdminTab('settings')" class="adm-pill text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="settings">⚙️ Settings</button>
       </div>
 
       <!-- ADMIN TAB 1: DASHBOARD -->
       <div id="atab-dashboard" class="admin-pane space-y-4">
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <div class="glass-panel p-5 rounded-2xl">
-            <span class="text-xs text-slate-500 uppercase font-bold">Total Students</span>
-            <h3 class="text-2xl font-black text-slate-900 mt-1" id="admStatStudents">0</h3>
+            <span class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Total Students</span>
+            <h3 class="text-2xl font-black text-slate-900 dark:text-white mt-1" id="admStatStudents">0</h3>
           </div>
           <div class="glass-panel p-5 rounded-2xl">
-            <span class="text-xs text-slate-500 uppercase font-bold">Avg Batch Completion</span>
-            <h3 class="text-2xl font-black text-blue-600 mt-1" id="admStatAvgProgress">0%</h3>
+            <span class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Avg Batch Completion</span>
+            <h3 class="text-2xl font-black text-blue-600 dark:text-blue-400 mt-1" id="admStatAvgProgress">0%</h3>
           </div>
           <div class="glass-panel p-5 rounded-2xl">
-            <span class="text-xs text-slate-500 uppercase font-bold">Active Chapters</span>
-            <h3 class="text-2xl font-black text-slate-900 mt-1" id="admStatChapters">0</h3>
+            <span class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Active Chapters</span>
+            <h3 class="text-2xl font-black text-slate-900 dark:text-white mt-1" id="admStatChapters">0</h3>
           </div>
           <div class="glass-panel p-5 rounded-2xl">
-            <span class="text-xs text-slate-500 uppercase font-bold">Open Tickets</span>
-            <h3 class="text-2xl font-black text-rose-600 mt-1" id="admStatTickets">0</h3>
+            <span class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Open Tickets</span>
+            <h3 class="text-2xl font-black text-rose-600 dark:text-rose-400 mt-1" id="admStatTickets">0</h3>
           </div>
         </div>
       </div>
@@ -431,11 +479,11 @@
       <!-- ADMIN TAB 2: ANNOUNCEMENTS MANAGEMENT -->
       <div id="atab-announcements" class="admin-pane hidden space-y-4">
         <div class="glass-panel rounded-3xl p-6">
-          <h4 class="text-sm font-bold text-slate-900 mb-1">Broadcast Instant Cloud Announcement</h4>
-          <p class="text-xs text-slate-500 mb-4">Saves immediately to Firebase and pops up on all student phones/PCs.</p>
+          <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1">Broadcast Instant Cloud Announcement</h4>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Saves immediately to Firebase and pops up on all student phones/PCs.</p>
           <form onsubmit="handlePostAnnouncement(event)" class="space-y-3">
-            <input type="text" id="noticeTitleInput" placeholder="Announcement Title (e.g. Science Revision Call tonight!)" class="w-full glass-interactive rounded-xl p-3 text-xs outline-none bg-white font-bold" required>
-            <textarea id="noticeInput" rows="3" placeholder="Provide full details or instructions..." class="w-full glass-interactive rounded-xl p-3 text-xs outline-none bg-white" required></textarea>
+            <input type="text" id="noticeTitleInput" placeholder="Announcement Title" class="w-full glass-interactive rounded-xl p-3 text-xs outline-none font-bold" required>
+            <textarea id="noticeInput" rows="3" placeholder="Provide full details..." class="w-full glass-interactive rounded-xl p-3 text-xs outline-none" required></textarea>
             <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-xl text-xs shadow-xs transition">
               Publish Announcement to All Devices Immediately
             </button>
@@ -443,7 +491,7 @@
         </div>
 
         <div class="glass-panel rounded-3xl p-6">
-          <h4 class="text-sm font-bold text-slate-900 mb-3">Live Announcements History</h4>
+          <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-3">Live Announcements History</h4>
           <div id="admPastNoticesList" class="space-y-2">
             <p class="text-slate-400 italic text-xs">Loading announcements...</p>
           </div>
@@ -454,12 +502,12 @@
       <div id="atab-students" class="admin-pane hidden space-y-4">
         <div class="glass-panel rounded-3xl p-5 md:p-6 overflow-hidden">
           <div class="flex justify-between items-center mb-4">
-            <h4 class="text-sm font-bold text-slate-900 uppercase">Live Student Roster</h4>
-            <span class="text-xs text-slate-500">Inspect or delete any individual student profile</span>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white uppercase">Live Student Roster</h4>
+            <span class="text-xs text-slate-500 dark:text-slate-400">Inspect or delete student profiles</span>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs border-collapse">
-              <thead class="text-slate-500 border-b border-slate-200 font-mono uppercase pb-2 whitespace-nowrap">
+              <thead class="text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800 font-mono uppercase pb-2 whitespace-nowrap">
                 <tr>
                   <th class="py-3 px-3">Student Name</th>
                   <th class="py-3 px-2">Choices</th>
@@ -468,24 +516,24 @@
                   <th class="py-3 px-2 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody id="admStudentMatrixBody" class="divide-y divide-slate-100"></tbody>
+              <tbody id="admStudentMatrixBody" class="divide-y divide-slate-100 dark:divide-slate-800/60"></tbody>
             </table>
           </div>
         </div>
       </div>
 
-      <!-- ADMIN TAB 4: STUDY MATERIALS APPROVAL & MANAGEMENT -->
+      <!-- ADMIN TAB 4: STUDY MATERIALS -->
       <div id="atab-materials" class="admin-pane hidden space-y-4">
         <div class="glass-panel rounded-3xl p-6">
-          <h4 class="text-sm font-bold text-slate-900 mb-2">Upload Verified Material Directly</h4>
+          <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-2">Upload Material Directly</h4>
           <form onsubmit="handleAdminAddMaterial(event)" class="space-y-3">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <input type="text" id="admMatTitle" placeholder="Document Title" class="glass-interactive p-2.5 rounded-xl text-xs text-slate-900 outline-none bg-white" required>
-              <input type="text" id="admMatSubject" placeholder="Subject Name" class="glass-interactive p-2.5 rounded-xl text-xs text-slate-900 outline-none bg-white" required>
+              <input type="text" id="admMatTitle" placeholder="Document Title" class="glass-interactive p-2.5 rounded-xl text-xs outline-none" required>
+              <input type="text" id="admMatSubject" placeholder="Subject Name" class="glass-interactive p-2.5 rounded-xl text-xs outline-none" required>
             </div>
-            <div class="p-3 rounded-2xl bg-blue-50/60 border border-blue-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="p-3 rounded-2xl bg-blue-50/60 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900 flex flex-col sm:flex-row items-center justify-between gap-3">
               <input type="file" id="admFileInput" class="text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-blue-600 file:text-white cursor-pointer">
-              <input type="url" id="admMatUrl" placeholder="Or paste link" class="flex-1 glass-interactive p-2.5 rounded-xl text-xs text-slate-900 outline-none bg-white">
+              <input type="url" id="admMatUrl" placeholder="Or paste cloud link" class="flex-1 glass-interactive p-2.5 rounded-xl text-xs outline-none">
             </div>
             <div class="flex justify-end pt-1">
               <button type="submit" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs">Publish Material</button>
@@ -494,8 +542,8 @@
         </div>
 
         <div class="glass-panel rounded-3xl p-6">
-          <h4 class="text-sm font-bold text-slate-900 mb-3">All Materials (Approve / Reject)</h4>
-          <div id="admLiveMaterialsList" class="divide-y divide-slate-100"></div>
+          <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-3">All Materials (Approve / Delete)</h4>
+          <div id="admLiveMaterialsList" class="divide-y divide-slate-100 dark:divide-slate-800"></div>
         </div>
       </div>
 
@@ -503,58 +551,64 @@
       <div id="atab-chatadmin" class="admin-pane hidden space-y-4">
         <div class="glass-panel rounded-3xl p-6">
           <div class="flex justify-between items-center mb-4">
-            <h4 class="text-sm font-bold text-slate-900">Live Chat Moderation</h4>
+            <h4 class="text-sm font-bold text-slate-900 dark:text-white">Live Chat Moderation</h4>
             <button onclick="purgeClassChat()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold">
               ⚠️ Clear All Messages
             </button>
           </div>
-          <div id="adminChatLogArea" class="h-80 overflow-y-auto p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-xs"></div>
+          <div id="adminChatLogArea" class="h-80 overflow-y-auto p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2 text-xs"></div>
         </div>
       </div>
 
       <!-- ADMIN TAB 6: TICKETS -->
       <div id="atab-tickets" class="admin-pane hidden space-y-4">
         <div class="glass-panel rounded-3xl p-6">
-          <h4 class="text-sm font-bold text-slate-900 mb-3">Student Requests Desk</h4>
+          <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-3">Student Requests Desk</h4>
           <div id="admTicketsQueue" class="space-y-3"></div>
         </div>
       </div>
 
-      <!-- ADMIN TAB 7: SETTINGS -->
+      <!-- ADMIN TAB 7: SETTINGS (CLEANUP & CONFIG) -->
       <div id="atab-settings" class="admin-pane hidden space-y-4">
-        <!-- 1. Change Final Boards Countdown Date -->
         <div class="glass-panel rounded-3xl p-6">
-          <h4 class="text-sm font-bold text-slate-900 mb-1">Change Final Board Exam Target Date</h4>
-          <p class="text-xs text-slate-500 mb-3">Updates the countdown target on all student devices live via Firestore.</p>
+          <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1">Change Final Board Exam Target Date</h4>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">Updates the countdown target on all student devices live.</p>
           <form onsubmit="handleSaveExamDate(event)" class="flex flex-col sm:flex-row gap-3 items-end">
             <div class="flex-1 w-full">
-              <label class="block text-[11px] font-bold text-slate-600 mb-1">New Examination Date:</label>
-              <input type="date" id="settingsExamDatePicker" class="w-full glass-interactive p-2.5 rounded-xl text-xs outline-none bg-white font-mono font-bold" required>
+              <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-300 mb-1">New Examination Date:</label>
+              <input type="date" id="settingsExamDatePicker" class="w-full glass-interactive p-2.5 rounded-xl text-xs outline-none font-mono font-bold" required>
             </div>
             <button type="submit" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs whitespace-nowrap">
-              Update Exam Date Everywhere
+              Update Exam Date
             </button>
           </form>
         </div>
 
-        <!-- 2. Change Admin Passcode -->
         <div class="glass-panel rounded-3xl p-6">
-          <h4 class="text-sm font-bold text-slate-900 mb-1">Update Admin Password</h4>
-          <p class="text-xs text-slate-500 mb-3">Current default passcode is <code class="font-mono text-blue-600 font-bold">icse2026</code>.</p>
+          <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1">Update Admin Password</h4>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">Current default passcode is <code class="font-mono text-blue-600 dark:text-blue-400 font-bold">icse2026</code>.</p>
           <form onsubmit="handleSaveAdminPasscode(event)" class="flex flex-col sm:flex-row gap-3">
-            <input type="password" id="newAdminPassInput" placeholder="Enter new master password" class="glass-interactive p-2.5 rounded-xl text-xs outline-none bg-white flex-1" required>
-            <button type="submit" class="px-5 py-2.5 bg-slate-900 hover:bg-black text-white font-bold text-xs rounded-xl shadow-xs">
+            <input type="password" id="newAdminPassInput" placeholder="Enter new master password" class="glass-interactive p-2.5 rounded-xl text-xs outline-none flex-1" required>
+            <button type="submit" class="px-5 py-2.5 bg-slate-900 dark:bg-slate-700 hover:bg-black text-white font-bold text-xs rounded-xl shadow-xs">
               Save New Passcode
             </button>
           </form>
         </div>
 
-        <!-- 3. Delete Student Profile Dropdown Tool -->
-        <div class="glass-panel rounded-3xl p-6 border border-rose-200 bg-rose-50/20">
-          <h4 class="text-sm font-bold text-rose-900 mb-1">Delete Any Student Profile</h4>
-          <p class="text-xs text-slate-500 mb-3">Select a student from the dropdown to permanently delete their progress and record from Firestore.</p>
+        <!-- Automated Duplicate/Phantom Cleaner -->
+        <div class="glass-panel rounded-3xl p-6 border border-amber-300 dark:border-amber-700 bg-amber-50/20 dark:bg-amber-950/20">
+          <h4 class="text-sm font-bold text-amber-900 dark:text-amber-400 mb-1">Clean Duplicate & Inactive Profiles</h4>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">Detects profiles sharing the exact same name or having 0 progress created during testing.</p>
+          <button onclick="cleanDuplicateProfiles()" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-xs">
+            🧹 Delete Phantom / Duplicate Profiles
+          </button>
+        </div>
+
+        <div class="glass-panel rounded-3xl p-6 border border-rose-200 dark:border-rose-900/60 bg-rose-50/20 dark:bg-rose-950/20">
+          <h4 class="text-sm font-bold text-rose-900 dark:text-rose-400 mb-1">Delete Specific Student Profile</h4>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">Permanently delete any student profile from Firestore.</p>
           <div class="flex flex-col sm:flex-row gap-3">
-            <select id="admDeleteStudentSelect" class="glass-interactive p-2.5 rounded-xl text-xs outline-none bg-white flex-1 font-semibold">
+            <select id="admDeleteStudentSelect" class="glass-interactive p-2.5 rounded-xl text-xs outline-none flex-1 font-semibold">
               <option value="">-- Choose a student to delete --</option>
             </select>
             <button onclick="handleDeleteStudentBySelect()" class="px-5 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl shadow-xs whitespace-nowrap">
@@ -563,13 +617,11 @@
           </div>
         </div>
 
-        <!-- 4. Cache Reset -->
         <div class="glass-panel rounded-3xl p-6">
-          <h4 class="text-sm font-bold text-slate-900 mb-1">Local Maintenance</h4>
-          <p class="text-xs text-slate-500 mb-3">Reset local announcement popups or clear device cache.</p>
-          <div class="flex flex-wrap gap-3">
-            <button onclick="clearAcknowledgeCache()" class="px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-xl text-xs font-bold hover:bg-slate-50 shadow-xs">
-              🔄 Reset Popup Acknowledgment Cache
+          <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1">Local Maintenance</h4>
+          <div class="flex flex-wrap gap-3 mt-3">
+            <button onclick="clearAcknowledgeCache()" class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold hover:bg-slate-50 shadow-xs">
+              🔄 Reset Popup Cache
             </button>
           </div>
         </div>
@@ -578,15 +630,15 @@
   </main>
 
   <!-- ================= FOOTER CONTACT ================= -->
-  <footer class="mt-auto max-w-7xl mx-auto w-full px-4 sm:px-8 py-8 text-center border-t border-slate-200/60 mt-12">
-    <div class="glass-panel rounded-3xl p-6 max-w-lg mx-auto shadow-xs border border-white">
+  <footer class="mt-auto max-w-7xl mx-auto w-full px-4 sm:px-8 py-8 text-center border-t border-slate-200/60 dark:border-slate-800 mt-12">
+    <div class="glass-panel rounded-3xl p-6 max-w-lg mx-auto shadow-xs">
       <h5 class="text-xs uppercase font-extrabold tracking-widest text-slate-400 mb-3">CONTACT ME</h5>
       <div class="flex flex-wrap items-center justify-center gap-3">
         <a href="https://discord.com/users/trish4n.coder" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#5865F2]/10 hover:bg-[#5865F2]/20 border border-[#5865F2]/30 text-[#5865F2] text-xs font-bold transition">
           <span>💬</span>
           <span>Discord: trish4n.coder</span>
         </a>
-        <a href="https://instagram.com/trish4n.fx" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-orange-500/10 hover:from-purple-500/20 hover:to-orange-500/20 border border-pink-400/30 text-pink-700 text-xs font-bold transition">
+        <a href="https://instagram.com/trish4n.fx" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-orange-500/10 hover:from-purple-500/20 hover:to-orange-500/20 border border-pink-400/30 text-pink-700 dark:text-pink-400 text-xs font-bold transition">
           <span>📸</span>
           <span>Instagram: @trish4n.fx</span>
         </a>
@@ -598,16 +650,16 @@
   <!-- ================= MODALS ================= -->
 
   <!-- 1. CLOUD POP-UP NOTICE MODAL -->
-  <div id="bigAnnouncementModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden">
-    <div class="glass-panel max-w-md w-full rounded-3xl p-6 md:p-8 shadow-2xl border border-amber-300 bg-white/95 relative animate-in fade-in zoom-in duration-200">
-      <div class="w-12 h-12 rounded-2xl bg-amber-100 border border-amber-200 text-amber-800 flex items-center justify-center text-xl mb-3 shadow-xs">
+  <div id="bigAnnouncementModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-panel max-w-md w-full rounded-3xl p-6 md:p-8 shadow-2xl border border-amber-300 dark:border-amber-700 relative">
+      <div class="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 flex items-center justify-center text-xl mb-3 shadow-xs">
         📢
       </div>
-      <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 mb-2 inline-block">Notice</span>
-      <h3 id="bigAnnouncementTitle" class="text-base font-extrabold text-slate-900 mt-1">Notice</h3>
-      <p id="bigAnnouncementBody" class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed whitespace-pre-wrap"></p>
+      <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 mb-2 inline-block">Notice</span>
+      <h3 id="bigAnnouncementTitle" class="text-base font-extrabold text-slate-900 dark:text-white mt-1">Notice</h3>
+      <p id="bigAnnouncementBody" class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed whitespace-pre-wrap"></p>
       
-      <div class="mt-6 pt-3 border-t border-slate-100">
+      <div class="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800">
         <button onclick="closeBigAnnouncementModal(true)" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-xl text-xs shadow-xs transition">
           I Acknowledge & Understand
         </button>
@@ -616,12 +668,12 @@
   </div>
 
   <!-- 2. STUDENT INSPECTION MODAL (ADMIN) -->
-  <div id="adminStudentDetailModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden">
-    <div class="glass-panel max-w-3xl w-full max-h-[85vh] flex flex-col rounded-3xl p-6 border border-white bg-white/95 shadow-2xl">
-      <div class="flex justify-between items-center pb-3 border-b border-slate-200">
+  <div id="adminStudentDetailModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-panel max-w-3xl w-full max-h-[85vh] flex flex-col rounded-3xl p-6 shadow-2xl">
+      <div class="flex justify-between items-center pb-3 border-b border-slate-200 dark:border-slate-800">
         <div>
-          <h3 id="admDetailStudentName" class="text-base font-bold text-slate-900">Student Name</h3>
-          <p id="admDetailStudentSub" class="text-xs text-slate-500 font-medium">Chapter Status Details</p>
+          <h3 id="admDetailStudentName" class="text-base font-bold text-slate-900 dark:text-white">Student Name</h3>
+          <p id="admDetailStudentSub" class="text-xs text-slate-500 dark:text-slate-400 font-medium">Chapter Status Details</p>
         </div>
         <button onclick="closeStudentDetailModal()" class="text-slate-400 hover:text-slate-700 text-2xl font-bold">&times;</button>
       </div>
@@ -630,12 +682,12 @@
   </div>
 
   <!-- 3. TICKET SUBMISSION MODAL -->
-  <div id="ticketModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden">
-    <div class="glass-panel max-w-md w-full rounded-3xl p-6 border border-white bg-white/95 shadow-xl">
-      <h3 class="text-base font-bold text-slate-900 mb-1">Submit Ticket</h3>
+  <div id="ticketModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-panel max-w-md w-full rounded-3xl p-6 shadow-xl">
+      <h3 class="text-base font-bold text-slate-900 dark:text-white mb-1">Submit Ticket</h3>
       <form onsubmit="handleStudentTicketSubmit(event)" class="space-y-3 mt-3">
-        <input type="text" id="tckTitle" placeholder="Summary of question or issue" class="w-full glass-interactive rounded-xl p-2.5 text-xs text-slate-900 outline-none bg-white" required>
-        <textarea id="tckDesc" rows="3" placeholder="Provide extra details..." class="w-full glass-interactive rounded-xl p-2.5 text-xs text-slate-900 outline-none bg-white"></textarea>
+        <input type="text" id="tckTitle" placeholder="Summary of question or issue" class="w-full glass-interactive rounded-xl p-2.5 text-xs outline-none" required>
+        <textarea id="tckDesc" rows="3" placeholder="Provide extra details..." class="w-full glass-interactive rounded-xl p-2.5 text-xs outline-none"></textarea>
         <div class="flex justify-end gap-2">
           <button type="button" onclick="closeTicketModal()" class="px-4 py-2 text-xs text-slate-500">Cancel</button>
           <button type="submit" class="px-5 py-2 bg-blue-600 text-white font-bold text-xs rounded-xl shadow-xs">Submit Ticket</button>
@@ -645,22 +697,22 @@
   </div>
 
   <!-- 4. STUDY MATERIAL UPLOAD MODAL -->
-  <div id="uploadModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden">
-    <div class="glass-panel max-w-md w-full rounded-3xl p-6 border border-white bg-white/95 shadow-xl">
+  <div id="uploadModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-panel max-w-md w-full rounded-3xl p-6 shadow-xl">
       <div class="flex justify-between items-center mb-2">
-        <h3 class="text-base font-bold text-slate-900">Upload Study Material</h3>
+        <h3 class="text-base font-bold text-slate-900 dark:text-white">Upload Study Material</h3>
         <button onclick="closeUploadModal()" class="text-slate-400 hover:text-slate-700 text-xl font-bold">&times;</button>
       </div>
-      <p class="text-[11px] text-slate-500 mb-3 italic">
-        *Note: The file will be publicly available in the student console once an admin approves it.
+      <p class="text-[11px] text-slate-500 dark:text-slate-400 mb-3 italic">
+        *Note: The file will be publicly available once an admin approves it.
       </p>
       <form onsubmit="handleStudentUploadSubmit(event)" class="space-y-3">
-        <input type="text" id="stuUpTitle" placeholder="Document Title (e.g. Acid Bases Formulas)" class="w-full glass-interactive rounded-xl p-2.5 text-xs text-slate-900 outline-none bg-white" required>
-        <input type="text" id="stuUpSub" placeholder="Subject Name (e.g. Chemistry)" class="w-full glass-interactive rounded-xl p-2.5 text-xs text-slate-900 outline-none bg-white" required>
-        <div class="p-3 rounded-2xl bg-blue-50/70 border border-blue-200">
+        <input type="text" id="stuUpTitle" placeholder="Document Title (e.g. Acid Bases Formulas)" class="w-full glass-interactive rounded-xl p-2.5 text-xs outline-none" required>
+        <input type="text" id="stuUpSub" placeholder="Subject Name (e.g. Chemistry)" class="w-full glass-interactive rounded-xl p-2.5 text-xs outline-none" required>
+        <div class="p-3 rounded-2xl bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900">
           <input type="file" id="stuFileInput" class="text-xs text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-blue-600 file:text-white cursor-pointer w-full">
         </div>
-        <input type="url" id="stuUpLink" placeholder="Or paste link" class="w-full glass-interactive rounded-xl p-2.5 text-xs text-slate-900 outline-none bg-white">
+        <input type="url" id="stuUpLink" placeholder="Or paste link" class="w-full glass-interactive rounded-xl p-2.5 text-xs outline-none">
         <div class="flex justify-end gap-2 pt-2">
           <button type="button" onclick="closeUploadModal()" class="px-4 py-2 text-xs text-slate-500">Cancel</button>
           <button type="submit" class="px-5 py-2 bg-blue-600 text-white font-bold text-xs rounded-xl shadow-xs">Submit for Review</button>
@@ -669,31 +721,31 @@
     </div>
   </div>
 
-  <!-- 5. STUDENT PROFILE & EDIT SETTINGS MODAL (CHANGE NAME, ELECTIVES) -->
-  <div id="profileSettingsModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden">
-    <div class="glass-panel max-w-md w-full rounded-3xl p-6 shadow-2xl border border-white bg-white/95">
+  <!-- 5. STUDENT PROFILE SETTINGS MODAL -->
+  <div id="profileSettingsModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-panel max-w-md w-full rounded-3xl p-6 shadow-2xl">
       <div class="flex justify-between items-center mb-3">
-        <h3 class="text-base font-extrabold text-slate-900">Student Account & Preferences</h3>
+        <h3 class="text-base font-extrabold text-slate-900 dark:text-white">Student Account & Preferences</h3>
         <button onclick="closeProfileSettingsModal()" class="text-slate-400 hover:text-slate-700 text-xl font-bold">&times;</button>
       </div>
 
       <form onsubmit="handleUpdateStudentProfile(event)" class="space-y-4">
         <div>
-          <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Your Full Name:</label>
-          <input type="text" id="editStudentNameInput" class="w-full glass-interactive rounded-xl p-2.5 text-xs text-slate-900 outline-none font-bold bg-white" required>
+          <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Your Full Name:</label>
+          <input type="text" id="editStudentNameInput" class="w-full glass-interactive rounded-xl p-2.5 text-xs outline-none font-bold" required>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">2nd Language:</label>
-            <select id="editLangChoice" class="w-full glass-interactive rounded-xl p-2 text-xs text-slate-900 outline-none font-semibold bg-white">
+            <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">2nd Language:</label>
+            <select id="editLangChoice" class="w-full glass-interactive rounded-xl p-2 text-xs outline-none font-semibold">
               <option value="Bengali">Bengali (বাংলা)</option>
               <option value="Hindi">Hindi (हिन्दी)</option>
             </select>
           </div>
           <div>
-            <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Group III Elective:</label>
-            <select id="editAppChoice" class="w-full glass-interactive rounded-xl p-2 text-xs text-slate-900 outline-none font-semibold bg-white">
+            <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Group III Elective:</label>
+            <select id="editAppChoice" class="w-full glass-interactive rounded-xl p-2 text-xs outline-none font-semibold">
               <option value="Computer Applications">Computer Applications</option>
               <option value="Commercial Applications">Commercial Applications</option>
             </select>
@@ -704,7 +756,7 @@
           <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-xl text-xs shadow-xs transition">
             Save Changes
           </button>
-          <button type="button" onclick="switchStudentAccount()" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl text-xs transition">
+          <button type="button" onclick="switchStudentAccount()" class="w-full py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 font-bold rounded-xl text-xs transition">
             Log Out / Switch Account
           </button>
         </div>
@@ -712,49 +764,60 @@
     </div>
   </div>
 
-  <!-- 6. FIRST TIME LOGIN MODAL WITH SUBJECT CHOICES -->
-  <div id="firstTimeLoginModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden">
-    <div class="glass-panel max-w-md w-full rounded-3xl p-7 md:p-8 text-center border border-white bg-white/95 shadow-2xl">
+  <!-- 6. FIRST TIME ONBOARDING MODAL -->
+  <div id="firstTimeLoginModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-panel max-w-md w-full rounded-3xl p-7 md:p-8 text-center shadow-2xl">
       <div class="w-14 h-14 rounded-2xl glass-panel flex items-center justify-center text-3xl mx-auto mb-3 text-blue-600 shadow-xs">🎓</div>
-      <h3 class="text-xl font-extrabold text-slate-900">Student Profile & Electives</h3>
-      <p class="text-xs text-slate-500 mt-1 mb-5">Select your language & elective to configure your personalized curriculum.</p>
+      <h3 class="text-xl font-extrabold text-slate-900 dark:text-white">Student Profile & Electives</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-4">Choose your name & electives to setup your tracking console.</p>
       
+      <div id="onboardingNameTakenAlert" class="hidden p-3 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 text-rose-700 dark:text-rose-400 text-xs font-bold mb-3 text-center">
+        ⚠️ Name already taken by someone else! Please choose another name or add your initial.
+      </div>
+
       <form onsubmit="handleFirstTimeLogin(event)" class="space-y-4 text-left">
         <div>
-          <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Your Full Name:</label>
-          <input type="text" id="firstTimeNameInput" placeholder="Enter your full name" class="w-full glass-interactive rounded-xl p-3 text-xs text-slate-900 outline-none font-bold bg-white" required autofocus>
+          <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Your Full Name:</label>
+          <input type="text" id="firstTimeNameInput" placeholder="Enter your full name" class="w-full glass-interactive rounded-xl p-3 text-xs outline-none font-bold" required autofocus>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">2nd Language:</label>
-            <select id="firstTimeLangChoice" class="w-full glass-interactive rounded-xl p-2.5 text-xs text-slate-900 outline-none font-semibold bg-white">
+            <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">2nd Language:</label>
+            <select id="firstTimeLangChoice" class="w-full glass-interactive rounded-xl p-2.5 text-xs outline-none font-semibold">
               <option value="Bengali">Bengali (বাংলা)</option>
               <option value="Hindi">Hindi (हिन्दी)</option>
             </select>
           </div>
           <div>
-            <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Group III Elective:</label>
-            <select id="firstTimeAppChoice" class="w-full glass-interactive rounded-xl p-2.5 text-xs text-slate-900 outline-none font-semibold bg-white">
+            <label class="block text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Group III Elective:</label>
+            <select id="firstTimeAppChoice" class="w-full glass-interactive rounded-xl p-2.5 text-xs outline-none font-semibold">
               <option value="Computer Applications">Computer Applications</option>
               <option value="Commercial Applications">Commercial Applications</option>
             </select>
           </div>
         </div>
 
-        <button type="submit" class="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-2xl text-xs shadow-xs mt-2 transition">
+        <button type="submit" id="submitOnboardingBtn" class="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-2xl text-xs shadow-xs mt-2 transition">
           Open Personalized Tracker →
         </button>
+
+        <!-- Direct Admin Bypass without creating a student profile -->
+        <div class="pt-3 text-center border-t border-slate-200 dark:border-slate-800">
+          <button type="button" onclick="openAdminDirectFromOnboarding()" class="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline">
+            🔒 Are you an Administrator? Access Admin Console Directly
+          </button>
+        </div>
       </form>
     </div>
   </div>
 
   <!-- 7. ADMIN PASSCODE MODAL -->
-  <div id="adminPassModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden">
-    <div class="glass-panel max-w-sm w-full rounded-3xl p-6 border border-white bg-white/95 shadow-xl">
-      <h3 class="text-base font-bold text-slate-900 text-center mb-1">Admin Verification</h3>
+  <div id="adminPassModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-panel max-w-sm w-full rounded-3xl p-6 shadow-xl">
+      <h3 class="text-base font-bold text-slate-900 dark:text-white text-center mb-1">Admin Verification</h3>
       <form onsubmit="verifyAdminPass(event)" class="space-y-3 mt-4">
-        <input type="password" id="adminPassField" placeholder="Admin password" class="w-full glass-interactive rounded-2xl p-3 text-sm text-slate-900 outline-none bg-white" required autofocus>
+        <input type="password" id="adminPassField" placeholder="Admin password" class="w-full glass-interactive rounded-2xl p-3 text-sm outline-none" required autofocus>
         <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl text-xs">Unlock Console</button>
         <button type="button" onclick="closeAdminModal()" class="w-full py-2 text-xs text-slate-500">Cancel</button>
       </form>
@@ -881,6 +944,7 @@
     };
 
     let currentStudent = null;
+    let isAdminActive = false;
     let allStudentsLive = [];
     let liveChatMessages = [];
     let ticketsList = [];
@@ -888,6 +952,32 @@
     let noticesList = [];
     let adminPasscode = localStorage.getItem("icse_admin_passcode") || "icse2026";
     let targetExamDate = localStorage.getItem("icse_target_exam_date") || "2027-02-18";
+
+    // Theme Toggle
+    function initTheme() {
+      const savedTheme = localStorage.getItem("icse_app_theme") || "light";
+      const btn = document.getElementById("themeToggleBtn");
+      if (savedTheme === "dark") {
+        document.body.classList.add("dark");
+        if (btn) btn.innerText = "☀️";
+      } else {
+        document.body.classList.remove("dark");
+        if (btn) btn.innerText = "🌙";
+      }
+    }
+
+    function toggleTheme() {
+      const btn = document.getElementById("themeToggleBtn");
+      if (document.body.classList.contains("dark")) {
+        document.body.classList.remove("dark");
+        localStorage.setItem("icse_app_theme", "light");
+        btn.innerText = "🌙";
+      } else {
+        document.body.classList.add("dark");
+        localStorage.setItem("icse_app_theme", "dark");
+        btn.innerText = "☀️";
+      }
+    }
 
     function getStudentSubjectList(student) {
       const base = [
@@ -903,7 +993,7 @@
     function initFirebaseListeners() {
       if (typeof db === "undefined") return;
 
-      // 1. Target Board Exam Date
+      // 1. Board Exam Target Date
       db.collection("settings").doc("board_exam_target").onSnapshot((snap) => {
         if (snap.exists && snap.data().date) {
           targetExamDate = snap.data().date;
@@ -930,7 +1020,7 @@
         checkInstantAnnouncements();
       });
 
-      // 4. Students Live Sync
+      // 4. Students
       db.collection("students").onSnapshot((querySnapshot) => {
         allStudentsLive = [];
         querySnapshot.forEach(docSnap => allStudentsLive.push(docSnap.data()));
@@ -1036,12 +1126,12 @@
         return;
       }
       box.innerHTML = noticesList.map(n => `
-        <div class="p-3 bg-white border border-slate-100 rounded-xl flex justify-between items-center text-xs">
+        <div class="p-3 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl flex justify-between items-center text-xs">
           <div>
-            <span class="font-bold text-slate-900">${n.title}</span>
-            <span class="text-slate-500 block text-[11px] mt-0.5">${n.text}</span>
+            <span class="font-bold text-slate-900 dark:text-white">${n.title}</span>
+            <span class="text-slate-500 dark:text-slate-400 block text-[11px] mt-0.5">${n.text}</span>
           </div>
-          <button onclick="deleteAnnouncement('${n.id}')" class="text-rose-600 hover:underline ml-3 shrink-0">Delete</button>
+          <button onclick="deleteAnnouncement('${n.id}')" class="text-rose-600 dark:text-rose-400 hover:underline ml-3 shrink-0">Delete</button>
         </div>
       `).join('');
     }
@@ -1054,21 +1144,23 @@
 
     // ================= ANALYTICS & COHORT PERCENTILES =================
     function computeAnalyticsAndPercentiles() {
-      if (!currentStudent) return;
+      if (!currentStudent && !isAdminActive) return;
 
-      const mySubjects = getStudentSubjectList(currentStudent);
+      const mySubjects = currentStudent ? getStudentSubjectList(currentStudent) : Object.keys(MASTER_SYLLABUS).slice(0, 9);
       let totalCurriculumChapters = 0;
       mySubjects.forEach(s => totalCurriculumChapters += (MASTER_SYLLABUS[s] ? MASTER_SYLLABUS[s].length : 0));
 
       let myCompleted = 0;
       let weakCount = 0;
-      mySubjects.forEach(s => {
-        (MASTER_SYLLABUS[s] || []).forEach(c => {
-          const st = currentStudent.chapterProgress?.[s]?.[c] || 'Not Started';
-          if (st === 'Completed') myCompleted++;
-          if (st === 'Need Revision') weakCount++;
+      if (currentStudent) {
+        mySubjects.forEach(s => {
+          (MASTER_SYLLABUS[s] || []).forEach(c => {
+            const st = currentStudent.chapterProgress?.[s]?.[c] || 'Not Started';
+            if (st === 'Completed') myCompleted++;
+            if (st === 'Need Revision') weakCount++;
+          });
         });
-      });
+      }
 
       const myPercent = totalCurriculumChapters > 0 ? Math.round((myCompleted / totalCurriculumChapters) * 100) : 0;
 
@@ -1092,7 +1184,7 @@
           name: st.name,
           completed: comp,
           percent: tot > 0 ? Math.round((comp / tot) * 100) : 0,
-          isMe: st.id === currentStudent.id
+          isMe: currentStudent && st.id === currentStudent.id
         };
       });
 
@@ -1107,25 +1199,25 @@
         percentile = Math.max(1, Math.round((peersBelow / totalStudents) * 100));
       }
 
-      document.getElementById('statPercentileRank').innerText = `${percentile}th Percentile`;
-      document.getElementById('statPercentileSub').innerText = `Ranked #${myRankIndex + 1} of ${totalStudents} active peers`;
+      document.getElementById('statPercentileRank').innerText = currentStudent ? `${percentile}th Percentile` : `Overview`;
+      document.getElementById('statPercentileSub').innerText = currentStudent ? `Ranked #${myRankIndex + 1} of ${totalStudents} active peers` : `${totalStudents} registered students`;
 
       // Leaderboard
       const rankBody = document.getElementById('cohortRankingsBody');
       rankBody.innerHTML = "";
       cohortScores.slice(0, 10).forEach((st, idx) => {
         const tr = document.createElement('tr');
-        tr.className = st.isMe ? "bg-blue-50/70 font-bold" : "hover:bg-slate-50";
+        tr.className = st.isMe ? "bg-blue-50/70 dark:bg-blue-950/40 font-bold" : "hover:bg-slate-50 dark:hover:bg-slate-800/40";
 
-        let tierBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600">Cohort</span>`;
-        if (idx === 0) tierBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">Top 1%</span>`;
-        else if (idx < 3) tierBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800">Top 5%</span>`;
+        let tierBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Cohort</span>`;
+        if (idx === 0) tierBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300">Top 1%</span>`;
+        else if (idx < 3) tierBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300">Top 5%</span>`;
 
         tr.innerHTML = `
-          <td class="py-2.5 px-3 font-mono text-slate-500">#${idx + 1}</td>
-          <td class="py-2.5 px-3 text-slate-900">${st.name} ${st.isMe ? '<span class="text-blue-600 text-[10px]">(You)</span>' : ''}</td>
-          <td class="py-2.5 px-3 font-mono font-bold text-blue-700">${st.percent}%</td>
-          <td class="py-2.5 px-3 font-mono text-slate-500">${st.completed} chapters</td>
+          <td class="py-2.5 px-3 font-mono text-slate-500 dark:text-slate-400">#${idx + 1}</td>
+          <td class="py-2.5 px-3 text-slate-900 dark:text-white">${st.name} ${st.isMe ? '<span class="text-blue-600 dark:text-blue-400 text-[10px]">(You)</span>' : ''}</td>
+          <td class="py-2.5 px-3 font-mono font-bold text-blue-700 dark:text-blue-400">${st.percent}%</td>
+          <td class="py-2.5 px-3 font-mono text-slate-500 dark:text-slate-400">${st.completed} chapters</td>
           <td class="py-2.5 px-3 text-right">${tierBadge}</td>
         `;
         rankBody.appendChild(tr);
@@ -1138,9 +1230,11 @@
       mySubjects.forEach(sub => {
         const chaps = MASTER_SYLLABUS[sub] || [];
         let mySubDone = 0;
-        chaps.forEach(c => {
-          if (currentStudent.chapterProgress?.[sub]?.[c] === 'Completed') mySubDone++;
-        });
+        if (currentStudent) {
+          chaps.forEach(c => {
+            if (currentStudent.chapterProgress?.[sub]?.[c] === 'Completed') mySubDone++;
+          });
+        }
         const mySubPct = chaps.length > 0 ? Math.round((mySubDone / chaps.length) * 100) : 0;
 
         let cohortSubSum = 0;
@@ -1162,13 +1256,13 @@
         row.className = "space-y-1.5";
         row.innerHTML = `
           <div class="flex justify-between items-center text-xs">
-            <span class="font-bold text-slate-800">${sub}</span>
+            <span class="font-bold text-slate-800 dark:text-slate-200">${sub}</span>
             <div class="font-mono text-[11px] space-x-2">
-              <span class="text-blue-700 font-bold">You: ${mySubPct}%</span>
+              <span class="text-blue-700 dark:text-blue-400 font-bold">You: ${mySubPct}%</span>
               <span class="text-slate-400">Avg: ${cohortAvgPct}%</span>
             </div>
           </div>
-          <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden flex">
+          <div class="w-full bg-slate-200 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden flex">
             <div class="bg-blue-600 h-full transition-all duration-500" style="width: ${mySubPct}%"></div>
           </div>
         `;
@@ -1202,29 +1296,29 @@
         const isInProg = status === "In Progress";
 
         const div = document.createElement('div');
-        div.className = "glass-panel p-3.5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 border border-white";
+        div.className = "glass-panel p-3.5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3";
         div.innerHTML = `
           <div class="flex items-center gap-3">
-            <span class="w-7 h-7 rounded-lg bg-slate-100 border border-slate-200 text-xs font-mono font-bold flex items-center justify-center text-slate-700 shrink-0">
+            <span class="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono font-bold flex items-center justify-center text-slate-700 dark:text-slate-200 shrink-0">
               ${idx + 1}
             </span>
             <div>
-              <p class="text-xs sm:text-sm font-bold ${isDone ? 'line-through text-slate-400' : 'text-slate-800'}">
+              <p class="text-xs sm:text-sm font-bold ${isDone ? 'line-through text-slate-400' : 'text-slate-800 dark:text-slate-100'}">
                 ${ch}
               </p>
-              <span class="text-[10px] font-bold ${isDone ? 'text-emerald-600' : (isWeak ? 'text-rose-600' : (isInProg ? 'text-blue-600' : 'text-slate-400'))}">
+              <span class="text-[10px] font-bold ${isDone ? 'text-emerald-600 dark:text-emerald-400' : (isWeak ? 'text-rose-600 dark:text-rose-400' : (isInProg ? 'text-blue-600 dark:text-blue-400' : 'text-slate-400'))}">
                 ${status === 'Need Revision' ? '🔴 Need Revision' : status}
               </span>
             </div>
           </div>
           <div class="flex items-center gap-1.5 self-end sm:self-center shrink-0">
-            <button onclick="setChapterStatus('${sub}', '${ch.replace(/'/g, "\\'")}', 'Need Revision')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isWeak ? 'bg-rose-600 text-white' : 'glass-interactive text-rose-600 border-rose-200'}">
+            <button onclick="setChapterStatus('${sub}', '${ch.replace(/'/g, "\\'")}', 'Need Revision')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isWeak ? 'bg-rose-600 text-white' : 'glass-interactive text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900'}">
               🔴 Revision
             </button>
-            <button onclick="setChapterStatus('${sub}', '${ch.replace(/'/g, "\\'")}', 'In Progress')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isInProg ? 'bg-blue-600 text-white' : 'glass-interactive text-blue-600 border-blue-200'}">
+            <button onclick="setChapterStatus('${sub}', '${ch.replace(/'/g, "\\'")}', 'In Progress')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isInProg ? 'bg-blue-600 text-white' : 'glass-interactive text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900'}">
               In Progress
             </button>
-            <button onclick="setChapterStatus('${sub}', '${ch.replace(/'/g, "\\'")}', 'Completed')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isDone ? 'bg-emerald-600 text-white' : 'glass-interactive text-emerald-700 border-emerald-200'}">
+            <button onclick="setChapterStatus('${sub}', '${ch.replace(/'/g, "\\'")}', 'Completed')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isDone ? 'bg-emerald-600 text-white' : 'glass-interactive text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900'}">
               ${isDone ? '✓ Done' : 'Mark Done'}
             </button>
           </div>
@@ -1241,6 +1335,10 @@
 
     async function setChapterStatus(sub, chap, status) {
       if (!currentStudent) {
+        if (isAdminActive) {
+          alert("You are viewing as Administrator. To track personal progress, set up a student profile!");
+          return;
+        }
         document.getElementById('firstTimeLoginModal').classList.remove('hidden');
         return;
       }
@@ -1282,10 +1380,10 @@
         const initials = msg.studentName ? msg.studentName.charAt(0).toUpperCase() : '?';
 
         div.innerHTML = `
-          ${!isMe ? `<div class="w-7 h-7 rounded-full bg-blue-100 text-blue-700 border border-blue-200 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">${initials}</div>` : ''}
+          ${!isMe ? `<div class="w-7 h-7 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">${initials}</div>` : ''}
           <div class="max-w-[78%] sm:max-w-[65%] flex flex-col ${isMe ? 'items-end' : 'items-start'}">
             <div class="flex items-center gap-1.5 mb-1 px-1">
-              <span class="text-[11px] font-bold ${isMe ? 'text-blue-700' : 'text-slate-700'}">${isMe ? 'You' : msg.studentName}</span>
+              <span class="text-[11px] font-bold ${isMe ? 'text-blue-700 dark:text-blue-400' : 'text-slate-700 dark:text-slate-300'}">${isMe ? 'You' : msg.studentName}</span>
               <span class="text-[9px] text-slate-400">${msg.timeStr || ''}</span>
             </div>
             <div class="px-3.5 py-2.5 rounded-2xl text-xs leading-relaxed shadow-2xs ${isMe ? 'chat-bubble-me' : 'chat-bubble-other'}">
@@ -1301,15 +1399,17 @@
 
     async function handleSendChatMessage(e) {
       e.preventDefault();
-      if (!currentStudent) return;
       const input = document.getElementById('chatMessageInput');
       const text = input.value.trim();
       if (!text) return;
 
+      const studentName = currentStudent ? currentStudent.name : (isAdminActive ? "Admin (Trishan)" : "Anonymous");
+      const studentId = currentStudent ? currentStudent.id : "admin_broadcast";
+
       const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       const messageObj = {
-        studentId: currentStudent.id,
-        studentName: currentStudent.name,
+        studentId: studentId,
+        studentName: studentName,
         text: text,
         timeStr: timeString,
         timestamp: Date.now()
@@ -1325,8 +1425,8 @@
       const area = document.getElementById('adminChatLogArea');
       if (!area) return;
       area.innerHTML = liveChatMessages.map(m => `
-        <div class="p-2 border-b border-slate-100 flex justify-between items-start">
-          <div><strong class="text-blue-700">${m.studentName}:</strong> <span class="text-slate-700">${m.text}</span></div>
+        <div class="p-2 border-b border-slate-100 dark:border-slate-800 flex justify-between items-start">
+          <div><strong class="text-blue-700 dark:text-blue-400">${m.studentName}:</strong> <span class="text-slate-700 dark:text-slate-200">${m.text}</span></div>
           <span class="text-[10px] text-slate-400 shrink-0 ml-2">${m.timeStr}</span>
         </div>
       `).join('');
@@ -1341,13 +1441,12 @@
       }
     }
 
-    // ================= STUDY MATERIALS (APPROVAL WORKFLOW) =================
+    // ================= STUDY MATERIALS =================
     function renderMaterials() {
       const box = document.getElementById('materialsCardList');
       if (!box) return;
       box.innerHTML = "";
       
-      // In student view: only show approved materials, OR materials uploaded by current student
       const visible = materialsList.filter(m => m.approved !== false || (currentStudent && m.uploadedBy === currentStudent.id));
 
       if (visible.length === 0) {
@@ -1363,10 +1462,10 @@
         d.innerHTML = `
           <div class="truncate mr-3">
             <div class="flex items-center gap-1.5 mb-1">
-              <span class="text-[9px] uppercase font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">${m.subject}</span>
-              ${isPending ? '<span class="text-[9px] font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">⏳ Under Review</span>' : ''}
+              <span class="text-[9px] uppercase font-bold text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/60 px-2 py-0.5 rounded border border-blue-200 dark:border-blue-800">${m.subject}</span>
+              ${isPending ? '<span class="text-[9px] font-bold text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-950 px-2 py-0.5 rounded-full">⏳ Under Review</span>' : ''}
             </div>
-            <h4 class="text-xs font-bold text-slate-900 truncate">${m.name}</h4>
+            <h4 class="text-xs font-bold text-slate-900 dark:text-white truncate">${m.name}</h4>
           </div>
           <a href="${m.url}" download="${m.name}" target="_blank" class="px-3.5 py-2 bg-blue-600 text-white text-xs font-bold rounded-xl shrink-0 hover:bg-blue-700 transition">
             ${isData ? 'Download' : 'Open'}
@@ -1392,14 +1491,14 @@
         d.innerHTML = `
           <div class="truncate pr-3">
             <div class="flex items-center gap-1.5">
-              <span class="font-bold text-slate-900">${m.name}</span>
+              <span class="font-bold text-slate-900 dark:text-white">${m.name}</span>
               <span class="text-[10px] text-slate-400">(${m.subject})</span>
-              ${isPending ? '<span class="text-[9px] font-bold text-amber-700 bg-amber-100 px-1.5 py-0.2 rounded">Pending</span>' : '<span class="text-[9px] font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.2 rounded">Approved</span>'}
+              ${isPending ? '<span class="text-[9px] font-bold text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-950 px-1.5 py-0.2 rounded">Pending</span>' : '<span class="text-[9px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950 px-1.5 py-0.2 rounded">Approved</span>'}
             </div>
           </div>
           <div class="flex items-center gap-2 shrink-0">
             ${isPending ? `<button onclick="approveMaterial('${m.id}')" class="px-2.5 py-1 bg-emerald-600 text-white font-bold rounded-lg text-[10px]">Approve</button>` : ''}
-            <button onclick="deleteMaterial('${m.id}')" class="text-rose-600 hover:underline">Delete</button>
+            <button onclick="deleteMaterial('${m.id}')" class="text-rose-600 dark:text-rose-400 hover:underline">Delete</button>
           </div>
         `;
         box.appendChild(d);
@@ -1409,7 +1508,7 @@
     async function approveMaterial(matId) {
       if (typeof db !== "undefined") {
         await db.collection("study_materials").doc(matId).update({ approved: true });
-        alert("Material approved and now visible to all students!");
+        alert("Material approved and visible to all students!");
       }
     }
 
@@ -1433,7 +1532,7 @@
       if (fileInput.files && fileInput.files[0]) {
         const reader = new FileReader();
         reader.onload = function(evt) {
-          saveMaterial(title, subject, evt.target.result, false); // requires admin approval
+          saveMaterial(title, subject, evt.target.result, false);
         };
         reader.readAsDataURL(fileInput.files[0]);
       } else if (urlInput) {
@@ -1456,7 +1555,7 @@
       if (fileInput.files && fileInput.files[0]) {
         const reader = new FileReader();
         reader.onload = function(evt) {
-          saveMaterial(title, subject, evt.target.result, true); // direct admin publish
+          saveMaterial(title, subject, evt.target.result, true);
         };
         reader.readAsDataURL(fileInput.files[0]);
       } else if (urlInput) {
@@ -1494,12 +1593,12 @@
         const d = document.createElement('div');
         d.className = "glass-panel p-3.5 rounded-2xl space-y-1 text-xs";
         d.innerHTML = `
-          <div class="flex justify-between font-bold text-slate-900">
+          <div class="flex justify-between font-bold text-slate-900 dark:text-white">
             <span>${t.title}</span>
-            <span class="${t.status === 'Resolved' ? 'text-emerald-600' : 'text-amber-600'}">${t.status}</span>
+            <span class="${t.status === 'Resolved' ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}">${t.status}</span>
           </div>
-          <p class="text-slate-600">${t.desc || ''}</p>
-          ${t.response ? `<div class="p-2 bg-blue-50 rounded-lg text-[11px] text-blue-900 mt-2"><strong>Admin Response:</strong> ${t.response}</div>` : ''}
+          <p class="text-slate-600 dark:text-slate-300">${t.desc || ''}</p>
+          ${t.response ? `<div class="p-2 bg-blue-50 dark:bg-blue-950/60 rounded-lg text-[11px] text-blue-900 dark:text-blue-300 mt-2"><strong>Admin Response:</strong> ${t.response}</div>` : ''}
         `;
         box.appendChild(d);
       });
@@ -1531,14 +1630,14 @@
       const box = document.getElementById('admTicketsQueue');
       if (!box) return;
       box.innerHTML = ticketsList.map(t => `
-        <div class="p-4 bg-white rounded-xl border border-slate-100 space-y-2 text-xs">
+        <div class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700 space-y-2 text-xs">
           <div class="flex justify-between font-bold">
-            <span>${t.title} (${t.studentName})</span>
-            <span class="${t.status === 'Resolved' ? 'text-emerald-600' : 'text-amber-600'}">${t.status}</span>
+            <span class="text-slate-900 dark:text-white">${t.title} (${t.studentName})</span>
+            <span class="${t.status === 'Resolved' ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}">${t.status}</span>
           </div>
-          <p class="text-slate-600">${t.desc || ''}</p>
+          <p class="text-slate-600 dark:text-slate-300">${t.desc || ''}</p>
           <div class="flex gap-2 pt-2">
-            <input type="text" id="ans_${t.id}" value="${t.response || ''}" placeholder="Reply..." class="flex-1 p-2 border rounded-lg outline-none">
+            <input type="text" id="ans_${t.id}" value="${t.response || ''}" placeholder="Reply..." class="flex-1 p-2 border rounded-lg outline-none dark:bg-slate-700 dark:border-slate-600">
             <button onclick="replyTicket('${t.id}')" class="px-3 py-1 bg-blue-600 text-white font-bold rounded-lg">Reply</button>
           </div>
         </div>
@@ -1560,6 +1659,12 @@
     function checkLogin() {
       const savedId = localStorage.getItem("current_icse_student_id");
       const cachedProfile = localStorage.getItem("current_student_profile_cache");
+      const adminSession = localStorage.getItem("icse_admin_session_active");
+
+      if (adminSession === "true") {
+        setAdminSessionUI();
+        return;
+      }
 
       if (!savedId) {
         document.getElementById('firstTimeLoginModal').classList.remove('hidden');
@@ -1581,18 +1686,58 @@
       }
     }
 
+    function setAdminSessionUI() {
+      isAdminActive = true;
+      document.getElementById('firstTimeLoginModal').classList.add('hidden');
+      document.getElementById('navStudentName').innerText = "🛡️ Administrator";
+      document.getElementById('studentSubjectChoicesSub').innerText = "Administrator Console (All Subjects)";
+      initSubjectDropdowns();
+      renderSubjectsView();
+      computeAnalyticsAndPercentiles();
+    }
+
     async function handleFirstTimeLogin(e) {
       e.preventDefault();
-      const name = document.getElementById('firstTimeNameInput').value.trim();
+      const nameInput = document.getElementById('firstTimeNameInput');
+      const name = nameInput.value.trim();
       const lang = document.getElementById('firstTimeLangChoice').value;
       const app = document.getElementById('firstTimeAppChoice').value;
+      const alertBox = document.getElementById('onboardingNameTakenAlert');
+      const submitBtn = document.getElementById('submitOnboardingBtn');
+
       if (!name) return;
 
-      let studentId = localStorage.getItem("current_icse_student_id");
-      if (!studentId) {
-        studentId = "stu_" + Date.now();
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Checking availability...";
+
+      // Check for duplicate name
+      let isTaken = false;
+      if (typeof db !== "undefined") {
+        try {
+          const snap = await db.collection("students").get();
+          snap.forEach(docSnap => {
+            const data = docSnap.data();
+            if (data.name && data.name.trim().toLowerCase() === name.toLowerCase()) {
+              isTaken = true;
+            }
+          });
+        } catch (err) {
+          console.error("Name lookup check error:", err);
+        }
       }
 
+      if (isTaken) {
+        alertBox.classList.remove('hidden');
+        alert("Name already taken by someone else! Please choose another name or add your initial.");
+        nameInput.focus();
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Open Personalized Tracker →";
+        return;
+      }
+
+      alertBox.classList.add('hidden');
+
+      const studentId = "stu_" + Date.now();
       const newStudentDoc = {
         id: studentId,
         name: name,
@@ -1645,8 +1790,11 @@
       });
     }
 
-    // Modal to change student name and electives
     function openProfileSettingsModal() {
+      if (isAdminActive) {
+        alert("You are logged in as Administrator. To track individual chapters, switch to a student account.");
+        return;
+      }
       if (!currentStudent) return;
       document.getElementById('editStudentNameInput').value = currentStudent.name || "";
       document.getElementById('editLangChoice').value = currentStudent.langChoice || "Bengali";
@@ -1666,11 +1814,28 @@
       const newApp = document.getElementById('editAppChoice').value;
       if (!newName) return;
 
+      if (newName.toLowerCase() !== currentStudent.name.toLowerCase() && typeof db !== "undefined") {
+        let isTaken = false;
+        try {
+          const snap = await db.collection("students").get();
+          snap.forEach(docSnap => {
+            if (docSnap.id !== currentStudent.id && docSnap.data().name && docSnap.data().name.trim().toLowerCase() === newName.toLowerCase()) {
+              isTaken = true;
+            }
+          });
+        } catch(err) {
+          console.error(err);
+        }
+        if (isTaken) {
+          alert("Name already taken by someone else! Please pick another name.");
+          return;
+        }
+      }
+
       currentStudent.name = newName;
       currentStudent.langChoice = newLang;
       currentStudent.appChoice = newApp;
 
-      // Ensure progress container exists for newly chosen elective
       const updatedSubs = getStudentSubjectList(currentStudent);
       if (!currentStudent.chapterProgress) currentStudent.chapterProgress = {};
       updatedSubs.forEach(s => {
@@ -1698,25 +1863,39 @@
           chapterProgress: currentStudent.chapterProgress
         });
       }
-      alert("Profile and name updated successfully!");
+      alert("Profile updated successfully!");
     }
 
     function switchStudentAccount() {
       if (confirm("Switch student account?")) {
         localStorage.removeItem("current_icse_student_id");
         localStorage.removeItem("current_student_profile_cache");
+        localStorage.removeItem("icse_admin_session_active");
         location.reload();
       }
     }
 
-    // ================= ADMIN SETTINGS & MANAGEMENT =================
+    // ================= ADMIN WORKSPACE & ZERO-PROFILE LOGIN =================
+    function openAdminDirectFromOnboarding() {
+      document.getElementById('firstTimeLoginModal').classList.add('hidden');
+      openAdminModal();
+    }
+
     function openAdminModal() { document.getElementById('adminPassModal').classList.remove('hidden'); }
-    function closeAdminModal() { document.getElementById('adminPassModal').classList.add('hidden'); }
+    function closeAdminModal() { 
+      document.getElementById('adminPassModal').classList.add('hidden'); 
+      if (!currentStudent && !isAdminActive) {
+        document.getElementById('firstTimeLoginModal').classList.remove('hidden');
+      }
+    }
 
     function verifyAdminPass(e) {
       e.preventDefault();
       if (document.getElementById('adminPassField').value.trim() === adminPasscode) {
         closeAdminModal();
+        localStorage.setItem("icse_admin_session_active", "true");
+        setAdminSessionUI();
+
         document.getElementById('studentContainer').classList.add('hidden');
         document.getElementById('adminContainer').classList.remove('hidden');
         switchAdminTab('dashboard');
@@ -1738,10 +1917,10 @@
       document.querySelectorAll('.adm-pill').forEach(b => {
         if (b.dataset.atab === tag) {
           b.classList.add('pill-active-light');
-          b.classList.remove('text-slate-600');
+          b.classList.remove('text-slate-600', 'dark:text-slate-300');
         } else {
           b.classList.remove('pill-active-light');
-          b.classList.add('text-slate-600');
+          b.classList.add('text-slate-600', 'dark:text-slate-300');
         }
       });
 
@@ -1795,15 +1974,15 @@
         const overall = sTot > 0 ? Math.round((comp / sTot) * 100) : 0;
 
         const tr = document.createElement('tr');
-        tr.className = "hover:bg-slate-50";
+        tr.className = "hover:bg-slate-50 dark:hover:bg-slate-800/40";
         tr.innerHTML = `
-          <td class="py-3 px-3 font-bold text-slate-900">${st.name}</td>
-          <td class="py-3 px-2 font-mono text-[10px] text-slate-500">${st.langChoice || 'Bengali'} + ${st.appChoice === 'Commercial Applications' ? 'Comm' : 'Comp'}</td>
-          <td class="py-3 px-2 font-mono font-bold text-blue-600">${overall}%</td>
+          <td class="py-3 px-3 font-bold text-slate-900 dark:text-white">${st.name}</td>
+          <td class="py-3 px-2 font-mono text-[10px] text-slate-500 dark:text-slate-400">${st.langChoice || 'Bengali'} + ${st.appChoice === 'Commercial Applications' ? 'Comm' : 'Comp'}</td>
+          <td class="py-3 px-2 font-mono font-bold text-blue-600 dark:text-blue-400">${overall}%</td>
           <td class="py-3 px-3 font-mono text-[11px] text-slate-400">${st.lastActive || 'Recent'}</td>
           <td class="py-3 px-2 text-right space-x-1.5">
-            <button onclick="inspectStudentDetails('${st.id}')" class="px-2.5 py-1 bg-blue-50 text-blue-700 font-bold rounded-lg text-[10px] hover:bg-blue-100">Inspect</button>
-            <button onclick="deleteStudentProfile('${st.id}', '${st.name.replace(/'/g, "\\'")}')" class="px-2.5 py-1 bg-rose-50 text-rose-700 font-bold rounded-lg text-[10px] hover:bg-rose-100">🗑️ Delete</button>
+            <button onclick="inspectStudentDetails('${st.id}')" class="px-2.5 py-1 bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-400 font-bold rounded-lg text-[10px] hover:bg-blue-100">Inspect</button>
+            <button onclick="deleteStudentProfile('${st.id}', '${st.name.replace(/'/g, "\\'")}')" class="px-2.5 py-1 bg-rose-50 dark:bg-rose-950 text-rose-700 dark:text-rose-400 font-bold rounded-lg text-[10px] hover:bg-rose-100">🗑️ Delete</button>
           </td>
         `;
         tbody.appendChild(tr);
@@ -1811,19 +1990,19 @@
     }
 
     async function deleteStudentProfile(studentId, studentName) {
-      if (!confirm(`Are you sure you want to permanently delete student profile for "${studentName}"?`)) return;
+      if (!confirm(`Permanently delete student profile for "${studentName}"?`)) return;
 
       if (typeof db !== "undefined") {
         try {
           await db.collection("students").doc(studentId).delete();
-          alert(`Student "${studentName}" deleted successfully!`);
+          alert(`Student profile for "${studentName}" deleted successfully!`);
           
           if (currentStudent && currentStudent.id === studentId) {
             localStorage.removeItem("current_icse_student_id");
             localStorage.removeItem("current_student_profile_cache");
           }
         } catch (err) {
-          alert("Error deleting student profile: " + err.message);
+          alert("Error: " + err.message);
         }
       }
     }
@@ -1832,18 +2011,55 @@
       const sel = document.getElementById('admDeleteStudentSelect');
       if (!sel) return;
       sel.innerHTML = `<option value="">-- Choose a student to delete --</option>` + 
-        allStudentsLive.map(st => `<option value="${st.id}">${st.name} (${st.langChoice || 'Bengali'} / ${st.appChoice || 'Computer'})</option>`).join('');
+        allStudentsLive.map(st => `<option value="${st.id}">${st.name} (${st.langChoice || 'Bengali'})</option>`).join('');
     }
 
     async function handleDeleteStudentBySelect() {
       const sel = document.getElementById('admDeleteStudentSelect');
       const studentId = sel.value;
       if (!studentId) {
-        alert("Please select a student to delete.");
+        alert("Please choose a profile.");
         return;
       }
       const student = allStudentsLive.find(s => s.id === studentId);
-      deleteStudentProfile(studentId, student ? student.name : "Selected Student");
+      deleteStudentProfile(studentId, student ? student.name : "Student");
+    }
+
+    // Automated cleaner to purge duplicates
+    async function cleanDuplicateProfiles() {
+      if (!confirm("Run scan to delete duplicate or empty profiles?")) return;
+      if (typeof db === "undefined") return;
+
+      const seenNames = {};
+      let purgedCount = 0;
+
+      for (const st of allStudentsLive) {
+        const lower = (st.name || "").trim().toLowerCase();
+        
+        let completed = 0;
+        for (const sub in (st.chapterProgress || {})) {
+          for (const ch in st.chapterProgress[sub]) {
+            if (st.chapterProgress[sub][ch] === "Completed") completed++;
+          }
+        }
+
+        if (seenNames[lower]) {
+          // Duplicate found: keep whichever has progress
+          const prev = seenNames[lower];
+          if (completed <= prev.completed) {
+            await db.collection("students").doc(st.id).delete();
+            purgedCount++;
+          } else {
+            await db.collection("students").doc(prev.id).delete();
+            seenNames[lower] = { id: st.id, completed: completed };
+            purgedCount++;
+          }
+        } else {
+          seenNames[lower] = { id: st.id, completed: completed };
+        }
+      }
+
+      alert(`Scan complete! Removed ${purgedCount} duplicate/empty profiles.`);
     }
 
     function initSettingsView() {
@@ -1866,9 +2082,9 @@
             date: targetExamDate,
             updatedAt: Date.now()
           }, { merge: true });
-          alert("Board Examination date successfully updated for all students!");
+          alert("Board Examination date updated live for all devices!");
         } catch(err) {
-          alert("Cloud Sync Error: " + err.message);
+          alert("Error: " + err.message);
         }
       }
     }
@@ -1916,20 +2132,20 @@
       mySubs.forEach(sub => {
         const chaps = MASTER_SYLLABUS[sub] || [];
         const card = document.createElement('div');
-        card.className = "glass-panel rounded-2xl p-4 bg-white";
-        card.innerHTML = `<h5 class="text-xs font-bold text-slate-900 mb-2">${sub}</h5>`;
+        card.className = "glass-panel rounded-2xl p-4 bg-white dark:bg-slate-800";
+        card.innerHTML = `<h5 class="text-xs font-bold text-slate-900 dark:text-white mb-2">${sub}</h5>`;
         const grid = document.createElement('div');
         grid.className = "grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs";
 
         chaps.forEach(ch => {
           const status = st.chapterProgress?.[sub]?.[ch] || "Not Started";
-          let badge = "bg-slate-100 text-slate-500";
-          if (status === "Completed") badge = "bg-emerald-100 text-emerald-700";
-          if (status === "Need Revision") badge = "bg-rose-100 text-rose-700";
+          let badge = "bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-300";
+          if (status === "Completed") badge = "bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300";
+          if (status === "Need Revision") badge = "bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300";
 
           grid.innerHTML += `
-            <div class="p-2 rounded-xl border border-slate-100 flex justify-between items-center bg-slate-50">
-              <span class="truncate pr-1 text-slate-800">${ch}</span>
+            <div class="p-2 rounded-xl border border-slate-100 dark:border-slate-700/60 bg-slate-50 dark:bg-slate-900 flex justify-between items-center">
+              <span class="truncate pr-1 text-slate-800 dark:text-slate-200">${ch}</span>
               <span class="px-2 py-0.5 rounded text-[9px] font-bold ${badge}">${status}</span>
             </div>
           `;
@@ -1957,10 +2173,10 @@
       document.querySelectorAll('.desk-nav-btn, .mob-tab-btn').forEach(b => {
         if (b.dataset.target === tag) {
           b.classList.add('pill-active-light');
-          b.classList.remove('text-slate-600');
+          b.classList.remove('text-slate-600', 'dark:text-slate-300');
         } else {
           b.classList.remove('pill-active-light');
-          b.classList.add('text-slate-600');
+          b.classList.add('text-slate-600', 'dark:text-slate-300');
         }
       });
 
@@ -1973,11 +2189,12 @@
 
     // App Initialization
     document.addEventListener("DOMContentLoaded", () => {
+      initTheme();
       initSettingsView();
       checkLogin();
       initFirebaseListeners();
 
-      // Countdown Engine (Target Date from Settings)
+      // Countdown Engine
       function tick() {
         const examDate = new Date(targetExamDate + "T09:00:00").getTime();
         const diff = examDate - Date.now();
