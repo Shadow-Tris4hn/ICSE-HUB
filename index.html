@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ICSE Class 10 Board Tracker | Made by Trishan</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            frost: {
+              bg: '#f8fafc',
+              surface: 'rgba(255, 255, 255, 0.78)',
+              elevated: 'rgba(255, 255, 255, 0.92)',
+              border: 'rgba(255, 255, 255, 0.85)',
+              primary: '#2563eb'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Firebase Compat SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCPHbiS_0oTJlkt4j60pyAf3kiKAd6AEeI",
+      authDomain: "icse2027-90c42.firebaseapp.com",
+      projectId: "icse2027-90c42",
+      storageBucket: "icse2027-90c42.firebasestorage.app",
+      messagingSenderId: "831763376328",
+      appId: "1:831763376328:web:c21e6cc2dd0ddb4dcd5dfd",
+      measurementId: "G-Z2D3Z1WECB"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+  </script>
+
+  <style>
+    body {
+      background-color: #f1f5f9;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(219, 234, 254, 0.7) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(224, 231, 255, 0.7) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(240, 253, 244, 0.75) 0px, transparent 50%);
+      color: #0f172a;
+      -webkit-tap-highlight-color: transparent;
+      overflow-x: hidden;
+    }
+
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.04), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
+    }
+
+    .glass-interactive {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(203, 213, 225, 0.65);
+      transition: all 0.2s ease;
+    }
+    .glass-interactive:focus {
+      border-color: #2563eb;
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .pill-active-light {
+      background: #ffffff !important;
+      color: #1d4ed8 !important;
+      font-weight: 700 !important;
+      border: 1px solid rgba(219, 234, 254, 0.9) !important;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12) !important;
+    }
+
+    .glass-progress-track {
+      background: rgba(226, 232, 240, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+    .glass-fill-primary {
+      background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+    }
+
+    .chat-bubble-me {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: #ffffff;
+      border-bottom-right-radius: 4px;
+    }
+    .chat-bubble-other {
+      background: #ffffff;
+      color: #0f172a;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-bottom-left-radius: 4px;
+    }
+
+    .scrollbar-none::-webkit-scrollbar { display: none; }
+    .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans pb-24 md:pb-12 relative antialiased text-slate-800">
+
+  <!-- ================= TOP FROSTED HEADER ================= -->
+  <header class="sticky top-0 z-40 px-4 md:px-8 py-3.5 backdrop-blur-2xl bg-white/80 border-b border-slate-200/80 shadow-xs">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 flex-1">
+        <div class="w-10 h-10 rounded-2xl glass-panel flex items-center justify-center text-lg text-blue-600 shadow-xs border border-white shrink-0 font-black">
+          🎓
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-sm font-extrabold text-slate-900 leading-tight">ICSE Board Tracker</h1>
+            <span id="cloudStatusBadge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              🟢 Firebase Live
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-500 font-medium">made by Trishan</p>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav id="studentHeaderNav" class="hidden lg:flex items-center gap-1.5 p-1 rounded-2xl glass-panel text-xs font-semibold">
+        <button onclick="switchTab('analytics')" class="desk-nav-btn pill-active-light px-3.5 py-2 rounded-xl transition" data-target="analytics">📊 Analytics</button>
+        <button onclick="switchTab('subjects')" class="desk-nav-btn text-slate-600 hover:text-slate-900 px-3.5 py-2 rounded-xl transition" data-target="subjects">📖 Syllabus Tracker</button>
+        <button onclick="switchTab('materials')" class="desk-nav-btn text-slate-600 hover:text-slate-900 px-3.5 py-2 rounded-xl transition" data-target="materials">📄 Study Materials</button>
+        <button onclick="switchTab('chat')" class="desk-nav-btn text-slate-600 hover:text-slate-900 px-3.5 py-2 rounded-xl transition" data-target="chat">💬 Class Lounge</button>
+        <button onclick="switchTab('tickets')" class="desk-nav-btn text-slate-600 hover:text-slate-900 px-3.5 py-2 rounded-xl transition" data-target="tickets">🎫 Tickets</button>
+      </nav>
+
+      <!-- Profile & Admin Switcher -->
+      <div class="flex items-center gap-2 shrink-0">
+        <button onclick="switchStudentAccount()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-2xl glass-interactive text-xs font-semibold text-slate-700 hover:bg-white transition" title="Switch Account">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span id="navStudentName">Connecting...</span>
+          <span class="text-slate-400 text-[10px]">⇄</span>
+        </button>
+        <button onclick="openAdminModal()" class="px-3.5 py-1.5 rounded-2xl glass-interactive hover:bg-white text-xs font-semibold text-indigo-700 border border-indigo-200 shadow-xs">
+          🔒 Admin
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MOBILE SUB-NAV ================= -->
+  <div id="studentMobileNav" class="lg:hidden px-4 pt-3 z-10 relative">
+    <nav class="flex items-center gap-1.5 p-1.5 glass-panel rounded-2xl overflow-x-auto scrollbar-none text-xs font-semibold">
+      <button onclick="switchTab('analytics')" class="mob-tab-btn pill-active-light px-3.5 py-2 rounded-xl whitespace-nowrap transition" data-target="analytics">📊 Analytics</button>
+      <button onclick="switchTab('subjects')" class="mob-tab-btn text-slate-600 hover:text-slate-900 px-3.5 py-2 rounded-xl whitespace-nowrap transition" data-target="subjects">📖 Syllabus</button>
+      <button onclick="switchTab('materials')" class="mob-tab-btn text-slate-600 hover:text-slate-900 px-3.5 py-2 rounded-xl whitespace-nowrap" data-target="materials">📄 Materials</button>
+      <button onclick="switchTab('chat')" class="mob-tab-btn text-slate-600 hover:text-slate-900 px-3.5 py-2 rounded-xl whitespace-nowrap" data-target="chat">💬 Lounge</button>
+      <button onclick="switchTab('tickets')" class="mob-tab-btn text-slate-600 hover:text-slate-900 px-3.5 py-2 rounded-xl whitespace-nowrap" data-target="tickets">🎫 Tickets</button>
+    </nav>
+  </div>
+
+  <!-- ================= MAIN APP CONTAINER ================= -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 md:px-8 pt-4 md:pt-6 space-y-6 z-10 relative">
+
+    <!-- CLOUD TEST REMINDER RIBBON -->
+    <div id="topTestReminderRibbon" class="hidden glass-panel rounded-2xl p-3.5 border border-indigo-300/80 bg-gradient-to-r from-indigo-50 via-blue-50 to-indigo-50 flex items-center justify-between shadow-xs">
+      <div class="flex items-center gap-3">
+        <span class="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-xs shrink-0">
+          📌
+        </span>
+        <div>
+          <span class="text-[10px] uppercase font-extrabold tracking-wider text-indigo-700 bg-indigo-100/80 px-2 py-0.5 rounded">Upcoming Test Reminder</span>
+          <h4 id="reminderRibbonText" class="text-xs sm:text-sm font-extrabold text-slate-900 mt-0.5">--</h4>
+        </div>
+      </div>
+      <span class="text-[11px] font-mono text-indigo-600 font-bold hidden sm:inline">Active Target</span>
+    </div>
+
+    <!-- STUDENT WORKSPACE -->
+    <div id="studentContainer" class="space-y-6">
+
+      <!-- Board Countdown Banner -->
+      <section class="glass-panel rounded-3xl p-5 md:p-6 flex flex-col sm:flex-row items-center justify-between gap-4 border border-white">
+        <div>
+          <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-700 mb-1">
+            <span>⏰</span> ICSE CLASS 10 BOARD EXAMINATION
+          </div>
+          <h2 id="targetDateDisplayHeading" class="text-lg md:text-xl font-extrabold text-slate-900">Target: 18 February 2027</h2>
+          <p id="studentSubjectChoicesSub" class="text-xs text-slate-500 font-medium">Personalized for your electives and 2nd language.</p>
+        </div>
+        <div class="grid grid-cols-4 gap-2.5 text-center shrink-0">
+          <div class="glass-interactive rounded-2xl px-3 py-2 bg-white">
+            <span id="cd-days" class="block font-mono text-xl md:text-2xl font-black text-slate-900">--</span>
+            <span class="text-[9px] uppercase font-bold text-slate-500">Days</span>
+          </div>
+          <div class="glass-interactive rounded-2xl px-3 py-2 bg-white">
+            <span id="cd-hours" class="block font-mono text-xl md:text-2xl font-black text-slate-900">--</span>
+            <span class="text-[9px] uppercase font-bold text-slate-500">Hours</span>
+          </div>
+          <div class="glass-interactive rounded-2xl px-3 py-2 bg-white">
+            <span id="cd-mins" class="block font-mono text-xl md:text-2xl font-black text-slate-900">--</span>
+            <span class="text-[9px] uppercase font-bold text-slate-500">Mins</span>
+          </div>
+          <div class="glass-interactive rounded-2xl px-3 py-2 border-blue-300 bg-blue-50/70">
+            <span id="cd-secs" class="block font-mono text-xl md:text-2xl font-black text-blue-600">--</span>
+            <span class="text-[9px] uppercase font-bold text-blue-600">Secs</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 1: GRANULAR ANALYTICS -->
+      <section id="tab-analytics" class="space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="glass-panel rounded-3xl p-5 border-l-4 border-l-blue-600">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Cohort Percentile Rank</span>
+            <h3 id="statPercentileRank" class="text-3xl font-black text-blue-600 font-mono mt-1">-- Percentile</h3>
+            <p id="statPercentileSub" class="text-xs text-slate-500 mt-1">Calculating against classmates...</p>
+          </div>
+
+          <div class="glass-panel rounded-3xl p-5 border-l-4 border-l-emerald-500">
+            <div class="flex justify-between items-start">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Syllabus Covered</span>
+              <span id="statOverallPct" class="text-xs font-black font-mono text-emerald-600">0%</span>
+            </div>
+            <h3 id="statCompletedRatio" class="text-3xl font-black text-slate-900 font-mono mt-1">0 / 0</h3>
+            <div class="w-full glass-progress-track h-2 rounded-full overflow-hidden mt-2">
+              <div id="statOverallBar" class="h-full glass-fill-primary" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <div class="glass-panel rounded-3xl p-5 border-l-4 border-l-rose-500">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Needs Revision</span>
+            <h3 id="statWeakCount" class="text-3xl font-black text-rose-600 font-mono mt-1">0 Chapters</h3>
+            <p class="text-xs text-slate-500 mt-1">Marked 🔴 for revision</p>
+          </div>
+
+          <div class="glass-panel rounded-3xl p-5 border-l-4 border-l-indigo-600">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Preparation Target</span>
+            <h3 class="text-2xl font-black text-indigo-700 font-mono mt-1">95%+ Aggregate</h3>
+            <p class="text-xs text-slate-500 mt-1">Target Pace</p>
+          </div>
+        </div>
+
+        <!-- Subject Benchmarks -->
+        <div class="glass-panel rounded-3xl p-6">
+          <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-6">
+            <div>
+              <h3 class="text-base font-bold text-slate-900">Subject-by-Subject Progression Benchmark</h3>
+              <p class="text-xs text-slate-500">Comparing your syllabus completion % directly with the cohort average.</p>
+            </div>
+            <div class="flex items-center gap-4 text-xs font-semibold">
+              <div class="flex items-center gap-1.5">
+                <span class="w-3 h-3 rounded-full bg-blue-600"></span>
+                <span>Your Progress</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-3 h-3 rounded-full bg-slate-300"></span>
+                <span class="text-slate-500">Class Average</span>
+              </div>
+            </div>
+          </div>
+          <div id="subjectBenchmarkBars" class="space-y-4"></div>
+        </div>
+
+        <!-- Leaderboard Table -->
+        <div class="glass-panel rounded-3xl p-6 overflow-hidden">
+          <h3 class="text-base font-bold text-slate-900 mb-1">Live Peer Accountability Leaderboard</h3>
+          <p class="text-xs text-slate-500 mb-4">Rankings update in real time as students mark chapters complete.</p>
+          
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead class="text-slate-400 font-mono uppercase pb-2 border-b border-slate-100">
+                <tr>
+                  <th class="py-2.5 px-3">Rank</th>
+                  <th class="py-2.5 px-3">Student Name</th>
+                  <th class="py-2.5 px-3">Syllabus Completion</th>
+                  <th class="py-2.5 px-3">Chapters Done</th>
+                  <th class="py-2.5 px-3 text-right">Cohort Tier</th>
+                </tr>
+              </thead>
+              <tbody id="cohortRankingsBody" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: SYLLABUS TRACKER -->
+      <section id="tab-subjects" class="hidden space-y-4">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
+          <div>
+            <h3 class="text-base md:text-lg font-bold text-slate-900">ICSE Curriculum Tracker</h3>
+            <p class="text-xs text-slate-500">Toggle chapter status: Not Started, In Progress, Completed, or 🔴 Need Revision</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs font-semibold text-slate-700">Subject:</label>
+            <select id="studentSubjectFilter" onchange="renderSubjectsView()" class="glass-interactive text-xs font-bold text-blue-800 rounded-xl px-3.5 py-2 outline-none bg-white">
+            </select>
+          </div>
+        </div>
+
+        <div class="glass-panel rounded-2xl p-4 flex items-center justify-between">
+          <div>
+            <span id="currentSubjectName" class="text-sm font-extrabold text-slate-900">Physics</span>
+            <p id="currentSubjectStats" class="text-xs text-slate-500 mt-0.5">0 of 0 chapters completed</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-24 sm:w-40 glass-progress-track h-2.5 rounded-full overflow-hidden">
+              <div id="currentSubjectBar" class="h-full glass-fill-primary" style="width: 0%"></div>
+            </div>
+            <span id="currentSubjectPct" class="text-sm font-black font-mono text-blue-600">0%</span>
+          </div>
+        </div>
+
+        <div id="chaptersListContainer" class="space-y-2.5"></div>
+      </section>
+
+      <!-- TAB 3: STUDY MATERIALS -->
+      <section id="tab-materials" class="hidden space-y-4">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="text-base md:text-lg font-bold text-slate-900">Verified Study Materials & Notes</h3>
+            <p class="text-xs text-slate-500">Upload notes, formula sheets, or sample papers from your device</p>
+          </div>
+          <button onclick="openUploadModal()" class="px-4 py-2 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-xs flex items-center gap-1.5 transition">
+            <span class="text-sm">+</span>
+            <span>Upload File</span>
+          </button>
+        </div>
+        <div id="materialsCardList" class="grid grid-cols-1 md:grid-cols-2 gap-3.5"></div>
+      </section>
+
+      <!-- TAB 4: LIVE STUDENT CHAT LOUNGE -->
+      <section id="tab-chat" class="hidden space-y-4">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+          <div>
+            <h3 class="text-base md:text-lg font-bold text-slate-900 flex items-center gap-2">
+              <span>💬</span> Class 10 Live Lounge
+            </h3>
+            <p class="text-xs text-slate-500">Ask questions, share problem solutions, and keep classmates accountable.</p>
+          </div>
+        </div>
+
+        <div class="glass-panel rounded-3xl flex flex-col h-[560px] border border-white overflow-hidden shadow-sm">
+          <div id="chatMessagesArea" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3.5 bg-slate-50/40">
+            <div class="text-center py-12 text-xs text-slate-400">Loading live messages...</div>
+          </div>
+
+          <div class="p-3 sm:p-4 bg-white/90 border-t border-slate-200/80 backdrop-blur-md">
+            <form onsubmit="handleSendChatMessage(event)" class="flex items-center gap-2">
+              <input type="text" id="chatMessageInput" placeholder="Type a question or message to classmates..." class="flex-1 glass-interactive rounded-2xl px-4 py-2.5 text-xs sm:text-sm text-slate-800 outline-none bg-white placeholder-slate-400" required autocomplete="off">
+              <button type="submit" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl text-xs sm:text-sm shadow-xs transition flex items-center gap-1.5 shrink-0">
+                <span>Send</span>
+                <span class="text-xs">➤</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: TICKETS & FEEDBACK -->
+      <section id="tab-tickets" class="hidden space-y-4">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="text-base md:text-lg font-bold text-slate-900">Feedback & Resource Tickets</h3>
+            <p class="text-xs text-slate-500">Report curriculum issues, request topics, or ask the admin directly.</p>
+          </div>
+          <button onclick="openTicketModal()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-xs">
+            + New Ticket
+          </button>
+        </div>
+        <div id="studentTicketsList" class="space-y-3"></div>
+      </section>
+    </div>
+
+    <!-- ***************** ADMIN WORKSPACE (icse2026) ***************** -->
+    <div id="adminContainer" class="hidden space-y-6">
+      <div class="glass-panel rounded-3xl p-6 border border-indigo-200 flex justify-between items-center bg-indigo-50/50">
+        <div>
+          <span class="text-[10px] uppercase font-bold tracking-widest bg-indigo-100 text-indigo-800 px-2.5 py-0.5 rounded-full">Admin Center</span>
+          <h2 class="text-lg font-extrabold text-slate-900 mt-1">Class 10 Administrative Suite</h2>
+        </div>
+        <button onclick="exitAdmin()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold">Exit Admin Mode</button>
+      </div>
+
+      <!-- Admin Tab Switcher -->
+      <div class="flex gap-2 overflow-x-auto scrollbar-none p-1.5 glass-panel rounded-2xl text-xs font-semibold">
+        <button onclick="switchAdminTab('dashboard')" class="adm-pill pill-active-light px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="dashboard">Dashboard</button>
+        <button onclick="switchAdminTab('reminders')" class="adm-pill text-slate-600 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="reminders">📌 Test Reminders</button>
+        <button onclick="switchAdminTab('students')" class="adm-pill text-slate-600 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="students">Students Roster</button>
+        <button onclick="switchAdminTab('materials')" class="adm-pill text-slate-600 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="materials">Study Materials</button>
+        <button onclick="switchAdminTab('chatadmin')" class="adm-pill text-slate-600 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="chatadmin">💬 Live Lounge</button>
+        <button onclick="switchAdminTab('tickets')" class="adm-pill text-slate-600 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="tickets">Tickets</button>
+      </div>
+
+      <!-- ADMIN TAB 1: DASHBOARD -->
+      <div id="atab-dashboard" class="admin-pane space-y-4">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="glass-panel p-5 rounded-2xl">
+            <span class="text-xs text-slate-500 uppercase font-bold">Total Students</span>
+            <h3 class="text-2xl font-black text-slate-900 mt-1" id="admStatStudents">0</h3>
+          </div>
+          <div class="glass-panel p-5 rounded-2xl">
+            <span class="text-xs text-slate-500 uppercase font-bold">Avg Batch Completion</span>
+            <h3 class="text-2xl font-black text-blue-600 mt-1" id="admStatAvgProgress">0%</h3>
+          </div>
+          <div class="glass-panel p-5 rounded-2xl">
+            <span class="text-xs text-slate-500 uppercase font-bold">Active Chapters</span>
+            <h3 class="text-2xl font-black text-slate-900 mt-1" id="admStatChapters">0</h3>
+          </div>
+          <div class="glass-panel p-5 rounded-2xl">
+            <span class="text-xs text-slate-500 uppercase font-bold">Open Tickets</span>
+            <h3 class="text-2xl font-black text-rose-600 mt-1" id="admStatTickets">0</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMIN TAB 2: REMINDERS -->
+      <div id="atab-reminders" class="admin-pane hidden space-y-4">
+        <div class="glass-panel rounded-3xl p-6">
+          <h4 class="text-sm font-bold text-slate-900 mb-1">Set Top Persistent Test Reminder</h4>
+          <p class="text-xs text-slate-500 mb-4">Saved directly to Firebase and synced live to all student devices.</p>
+          <form onsubmit="handleSaveTestReminder(event)" class="space-y-3">
+            <input type="text" id="admTestReminderInput" placeholder="e.g. Science Mock Exam on Monday!" class="w-full glass-interactive p-3 rounded-xl text-xs text-slate-900 outline-none bg-white font-bold" required>
+            <div class="flex justify-end gap-2 pt-2">
+              <button type="button" onclick="clearTestReminder()" class="px-4 py-2 bg-slate-100 text-slate-600 text-xs font-bold rounded-xl hover:bg-slate-200">Remove</button>
+              <button type="submit" class="px-5 py-2 bg-blue-600 text-white text-xs font-bold rounded-xl hover:bg-blue-700 shadow-xs">Pin to Consoles</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- ADMIN TAB 3: STUDENTS ROSTER -->
+      <div id="atab-students" class="admin-pane hidden space-y-4">
+        <div class="glass-panel rounded-3xl p-5 md:p-6 overflow-hidden">
+          <h4 class="text-sm font-bold text-slate-900 uppercase mb-4">Live Student Roster</h4>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead class="text-slate-500 border-b border-slate-200 font-mono uppercase pb-2 whitespace-nowrap">
+                <tr>
+                  <th class="py-3 px-3">Student Name</th>
+                  <th class="py-3 px-2">Choices</th>
+                  <th class="py-3 px-2">Overall %</th>
+                  <th class="py-3 px-3">Last Active</th>
+                  <th class="py-3 px-2 text-right">Details</th>
+                </tr>
+              </thead>
+              <tbody id="admStudentMatrixBody" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMIN TAB 4: STUDY MATERIALS -->
+      <div id="atab-materials" class="admin-pane hidden space-y-4">
+        <div class="glass-panel rounded-3xl p-6">
+          <h4 class="text-sm font-bold text-slate-900 mb-2">Upload Material to Cloud</h4>
+          <form onsubmit="handleAdminAddMaterial(event)" class="space-y-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <input type="text" id="admMatTitle" placeholder="Document Title" class="glass-interactive p-2.5 rounded-xl text-xs text-slate-900 outline-none bg-white" required>
+              <input type="text" id="admMatSubject" placeholder="Subject Name" class="glass-interactive p-2.5 rounded-xl text-xs text-slate-900 outline-none bg-white" required>
+            </div>
+            <div class="p-3 rounded-2xl bg-blue-50/60 border border-blue-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <input type="file" id="admFileInput" class="text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-blue-600 file:text-white cursor-pointer">
+              <input type="url" id="admMatUrl" placeholder="Or paste link" class="flex-1 glass-interactive p-2.5 rounded-xl text-xs text-slate-900 outline-none bg-white">
+            </div>
+            <div class="flex justify-end pt-1">
+              <button type="submit" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs">Publish Material</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- ADMIN TAB 5: CHAT MODERATION -->
+      <div id="atab-chatadmin" class="admin-pane hidden space-y-4">
+        <div class="glass-panel rounded-3xl p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h4 class="text-sm font-bold text-slate-900">Live Chat Moderation</h4>
+            <button onclick="purgeClassChat()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold">
+              ⚠️ Clear All Messages
+            </button>
+          </div>
+          <div id="adminChatLogArea" class="h-80 overflow-y-auto p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-xs"></div>
+        </div>
+      </div>
+
+      <!-- ADMIN TAB 6: TICKETS -->
+      <div id="atab-tickets" class="admin-pane hidden space-y-4">
+        <div class="glass-panel rounded-3xl p-6">
+          <h4 class="text-sm font-bold text-slate-900 mb-3">Student Requests Desk</h4>
+          <div id="admTicketsQueue" class="space-y-3"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ================= FOOTER CONTACT ================= -->
+  <footer class="mt-auto max-w-7xl mx-auto w-full px-4 sm:px-8 py-8 text-center border-t border-slate-200/60 mt-12">
+    <div class="glass-panel rounded-3xl p-6 max-w-lg mx-auto shadow-xs border border-white">
+      <h5 class="text-xs uppercase font-extrabold tracking-widest text-slate-400 mb-3">CONTACT ME</h5>
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <a href="https://discord.com/users/trish4n.coder" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#5865F2]/10 hover:bg-[#5865F2]/20 border border-[#5865F2]/30 text-[#5865F2] text-xs font-bold transition">
+          <span>💬</span>
+          <span>Discord: trish4n.coder</span>
+        </a>
+        <a href="https://instagram.com/trish4n.fx" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-orange-500/10 hover:from-purple-500/20 hover:to-orange-500/20 border border-pink-400/30 text-pink-700 text-xs font-bold transition">
+          <span>📸</span>
+          <span>Instagram: @trish4n.fx</span>
+        </a>
+      </div>
+      <p class="text-[11px] text-slate-400 mt-4 font-medium">Built for ICSE Class 10 Board Exam Aspirants</p>
+    </div>
+  </footer>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- Student Inspection Modal (Admin) -->
+  <div id="adminStudentDetailModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-panel max-w-3xl w-full max-h-[85vh] flex flex-col rounded-3xl p-6 border border-white bg-white/95 shadow-2xl">
+      <div class="flex justify-between items-center pb-3 border-b border-slate-200">
+        <div>
+          <h3 id="admDetailStudentName" class="text-base font-bold text-slate-900">Student Name</h3>
+          <p id="admDetailStudentSub" class="text-xs text-slate-500 font-medium">Chapter Status Details</p>
+        </div>
+        <button onclick="closeStudentDetailModal()" class="text-slate-400 hover:text-slate-700 text-2xl font-bold">&times;</button>
+      </div>
+      <div id="admDetailStudentBody" class="overflow-y-auto flex-1 py-4 space-y-4"></div>
+    </div>
+  </div>
+
+  <!-- Ticket Submission Modal -->
+  <div id="ticketModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-panel max-w-md w-full rounded-3xl p-6 border border-white bg-white/95 shadow-xl">
+      <h3 class="text-base font-bold text-slate-900 mb-1">Submit Ticket</h3>
+      <form onsubmit="handleStudentTicketSubmit(event)" class="space-y-3 mt-3">
+        <input type="text" id="tckTitle" placeholder="Summary of question or issue" class="w-full glass-interactive rounded-xl p-2.5 text-xs text-slate-900 outline-none bg-white" required>
+        <textarea id="tckDesc" rows="3" placeholder="Provide extra details..." class="w-full glass-interactive rounded-xl p-2.5 text-xs text-slate-900 outline-none bg-white"></textarea>
+        <div class="flex justify-end gap-2">
+          <button type="button" onclick="closeTicketModal()" class="px-4 py-2 text-xs text-slate-500">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-blue-600 text-white font-bold text-xs rounded-xl shadow-xs">Submit Ticket</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Study Material Upload Modal -->
+  <div id="uploadModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-panel max-w-md w-full rounded-3xl p-6 border border-white bg-white/95 shadow-xl">
+      <div class="flex justify-between items-center mb-2">
+        <h3 class="text-base font-bold text-slate-900">Upload Study Material</h3>
+        <button onclick="closeUploadModal()" class="text-slate-400 hover:text-slate-700 text-xl font-bold">&times;</button>
+      </div>
+      <form onsubmit="handleStudentUploadSubmit(event)" class="space-y-3">
+        <input type="text" id="stuUpTitle" placeholder="Document Title" class="w-full glass-interactive rounded-xl p-2.5 text-xs text-slate-900 outline-none bg-white" required>
+        <input type="text" id="stuUpSub" placeholder="Subject Name" class="w-full glass-interactive rounded-xl p-2.5 text-xs text-slate-900 outline-none bg-white" required>
+        <div class="p-3 rounded-2xl bg-blue-50/70 border border-blue-200">
+          <input type="file" id="stuFileInput" class="text-xs text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-blue-600 file:text-white cursor-pointer w-full">
+        </div>
+        <input type="url" id="stuUpLink" placeholder="Or paste link" class="w-full glass-interactive rounded-xl p-2.5 text-xs text-slate-900 outline-none bg-white">
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeUploadModal()" class="px-4 py-2 text-xs text-slate-500">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-blue-600 text-white font-bold text-xs rounded-xl shadow-xs">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= FIRST TIME LOGIN MODAL WITH SUBJECT CHOICES ================= -->
+  <div id="firstTimeLoginModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-panel max-w-md w-full rounded-3xl p-7 md:p-8 text-center border border-white bg-white/95 shadow-2xl">
+      <div class="w-14 h-14 rounded-2xl glass-panel flex items-center justify-center text-3xl mx-auto mb-3 text-blue-600 shadow-xs">🎓</div>
+      <h3 class="text-xl font-extrabold text-slate-900">Student Profile & Electives</h3>
+      <p class="text-xs text-slate-500 mt-1 mb-5">Select your language & elective to configure your personalized curriculum.</p>
+      
+      <form onsubmit="handleFirstTimeLogin(event)" class="space-y-4 text-left">
+        <div>
+          <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Your Full Name:</label>
+          <input type="text" id="firstTimeNameInput" placeholder="Enter your full name" class="w-full glass-interactive rounded-xl p-3 text-xs text-slate-900 outline-none font-bold bg-white" required autofocus>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">2nd Language:</label>
+            <select id="firstTimeLangChoice" class="w-full glass-interactive rounded-xl p-2.5 text-xs text-slate-900 outline-none font-semibold bg-white">
+              <option value="Bengali">Bengali (বাংলা)</option>
+              <option value="Hindi">Hindi (हिन्दी)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Group III Elective:</label>
+            <select id="firstTimeAppChoice" class="w-full glass-interactive rounded-xl p-2.5 text-xs text-slate-900 outline-none font-semibold bg-white">
+              <option value="Computer Applications">Computer Applications</option>
+              <option value="Commercial Applications">Commercial Applications</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-2xl text-xs shadow-xs mt-2 transition">
+          Open Personalized Tracker →
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Passcode Modal -->
+  <div id="adminPassModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-panel max-w-sm w-full rounded-3xl p-6 border border-white bg-white/95 shadow-xl">
+      <h3 class="text-base font-bold text-slate-900 text-center mb-1">Admin Verification</h3>
+      <form onsubmit="verifyAdminPass(event)" class="space-y-3 mt-4">
+        <input type="password" id="adminPassField" placeholder="Admin password" class="w-full glass-interactive rounded-2xl p-3 text-sm text-slate-900 outline-none bg-white" required autofocus>
+        <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl text-xs">Unlock Console</button>
+        <button type="button" onclick="closeAdminModal()" class="w-full py-2 text-xs text-slate-500">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT ENGINE ================= -->
+  <script>
+    // FULL COMPREHENSIVE ICSE CLASS 10 MASTER SYLLABUS
+    const MASTER_SYLLABUS = {
+      // Core Compulsory Subjects
+      "English Language": [
+        "Composition / Essay Writing (300-350 words)",
+        "Formal & Informal Letter Writing",
+        "Notice Writing & Email Drafting",
+        "Unseen Passage Comprehension & Précis Writing",
+        "Functional Grammar: Sentence Transformation & Prepositions"
+      ],
+      "English Literature": [
+        "Prose: The Elevator - William Sleator",
+        "Prose: The Girl Who Can - Ama Ata Aidoo",
+        "Prose: The Last Lesson - Alphonse Daudet",
+        "Prose: The Pedestrian - Ray Bradbury",
+        "Prose: With the Photographer - Stephen Leacock",
+        "Verse: The Power of Music - Sukumar Ray",
+        "Verse: When Great Trees Fall - Maya Angelou",
+        "Verse: Haunted Houses - H.W. Longfellow",
+        "Verse: A Considerable Speck - Robert Frost",
+        "Verse: The Glove and the Lions - Leigh Hunt",
+        "Drama: Julius Caesar - Act 3 (Scenes 1 to 3)",
+        "Drama: Julius Caesar - Act 4 (Scenes 1 to 3)",
+        "Drama: Julius Caesar - Act 5 (Scenes 1 to 5)"
+      ],
+      "Physics": [
+        "Force", "Work, Energy and Power", "Machines", "Refraction of Light at Plane Surfaces",
+        "Refraction through a Lens", "Spectrum", "Sound", "Current Electricity",
+        "Household Circuits", "Electro-magnetism", "Calorimetry", "Radioactivity"
+      ],
+      "Chemistry": [
+        "Periodic Table & Properties", "Chemical Bonding", "Acids, Bases and Salts",
+        "Analytical Chemistry", "Mole Concept & Stoichiometry", "Electrolysis", "Metallurgy",
+        "Study of Compounds (HCl, NH3, HNO3, H2SO4)", "Organic Chemistry", "Practical Work"
+      ],
+      "Mathematics": [
+        "Goods and Services Tax (GST)", "Banking (Recurring Deposit)", "Shares and Dividends",
+        "Linear Inequations", "Quadratic Equations", "Factorisation of Polynomials",
+        "Ratio and Proportion & Matrices", "Arithmetic and Geometric Progressions",
+        "Coordinate Geometry", "Geometry (Similarity, Circles, Constructions)",
+        "Mensuration, Trigonometry & Statistics/Probability"
+      ],
+      "Biology": [
+        "Basic Biology (Cell Division)", "Chromosomes & Genetics", "Absorption by Roots",
+        "Transpiration", "Photosynthesis", "Plant Coordination", "Circulatory System",
+        "Excretory System", "Nervous System & Sense Organs", "Endocrine System",
+        "Reproductive System", "Evolution, Population & Pollution"
+      ],
+      "History & Civics": [
+        "First War of Independence (1857)", "Growth of Nationalism", "Early & Assertive Nationalists",
+        "Muslim League", "Mass Phase of Movement", "Partition of India", "Contemporary World (WW1, WW2, UN)",
+        "Civics: Union Parliament", "Civics: President & Vice-President", "Civics: Prime Minister & Cabinet",
+        "Civics: Supreme Court & High Courts"
+      ],
+      "Geography": [
+        "Topographical Survey Maps & Contours", "Location & Physical Features of India", "Climate of India",
+        "Soil Resources of India", "Natural Vegetation", "Water Resources & Irrigation", "Mineral & Energy Resources",
+        "Agriculture in India (Food & Cash Crops)", "Manufacturing Industries, Transport & Waste Management"
+      ],
+
+      // 2nd Language: Bengali
+      "Bengali": [
+        "গল্প: ১. বামা (Bama)",
+        "গল্প: ২. নাম (Naam)",
+        "গল্প: ৩. অসহযোগী (Ashahajogi)",
+        "গল্প: ৪. গন্ধটা খুব সন্দেহজনক (Gandhata Khub Sandehojanak)",
+        "গল্প: ৫. লোকটি (Lokti)",
+        "কবিতা: ১. বঙ্গভূমির প্রতি (Bongobhumir Proti)",
+        "কবিতা: ২. কুলি মজুর (Kuli Majur)",
+        "কবিতা: ৩. আবার আসিব ফিরে (Abar Ashibo Phire)",
+        "কবিতা: ৪. অমলকান্তি (Amalkanti)",
+        "কবিতা: ৫. খো খো (Kho Kho)",
+        "বাংলা ব্যাকরণ ও নির্মিতি (Grammar, Essay & Letter)"
+      ],
+
+      // 2nd Language: Hindi
+      "Hindi": [
+        "Short Stories: 1. Bade Ghar Ki Beti - Premchand",
+        "Short Stories: 2. Sandeh - Jaishankar Prashad",
+        "Short Stories: 3. Bheed me Khoya Aadmi - Leeladhar Sharma Parvatiya",
+        "Short Stories: 4. Bheden Aur Bhediye - Hari Shankar Parsai",
+        "Short Stories: 5. Do Kalakaar - Mannu Bhandari",
+        "Poems: 1. Sur Ke Pad - Surdas",
+        "Poems: 2. Vinay Ke Pad - Tulsidas",
+        "Poems: 3. Bhikshuk - Surya Kant Tripathi 'Nirala'",
+        "Poems: 4. Chalna Hamaraa Kaam Hai - Shivmangal Singh 'Suman'",
+        "Poems: 5. Matri Mandir Ki Or - Subhadra Kumari Chauhan",
+        "Novel: Naya Raasta - Sushma Agarwal (Sarg 14 to Sarg 26)",
+        "Ekanki: Sookhi Dali - Upendranath 'Ashq'",
+        "Ekanki: Mahabharat Ki Ek Saanjh - Bharat Bhushan Agrawal",
+        "Ekanki: Deepdan - Ram Kumar Verma",
+        "Hindi Vyakaran (Essay, Letter, Comprehension & Grammar)"
+      ],
+
+      // Elective: Computer Applications
+      "Computer Applications": [
+        "Revision of Class IX Syllabus & OOP Concepts",
+        "Class as the Basis of all Computation",
+        "User-Defined Methods",
+        "Constructors",
+        "Library Classes & Wrapper Classes",
+        "Encapsulation",
+        "Arrays (One Dimension, Sort & Search, Double Dimension)",
+        "String Handling",
+        "Programs Overall & Specimen Practices"
+      ],
+
+      // Elective: Commercial Applications
+      "Commercial Applications": [
+        "1. Stakeholders in Commercial Organisations",
+        "2. Marketing and Sales",
+        "3. Advertising and Sales Promotion",
+        "4. Consumer Protection",
+        "5. E-Commerce",
+        "6. Capital and Revenue Expenditure/Income",
+        "7. Final Accounts of Sole Proprietorship",
+        "8. Fundamental Concepts of Cost",
+        "9. Budgeting",
+        "10. Sources of Finance",
+        "11. Recruitment, Selection and Training",
+        "12. Industrial Relations, Trade Unions and Social Security",
+        "13. Logistics and Insurance",
+        "14. Banking",
+        "15. Striving for a Better Environment"
+      ]
+    };
+
+    let currentStudent = null;
+    let allStudentsLive = [];
+    let liveChatMessages = [];
+    let ticketsList = [];
+    let materialsList = [];
+    let adminPasscode = "icse2026";
+    let topTestReminder = "Science Test on 25th Sep — Focus on Physics Numerical & Chemical Equations!";
+
+    // Returns active student's 9 selected subjects
+    function getStudentSubjectList(student) {
+      const base = [
+        "English Language",
+        "English Literature",
+        "Physics",
+        "Chemistry",
+        "Mathematics",
+        "Biology",
+        "History & Civics",
+        "Geography"
+      ];
+      const lang = student?.langChoice === "Hindi" ? "Hindi" : "Bengali";
+      const app = student?.appChoice === "Commercial Applications" ? "Commercial Applications" : "Computer Applications";
+      return [...base, lang, app];
+    }
+
+    // ================= REALTIME FIREBASE LISTENERS =================
+    function initFirebaseListeners() {
+      if (typeof db === "undefined") return;
+
+      // 1. Reminder
+      db.collection("live_reminders").doc("active_reminder").onSnapshot((snap) => {
+        if (snap.exists) {
+          topTestReminder = snap.data().text || "";
+          renderTopTestReminder();
+        }
+      });
+
+      // 2. All students live for analytics
+      db.collection("students").onSnapshot((querySnapshot) => {
+        allStudentsLive = [];
+        querySnapshot.forEach(docSnap => allStudentsLive.push(docSnap.data()));
+        computeAnalyticsAndPercentiles();
+        renderAdminStudentsMatrix();
+        updateAdminOverview();
+      });
+
+      // 3. Chat
+      db.collection("chat_messages").orderBy("timestamp", "asc").limit(100).onSnapshot((snapshot) => {
+        liveChatMessages = [];
+        snapshot.forEach(docSnap => liveChatMessages.push(docSnap.data()));
+        renderChatMessages();
+        renderAdminChatLog();
+      });
+
+      // 4. Tickets
+      db.collection("tickets").onSnapshot((snapshot) => {
+        ticketsList = [];
+        snapshot.forEach(docSnap => ticketsList.push({ id: docSnap.id, ...docSnap.data() }));
+        renderStudentTickets();
+        renderAdminTickets();
+      });
+
+      // 5. Materials
+      db.collection("study_materials").onSnapshot((querySnapshot) => {
+        materialsList = [];
+        querySnapshot.forEach(dSnap => materialsList.push(dSnap.data()));
+        renderMaterials();
+      });
+    }
+
+    // ================= 1. ANALYTICS & COHORT PERCENTILES =================
+    function computeAnalyticsAndPercentiles() {
+      if (!currentStudent) return;
+
+      const mySubjects = getStudentSubjectList(currentStudent);
+      let totalCurriculumChapters = 0;
+      mySubjects.forEach(s => totalCurriculumChapters += (MASTER_SYLLABUS[s] ? MASTER_SYLLABUS[s].length : 0));
+
+      let myCompleted = 0;
+      let weakCount = 0;
+      mySubjects.forEach(s => {
+        (MASTER_SYLLABUS[s] || []).forEach(c => {
+          const st = currentStudent.chapterProgress?.[s]?.[c] || 'Not Started';
+          if (st === 'Completed') myCompleted++;
+          if (st === 'Need Revision') weakCount++;
+        });
+      });
+
+      const myPercent = totalCurriculumChapters > 0 ? Math.round((myCompleted / totalCurriculumChapters) * 100) : 0;
+
+      document.getElementById('statOverallPct').innerText = `${myPercent}%`;
+      document.getElementById('statOverallBar').style.width = `${myPercent}%`;
+      document.getElementById('statCompletedRatio').innerText = `${myCompleted} / ${totalCurriculumChapters}`;
+      document.getElementById('statWeakCount').innerText = `${weakCount} Chapters`;
+
+      // Calculate Percentile
+      const cohortScores = allStudentsLive.map(st => {
+        const subs = getStudentSubjectList(st);
+        let tot = 0, comp = 0;
+        subs.forEach(s => {
+          tot += (MASTER_SYLLABUS[s] ? MASTER_SYLLABUS[s].length : 0);
+          (MASTER_SYLLABUS[s] || []).forEach(c => {
+            if (st.chapterProgress?.[s]?.[c] === 'Completed') comp++;
+          });
+        });
+        return {
+          id: st.id,
+          name: st.name,
+          completed: comp,
+          percent: tot > 0 ? Math.round((comp / tot) * 100) : 0,
+          isMe: st.id === currentStudent.id
+        };
+      });
+
+      cohortScores.sort((a, b) => b.completed - a.completed);
+
+      const myRankIndex = cohortScores.findIndex(s => s.isMe);
+      const totalStudents = cohortScores.length;
+      let percentile = 99;
+
+      if (totalStudents > 1 && myRankIndex !== -1) {
+        const peersBelow = totalStudents - (myRankIndex + 1);
+        percentile = Math.max(1, Math.round((peersBelow / totalStudents) * 100));
+      }
+
+      document.getElementById('statPercentileRank').innerText = `${percentile}th Percentile`;
+      document.getElementById('statPercentileSub').innerText = `Ranked #${myRankIndex + 1} of ${totalStudents} active peers`;
+
+      // Render Leaderboard
+      const rankBody = document.getElementById('cohortRankingsBody');
+      rankBody.innerHTML = "";
+      cohortScores.slice(0, 10).forEach((st, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = st.isMe ? "bg-blue-50/70 font-bold" : "hover:bg-slate-50";
+
+        let tierBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600">Cohort</span>`;
+        if (idx === 0) tierBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">Top 1%</span>`;
+        else if (idx < 3) tierBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800">Top 5%</span>`;
+
+        tr.innerHTML = `
+          <td class="py-2.5 px-3 font-mono text-slate-500">#${idx + 1}</td>
+          <td class="py-2.5 px-3 text-slate-900">${st.name} ${st.isMe ? '<span class="text-blue-600 text-[10px]">(You)</span>' : ''}</td>
+          <td class="py-2.5 px-3 font-mono font-bold text-blue-700">${st.percent}%</td>
+          <td class="py-2.5 px-3 font-mono text-slate-500">${st.completed} chapters</td>
+          <td class="py-2.5 px-3 text-right">${tierBadge}</td>
+        `;
+        rankBody.appendChild(tr);
+      });
+
+      // Subject-by-Subject Benchmarking
+      const benchBox = document.getElementById('subjectBenchmarkBars');
+      benchBox.innerHTML = "";
+
+      mySubjects.forEach(sub => {
+        const chaps = MASTER_SYLLABUS[sub] || [];
+        let mySubDone = 0;
+        chaps.forEach(c => {
+          if (currentStudent.chapterProgress?.[sub]?.[c] === 'Completed') mySubDone++;
+        });
+        const mySubPct = chaps.length > 0 ? Math.round((mySubDone / chaps.length) * 100) : 0;
+
+        let cohortSubSum = 0;
+        let countTaking = 0;
+        allStudentsLive.forEach(st => {
+          const theirSubs = getStudentSubjectList(st);
+          if (theirSubs.includes(sub)) {
+            countTaking++;
+            let sDone = 0;
+            chaps.forEach(c => {
+              if (st.chapterProgress?.[sub]?.[c] === 'Completed') sDone++;
+            });
+            cohortSubSum += (sDone / chaps.length) * 100;
+          }
+        });
+        const cohortAvgPct = countTaking > 0 ? Math.round(cohortSubSum / countTaking) : 0;
+
+        const row = document.createElement('div');
+        row.className = "space-y-1.5";
+        row.innerHTML = `
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-bold text-slate-800">${sub}</span>
+            <div class="font-mono text-[11px] space-x-2">
+              <span class="text-blue-700 font-bold">You: ${mySubPct}%</span>
+              <span class="text-slate-400">Avg: ${cohortAvgPct}%</span>
+            </div>
+          </div>
+          <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden flex">
+            <div class="bg-blue-600 h-full transition-all duration-500" style="width: ${mySubPct}%"></div>
+          </div>
+        `;
+        benchBox.appendChild(row);
+      });
+    }
+
+    // ================= 2. SUBJECTS & CHAPTERS VIEW =================
+    function initSubjectDropdowns() {
+      const filter = document.getElementById('studentSubjectFilter');
+      if (!filter) return;
+      const mySubs = currentStudent ? getStudentSubjectList(currentStudent) : Object.keys(MASTER_SYLLABUS);
+      filter.innerHTML = mySubs.map(s => `<option value="${s}">${s}</option>`).join('');
+    }
+
+    function renderSubjectsView() {
+      const filterEl = document.getElementById('studentSubjectFilter');
+      const mySubs = currentStudent ? getStudentSubjectList(currentStudent) : Object.keys(MASTER_SYLLABUS);
+      const sub = (filterEl && filterEl.value) ? filterEl.value : mySubs[0];
+      const chapters = MASTER_SYLLABUS[sub] || [];
+      const listContainer = document.getElementById('chaptersListContainer');
+      listContainer.innerHTML = "";
+
+      let completedCount = 0;
+      chapters.forEach((ch, idx) => {
+        const status = (currentStudent && currentStudent.chapterProgress?.[sub]?.[ch]) ? currentStudent.chapterProgress[sub][ch] : "Not Started";
+        if (status === "Completed") completedCount++;
+
+        const isDone = status === "Completed";
+        const isWeak = status === "Need Revision";
+        const isInProg = status === "In Progress";
+
+        const div = document.createElement('div');
+        div.className = "glass-panel p-3.5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 border border-white";
+        div.innerHTML = `
+          <div class="flex items-center gap-3">
+            <span class="w-7 h-7 rounded-lg bg-slate-100 border border-slate-200 text-xs font-mono font-bold flex items-center justify-center text-slate-700 shrink-0">
+              ${idx + 1}
+            </span>
+            <div>
+              <p class="text-xs sm:text-sm font-bold ${isDone ? 'line-through text-slate-400' : 'text-slate-800'}">
+                ${ch}
+              </p>
+              <span class="text-[10px] font-bold ${isDone ? 'text-emerald-600' : (isWeak ? 'text-rose-600' : (isInProg ? 'text-blue-600' : 'text-slate-400'))}">
+                ${status === 'Need Revision' ? '🔴 Need Revision' : status}
+              </span>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5 self-end sm:self-center shrink-0">
+            <button onclick="setChapterStatus('${sub}', '${ch.replace(/'/g, "\\'")}', 'Need Revision')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isWeak ? 'bg-rose-600 text-white' : 'glass-interactive text-rose-600 border-rose-200'}">
+              🔴 Revision
+            </button>
+            <button onclick="setChapterStatus('${sub}', '${ch.replace(/'/g, "\\'")}', 'In Progress')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isInProg ? 'bg-blue-600 text-white' : 'glass-interactive text-blue-600 border-blue-200'}">
+              In Progress
+            </button>
+            <button onclick="setChapterStatus('${sub}', '${ch.replace(/'/g, "\\'")}', 'Completed')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isDone ? 'bg-emerald-600 text-white' : 'glass-interactive text-emerald-700 border-emerald-200'}">
+              ${isDone ? '✓ Done' : 'Mark Done'}
+            </button>
+          </div>
+        `;
+        listContainer.appendChild(div);
+      });
+
+      const pct = chapters.length > 0 ? Math.round((completedCount / chapters.length) * 100) : 0;
+      document.getElementById('currentSubjectName').innerText = sub;
+      document.getElementById('currentSubjectStats').innerText = `${completedCount} of ${chapters.length} chapters completed`;
+      document.getElementById('currentSubjectBar').style.width = `${pct}%`;
+      document.getElementById('currentSubjectPct').innerText = `${pct}%`;
+    }
+
+    async function setChapterStatus(sub, chap, status) {
+      if (!currentStudent) {
+        document.getElementById('firstTimeLoginModal').classList.remove('hidden');
+        return;
+      }
+
+      if (!currentStudent.chapterProgress) currentStudent.chapterProgress = {};
+      if (!currentStudent.chapterProgress[sub]) currentStudent.chapterProgress[sub] = {};
+
+      currentStudent.chapterProgress[sub][chap] = status;
+      currentStudent.lastActive = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+      renderSubjectsView();
+      computeAnalyticsAndPercentiles();
+
+      if (typeof db !== "undefined") {
+        await db.collection("students").doc(currentStudent.id).update({
+          [`chapterProgress.${sub}.${chap}`]: status,
+          lastActive: currentStudent.lastActive
+        });
+      }
+    }
+
+    // ================= 3. LIVE STUDENT CHAT LOUNGE =================
+    function renderChatMessages() {
+      const area = document.getElementById('chatMessagesArea');
+      if (!area) return;
+
+      if (!liveChatMessages || liveChatMessages.length === 0) {
+        area.innerHTML = `<div class="text-center py-12 text-xs text-slate-400">Class 10 Lounge is quiet. Post a question!</div>`;
+        return;
+      }
+
+      area.innerHTML = "";
+      liveChatMessages.forEach(msg => {
+        const isMe = currentStudent && msg.studentId === currentStudent.id;
+        const div = document.createElement('div');
+        div.className = `flex gap-2.5 ${isMe ? 'justify-end' : 'justify-start'}`;
+        const initials = msg.studentName ? msg.studentName.charAt(0).toUpperCase() : '?';
+
+        div.innerHTML = `
+          ${!isMe ? `<div class="w-7 h-7 rounded-full bg-blue-100 text-blue-700 border border-blue-200 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">${initials}</div>` : ''}
+          <div class="max-w-[78%] sm:max-w-[65%] flex flex-col ${isMe ? 'items-end' : 'items-start'}">
+            <div class="flex items-center gap-1.5 mb-1 px-1">
+              <span class="text-[11px] font-bold ${isMe ? 'text-blue-700' : 'text-slate-700'}">${isMe ? 'You' : msg.studentName}</span>
+              <span class="text-[9px] text-slate-400">${msg.timeStr || ''}</span>
+            </div>
+            <div class="px-3.5 py-2.5 rounded-2xl text-xs leading-relaxed shadow-2xs ${isMe ? 'chat-bubble-me' : 'chat-bubble-other'}">
+              ${msg.text}
+            </div>
+          </div>
+          ${isMe ? `<div class="w-7 h-7 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">${initials}</div>` : ''}
+        `;
+        area.appendChild(div);
+      });
+      area.scrollTop = area.scrollHeight;
+    }
+
+    async function handleSendChatMessage(e) {
+      e.preventDefault();
+      if (!currentStudent) return;
+      const input = document.getElementById('chatMessageInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const messageObj = {
+        studentId: currentStudent.id,
+        studentName: currentStudent.name,
+        text: text,
+        timeStr: timeString,
+        timestamp: Date.now()
+      };
+
+      input.value = "";
+      if (typeof db !== "undefined") {
+        await db.collection("chat_messages").add(messageObj);
+      }
+    }
+
+    function renderAdminChatLog() {
+      const area = document.getElementById('adminChatLogArea');
+      if (!area) return;
+      area.innerHTML = liveChatMessages.map(m => `
+        <div class="p-2 border-b border-slate-100 flex justify-between items-start">
+          <div><strong class="text-blue-700">${m.studentName}:</strong> <span class="text-slate-700">${m.text}</span></div>
+          <span class="text-[10px] text-slate-400 shrink-0 ml-2">${m.timeStr}</span>
+        </div>
+      `).join('');
+      area.scrollTop = area.scrollHeight;
+    }
+
+    async function purgeClassChat() {
+      if (!confirm("Are you sure you want to clear the lounge chat?")) return;
+      if (typeof db !== "undefined") {
+        const snaps = await db.collection("chat_messages").get();
+        snaps.forEach(async (dSnap) => await dSnap.ref.delete());
+      }
+    }
+
+    // ================= 4. STUDY MATERIALS =================
+    function renderMaterials() {
+      const box = document.getElementById('materialsCardList');
+      if (!box) return;
+      box.innerHTML = "";
+      materialsList.forEach(m => {
+        const isData = m.url && (m.url.startsWith('data:') || m.url.startsWith('blob:'));
+        const d = document.createElement('div');
+        d.className = "glass-panel p-4 rounded-2xl flex justify-between items-center";
+        d.innerHTML = `
+          <div class="truncate mr-3">
+            <span class="text-[9px] uppercase font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">${m.subject}</span>
+            <h4 class="text-xs font-bold text-slate-900 mt-1 truncate">${m.name}</h4>
+          </div>
+          <a href="${m.url}" download="${m.name}" target="_blank" class="px-3.5 py-2 bg-blue-600 text-white text-xs font-bold rounded-xl shrink-0 hover:bg-blue-700 transition">
+            ${isData ? 'Download' : 'Open'}
+          </a>
+        `;
+        box.appendChild(d);
+      });
+    }
+
+    function openUploadModal() { document.getElementById('uploadModal').classList.remove('hidden'); }
+    function closeUploadModal() { document.getElementById('uploadModal').classList.add('hidden'); }
+
+    function handleStudentUploadSubmit(e) {
+      e.preventDefault();
+      const title = document.getElementById('stuUpTitle').value.trim();
+      const subject = document.getElementById('stuUpSub').value.trim();
+      const fileInput = document.getElementById('stuFileInput');
+      const urlInput = document.getElementById('stuUpLink').value.trim();
+
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          saveMaterial(title, subject, evt.target.result);
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+      } else if (urlInput) {
+        saveMaterial(title, subject, urlInput);
+      } else {
+        alert("Please select a file or input a URL.");
+        return;
+      }
+      closeUploadModal();
+      e.target.reset();
+    }
+
+    function handleAdminAddMaterial(e) {
+      e.preventDefault();
+      const title = document.getElementById('admMatTitle').value.trim();
+      const subject = document.getElementById('admMatSubject').value.trim();
+      const fileInput = document.getElementById('admFileInput');
+      const urlInput = document.getElementById('admMatUrl').value.trim();
+
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          saveMaterial(title, subject, evt.target.result);
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+      } else if (urlInput) {
+        saveMaterial(title, subject, urlInput);
+      }
+      e.target.reset();
+    }
+
+    function saveMaterial(title, subject, url) {
+      const docObj = {
+        name: title,
+        subject: subject,
+        url: url,
+        timestamp: Date.now()
+      };
+      if (typeof db !== "undefined") {
+        db.collection("study_materials").add(docObj);
+      }
+      alert("Material published!");
+    }
+
+    // ================= 5. TICKETS =================
+    function renderStudentTickets() {
+      const box = document.getElementById('studentTicketsList');
+      if (!box) return;
+      box.innerHTML = "";
+      const myTickets = ticketsList.filter(t => t.studentId === currentStudent?.id);
+      if (myTickets.length === 0) {
+        box.innerHTML = `<p class="text-xs text-slate-400 italic">No tickets submitted.</p>`;
+        return;
+      }
+      myTickets.forEach(t => {
+        const d = document.createElement('div');
+        d.className = "glass-panel p-3.5 rounded-2xl space-y-1 text-xs";
+        d.innerHTML = `
+          <div class="flex justify-between font-bold text-slate-900">
+            <span>${t.title}</span>
+            <span class="${t.status === 'Resolved' ? 'text-emerald-600' : 'text-amber-600'}">${t.status}</span>
+          </div>
+          <p class="text-slate-600">${t.desc || ''}</p>
+          ${t.response ? `<div class="p-2 bg-blue-50 rounded-lg text-[11px] text-blue-900 mt-2"><strong>Admin Response:</strong> ${t.response}</div>` : ''}
+        `;
+        box.appendChild(d);
+      });
+    }
+
+    function openTicketModal() { document.getElementById('ticketModal').classList.remove('hidden'); }
+    function closeTicketModal() { document.getElementById('ticketModal').classList.add('hidden'); }
+
+    async function handleStudentTicketSubmit(e) {
+      e.preventDefault();
+      const t = {
+        studentId: currentStudent?.id,
+        studentName: currentStudent?.name,
+        title: document.getElementById('tckTitle').value.trim(),
+        desc: document.getElementById('tckDesc').value.trim(),
+        status: "Open",
+        response: "",
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+      };
+      if (typeof db !== "undefined") {
+        await db.collection("tickets").add(t);
+      }
+      closeTicketModal();
+      e.target.reset();
+      alert("Ticket submitted!");
+    }
+
+    function renderAdminTickets() {
+      const box = document.getElementById('admTicketsQueue');
+      if (!box) return;
+      box.innerHTML = ticketsList.map(t => `
+        <div class="p-4 bg-white rounded-xl border border-slate-100 space-y-2 text-xs">
+          <div class="flex justify-between font-bold">
+            <span>${t.title} (${t.studentName})</span>
+            <span class="${t.status === 'Resolved' ? 'text-emerald-600' : 'text-amber-600'}">${t.status}</span>
+          </div>
+          <p class="text-slate-600">${t.desc || ''}</p>
+          <div class="flex gap-2 pt-2">
+            <input type="text" id="ans_${t.id}" value="${t.response || ''}" placeholder="Reply..." class="flex-1 p-2 border rounded-lg outline-none">
+            <button onclick="replyTicket('${t.id}')" class="px-3 py-1 bg-blue-600 text-white font-bold rounded-lg">Reply</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function replyTicket(id) {
+      const resp = document.getElementById(`ans_${id}`).value.trim();
+      if (typeof db !== "undefined") {
+        await db.collection("tickets").doc(id).update({
+          response: resp,
+          status: "Resolved"
+        });
+        alert("Reply sent!");
+      }
+    }
+
+    // ================= 6. TOP REMINDER RIBBON =================
+    function renderTopTestReminder() {
+      const ribbon = document.getElementById('topTestReminderRibbon');
+      const textElem = document.getElementById('reminderRibbonText');
+      if (topTestReminder && topTestReminder.trim().length > 0) {
+        textElem.innerText = topTestReminder;
+        ribbon.classList.remove('hidden');
+      } else {
+        ribbon.classList.add('hidden');
+      }
+      const admInput = document.getElementById('admTestReminderInput');
+      if (admInput) admInput.value = topTestReminder || '';
+    }
+
+    async function handleSaveTestReminder(e) {
+      e.preventDefault();
+      topTestReminder = document.getElementById('admTestReminderInput').value.trim();
+      renderTopTestReminder();
+      if (typeof db !== "undefined") {
+        await db.collection("live_reminders").doc("active_reminder").set({
+          text: topTestReminder,
+          updatedAt: Date.now()
+        }, { merge: true });
+        alert("Reminder pinned to top!");
+      }
+    }
+
+    async function clearTestReminder() {
+      topTestReminder = "";
+      renderTopTestReminder();
+      if (typeof db !== "undefined") {
+        await db.collection("live_reminders").doc("active_reminder").set({ text: "" }, { merge: true });
+      }
+    }
+
+    // ================= 7. ONBOARDING & PROFILE SETUP =================
+    function checkLogin() {
+      const savedId = localStorage.getItem("current_icse_student_id");
+      if (!savedId) {
+        document.getElementById('firstTimeLoginModal').classList.remove('hidden');
+      } else {
+        bindStudentProfile(savedId);
+      }
+    }
+
+    async function handleFirstTimeLogin(e) {
+      e.preventDefault();
+      const name = document.getElementById('firstTimeNameInput').value.trim();
+      const lang = document.getElementById('firstTimeLangChoice').value;
+      const app = document.getElementById('firstTimeAppChoice').value;
+      if (!name) return;
+
+      const studentId = "stu_" + Date.now();
+      const newStudentDoc = {
+        id: studentId,
+        name: name,
+        langChoice: lang,
+        appChoice: app,
+        chapterProgress: {},
+        lastActive: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+      };
+
+      const selectedSubs = getStudentSubjectList(newStudentDoc);
+      selectedSubs.forEach(sub => {
+        newStudentDoc.chapterProgress[sub] = {};
+        (MASTER_SYLLABUS[sub] || []).forEach(ch => newStudentDoc.chapterProgress[sub][ch] = "Not Started");
+      });
+
+      if (typeof db !== "undefined") {
+        await db.collection("students").doc(studentId).set(newStudentDoc);
+      }
+
+      localStorage.setItem("current_icse_student_id", studentId);
+      document.getElementById('firstTimeLoginModal').classList.add('hidden');
+      bindStudentProfile(studentId);
+    }
+
+    function bindStudentProfile(studentId) {
+      if (typeof db === "undefined") return;
+
+      db.collection("students").doc(studentId).onSnapshot((snap) => {
+        if (snap.exists) {
+          currentStudent = snap.data();
+          document.getElementById('navStudentName').innerText = currentStudent.name;
+          document.getElementById('studentSubjectChoicesSub').innerText = 
+            `Electives: ${currentStudent.langChoice || 'Bengali'} & ${currentStudent.appChoice || 'Computer Applications'}`;
+          initSubjectDropdowns();
+          renderSubjectsView();
+          computeAnalyticsAndPercentiles();
+          renderStudentTickets();
+        } else {
+          localStorage.removeItem("current_icse_student_id");
+          document.getElementById('firstTimeLoginModal').classList.remove('hidden');
+        }
+      });
+    }
+
+    function switchStudentAccount() {
+      if (confirm("Switch student account?")) {
+        localStorage.removeItem("current_icse_student_id");
+        location.reload();
+      }
+    }
+
+    // ================= 8. ADMIN WORKSPACE =================
+    function openAdminModal() { document.getElementById('adminPassModal').classList.remove('hidden'); }
+    function closeAdminModal() { document.getElementById('adminPassModal').classList.add('hidden'); }
+
+    function verifyAdminPass(e) {
+      e.preventDefault();
+      if (document.getElementById('adminPassField').value.trim() === adminPasscode) {
+        closeAdminModal();
+        document.getElementById('studentContainer').classList.add('hidden');
+        document.getElementById('adminContainer').classList.remove('hidden');
+        switchAdminTab('dashboard');
+      } else {
+        alert("Incorrect password.");
+      }
+    }
+
+    function exitAdmin() {
+      document.getElementById('adminContainer').classList.add('hidden');
+      document.getElementById('studentContainer').classList.remove('hidden');
+      renderSubjectsView();
+    }
+
+    function switchAdminTab(tag) {
+      document.querySelectorAll('.admin-pane').forEach(p => p.classList.add('hidden'));
+      document.getElementById(`atab-${tag}`).classList.remove('hidden');
+
+      document.querySelectorAll('.adm-pill').forEach(b => {
+        if (b.dataset.atab === tag) {
+          b.classList.add('pill-active-light');
+          b.classList.remove('text-slate-600');
+        } else {
+          b.classList.remove('pill-active-light');
+          b.classList.add('text-slate-600');
+        }
+      });
+
+      if (tag === 'dashboard') updateAdminOverview();
+      if (tag === 'reminders') renderTopTestReminder();
+      if (tag === 'students') renderAdminStudentsMatrix();
+      if (tag === 'chatadmin') renderAdminChatLog();
+      if (tag === 'tickets') renderAdminTickets();
+    }
+
+    function updateAdminOverview() {
+      document.getElementById('admStatStudents').innerText = allStudentsLive.length;
+      let totalAll = 0;
+      for (const s in MASTER_SYLLABUS) totalAll += MASTER_SYLLABUS[s].length;
+      document.getElementById('admStatChapters').innerText = totalAll;
+
+      let totalPctSum = 0;
+      allStudentsLive.forEach(st => {
+        const subs = getStudentSubjectList(st);
+        let sTot = 0, comp = 0;
+        subs.forEach(s => {
+          sTot += (MASTER_SYLLABUS[s] || []).length;
+          (MASTER_SYLLABUS[s] || []).forEach(c => {
+            if (st.chapterProgress?.[s]?.[c] === 'Completed') comp++;
+          });
+        });
+        totalPctSum += sTot > 0 ? (comp / sTot) * 100 : 0;
+      });
+
+      const avg = allStudentsLive.length > 0 ? Math.round(totalPctSum / allStudentsLive.length) : 0;
+      document.getElementById('admStatAvgProgress').innerText = `${avg}%`;
+      document.getElementById('admStatTickets').innerText = ticketsList.filter(t => t.status === 'Open').length;
+    }
+
+    function renderAdminStudentsMatrix() {
+      const tbody = document.getElementById('admStudentMatrixBody');
+      if (!tbody) return;
+      tbody.innerHTML = "";
+
+      allStudentsLive.forEach(st => {
+        const subs = getStudentSubjectList(st);
+        let sTot = 0, comp = 0;
+        subs.forEach(s => {
+          sTot += (MASTER_SYLLABUS[s] || []).length;
+          (MASTER_SYLLABUS[s] || []).forEach(c => {
+            if (st.chapterProgress?.[s]?.[c] === 'Completed') comp++;
+          });
+        });
+        const overall = sTot > 0 ? Math.round((comp / sTot) * 100) : 0;
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50";
+        tr.innerHTML = `
+          <td class="py-3 px-3 font-bold text-slate-900">${st.name}</td>
+          <td class="py-3 px-2 font-mono text-[10px] text-slate-500">${st.langChoice || 'Bengali'} + ${st.appChoice === 'Commercial Applications' ? 'Comm' : 'Comp'}</td>
+          <td class="py-3 px-2 font-mono font-bold text-blue-600">${overall}%</td>
+          <td class="py-3 px-3 font-mono text-[11px] text-slate-400">${st.lastActive || 'Recent'}</td>
+          <td class="py-3 px-2 text-right">
+            <button onclick="inspectStudentDetails('${st.id}')" class="px-2.5 py-1 bg-blue-50 text-blue-700 font-bold rounded-lg text-[10px]">Inspect</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function inspectStudentDetails(studentId) {
+      const st = allStudentsLive.find(s => s.id === studentId);
+      if (!st) return;
+
+      document.getElementById('admDetailStudentName').innerText = `${st.name} (${st.langChoice} & ${st.appChoice})`;
+      document.getElementById('admDetailStudentSub').innerText = `Last active: ${st.lastActive || 'Recent'}`;
+      const body = document.getElementById('admDetailStudentBody');
+      body.innerHTML = "";
+
+      const mySubs = getStudentSubjectList(st);
+      mySubs.forEach(sub => {
+        const chaps = MASTER_SYLLABUS[sub] || [];
+        const card = document.createElement('div');
+        card.className = "glass-panel rounded-2xl p-4 bg-white";
+        card.innerHTML = `<h5 class="text-xs font-bold text-slate-900 mb-2">${sub}</h5>`;
+        const grid = document.createElement('div');
+        grid.className = "grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs";
+
+        chaps.forEach(ch => {
+          const status = st.chapterProgress?.[sub]?.[ch] || "Not Started";
+          let badge = "bg-slate-100 text-slate-500";
+          if (status === "Completed") badge = "bg-emerald-100 text-emerald-700";
+          if (status === "Need Revision") badge = "bg-rose-100 text-rose-700";
+
+          grid.innerHTML += `
+            <div class="p-2 rounded-xl border border-slate-100 flex justify-between items-center bg-slate-50">
+              <span class="truncate pr-1 text-slate-800">${ch}</span>
+              <span class="px-2 py-0.5 rounded text-[9px] font-bold ${badge}">${status}</span>
+            </div>
+          `;
+        });
+        card.appendChild(grid);
+        body.appendChild(card);
+      });
+
+      document.getElementById('adminStudentDetailModal').classList.remove('hidden');
+    }
+
+    function closeStudentDetailModal() {
+      document.getElementById('adminStudentDetailModal').classList.add('hidden');
+    }
+
+    // ================= 9. NAVIGATION CONTROLLER =================
+    function switchTab(tag) {
+      ['analytics', 'subjects', 'materials', 'chat', 'tickets'].forEach(t => {
+        const el = document.getElementById(`tab-${t}`);
+        if (el) el.classList.add('hidden');
+      });
+      const targetEl = document.getElementById(`tab-${tag}`);
+      if (targetEl) targetEl.classList.remove('hidden');
+
+      document.querySelectorAll('.desk-nav-btn, .mob-tab-btn').forEach(b => {
+        if (b.dataset.target === tag) {
+          b.classList.add('pill-active-light');
+          b.classList.remove('text-slate-600');
+        } else {
+          b.classList.remove('pill-active-light');
+          b.classList.add('text-slate-600');
+        }
+      });
+
+      if (tag === 'analytics') computeAnalyticsAndPercentiles();
+      if (tag === 'subjects') renderSubjectsView();
+      if (tag === 'materials') renderMaterials();
+      if (tag === 'chat') renderChatMessages();
+      if (tag === 'tickets') renderStudentTickets();
+    }
+
+    // App Initialization
+    document.addEventListener("DOMContentLoaded", () => {
+      renderTopTestReminder();
+      checkLogin();
+      initFirebaseListeners();
+
+      // Countdown Engine (Target: Feb 18, 2027)
+      function tick() {
+        const examDate = new Date("2027-02-18T09:00:00").getTime();
+        const diff = examDate - Date.now();
+        if (diff <= 0) return;
+        document.getElementById('cd-days').innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+        document.getElementById('cd-hours').innerText = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+        document.getElementById('cd-mins').innerText = String(Math.floor((diff % (1000 * 60)) / (1000 * 60))).padStart(2, '0');
+        document.getElementById('cd-secs').innerText = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+      }
+      tick();
+      setInterval(tick, 1000);
+    });
+  </script>
+</body>
+</html>
