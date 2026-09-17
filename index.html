@@ -164,12 +164,10 @@
   <header class="sticky top-0 z-40 px-4 md:px-8 py-3.5 backdrop-blur-2xl bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/80 dark:border-slate-800 shadow-xs">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
       <div class="flex items-center gap-3 flex-1">
-        <img 
-          src="logo.jpg" 
-          alt="ICSE HUB Logo" 
-          class="w-11 h-11 rounded-full object-cover shadow-sm ring-2 ring-blue-500/20 dark:ring-blue-400/30 shrink-0 bg-white"
-          onerror="this.onerror=null; this.src='https://api.dicebear.com/7.x/identicon/svg?seed=icsehub';"
-        >
+        <!-- NORMAL GRADUATION HAT EMOJI CONTAINER -->
+        <div class="w-10 h-10 rounded-2xl glass-panel flex items-center justify-center text-lg text-blue-600 dark:text-blue-400 shadow-xs shrink-0 font-black">
+          🎓
+        </div>
         <div>
           <div class="flex items-center gap-2">
             <h1 class="text-sm font-extrabold text-slate-900 dark:text-white leading-tight">ICSE Board Tracker</h1>
@@ -595,6 +593,7 @@
           </form>
         </div>
 
+        <!-- Automated Duplicate/Phantom Cleaner -->
         <div class="glass-panel rounded-3xl p-6 border border-amber-300 dark:border-amber-700 bg-amber-50/20 dark:bg-amber-950/20">
           <h4 class="text-sm font-bold text-amber-900 dark:text-amber-400 mb-1">Clean Duplicate & Inactive Profiles</h4>
           <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">Scans Firestore to delete duplicate student entries with 0 progress.</p>
@@ -648,25 +647,7 @@
 
   <!-- ================= MODALS ================= -->
 
-  <!-- 1. CLOUD POP-UP NOTICE MODAL -->
-  <div id="bigAnnouncementModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
-    <div class="glass-panel max-w-md w-full rounded-3xl p-6 md:p-8 shadow-2xl border border-amber-300 dark:border-amber-700 relative">
-      <div class="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 flex items-center justify-center text-xl mb-3 shadow-xs">
-        📢
-      </div>
-      <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 mb-2 inline-block">Notice</span>
-      <h3 id="bigAnnouncementTitle" class="text-base font-extrabold text-slate-900 dark:text-white mt-1">Notice</h3>
-      <p id="bigAnnouncementBody" class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed whitespace-pre-wrap"></p>
-      
-      <div class="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800">
-        <button onclick="closeBigAnnouncementModal(true)" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-xl text-xs shadow-xs transition">
-          I Acknowledge & Understand
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 2. STUDENT INSPECTION MODAL (ADMIN) -->
+  <!-- 1. STUDENT INSPECTION MODAL (ADMIN) -->
   <div id="adminStudentDetailModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
     <div class="glass-panel max-w-3xl w-full max-h-[85vh] flex flex-col rounded-3xl p-6 shadow-2xl">
       <div class="flex justify-between items-center pb-3 border-b border-slate-200 dark:border-slate-800">
@@ -680,7 +661,7 @@
     </div>
   </div>
 
-  <!-- 3. TICKET SUBMISSION MODAL -->
+  <!-- 2. TICKET SUBMISSION MODAL -->
   <div id="ticketModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
     <div class="glass-panel max-w-md w-full rounded-3xl p-6 shadow-xl">
       <h3 class="text-base font-bold text-slate-900 dark:text-white mb-1">Submit Ticket</h3>
@@ -695,7 +676,7 @@
     </div>
   </div>
 
-  <!-- 4. STUDY MATERIAL UPLOAD MODAL -->
+  <!-- 3. STUDY MATERIAL UPLOAD MODAL -->
   <div id="uploadModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
     <div class="glass-panel max-w-md w-full rounded-3xl p-6 shadow-xl">
       <div class="flex justify-between items-center mb-2">
@@ -720,7 +701,7 @@
     </div>
   </div>
 
-  <!-- 5. STUDENT PROFILE SETTINGS MODAL -->
+  <!-- 4. STUDENT PROFILE SETTINGS MODAL -->
   <div id="profileSettingsModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
     <div class="glass-panel max-w-md w-full rounded-3xl p-6 shadow-2xl">
       <div class="flex justify-between items-center mb-3">
@@ -763,7 +744,7 @@
     </div>
   </div>
 
-  <!-- 6. FIRST TIME ONBOARDING MODAL -->
+  <!-- 5. FIRST TIME ONBOARDING MODAL -->
   <div id="firstTimeLoginModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
     <div class="glass-panel max-w-md w-full rounded-3xl p-7 md:p-8 text-center shadow-2xl">
       <div class="w-14 h-14 rounded-2xl glass-panel flex items-center justify-center text-3xl mx-auto mb-3 text-blue-600 shadow-xs">🎓</div>
@@ -810,7 +791,7 @@
     </div>
   </div>
 
-  <!-- 7. ADMIN PASSCODE MODAL -->
+  <!-- 6. ADMIN PASSCODE MODAL -->
   <div id="adminPassModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
     <div class="glass-panel max-w-sm w-full rounded-3xl p-6 shadow-xl">
       <h3 class="text-base font-bold text-slate-900 dark:text-white text-center mb-1">Admin Verification</h3>
@@ -942,6 +923,7 @@
     };
 
     let currentStudent = null;
+    let isAdminActive = false;
     let allStudentsLive = [];
     let liveChatMessages = [];
     let ticketsList = [];
@@ -950,7 +932,7 @@
     let adminPasscode = localStorage.getItem("icse_admin_passcode") || "icse2026";
     let targetExamDate = localStorage.getItem("icse_target_exam_date") || "2027-02-18";
 
-    // Theme Toggle
+    // Theme Engine
     function initTheme() {
       const savedTheme = localStorage.getItem("icse_app_theme") || "light";
       const btn = document.getElementById("themeToggleBtn");
@@ -986,7 +968,7 @@
       return [...base, lang, app];
     }
 
-    // ================= REALTIME FIREBASE CLOUD LISTENERS =================
+    // ================= REALTIME FIREBASE LISTENERS =================
     function initFirebaseListeners() {
       if (typeof db === "undefined") return;
 
@@ -1017,7 +999,7 @@
         checkInstantAnnouncements();
       });
 
-      // 4. Students
+      // 4. Students Live Sync
       db.collection("students").onSnapshot((querySnapshot) => {
         allStudentsLive = [];
         querySnapshot.forEach(docSnap => allStudentsLive.push(docSnap.data()));
@@ -1141,21 +1123,23 @@
 
     // ================= ANALYTICS & COHORT PERCENTILES =================
     function computeAnalyticsAndPercentiles() {
-      if (!currentStudent) return;
+      if (!currentStudent && !isAdminActive) return;
 
-      const mySubjects = getStudentSubjectList(currentStudent);
+      const mySubjects = currentStudent ? getStudentSubjectList(currentStudent) : Object.keys(MASTER_SYLLABUS).slice(0, 9);
       let totalCurriculumChapters = 0;
       mySubjects.forEach(s => totalCurriculumChapters += (MASTER_SYLLABUS[s] ? MASTER_SYLLABUS[s].length : 0));
 
       let myCompleted = 0;
       let weakCount = 0;
-      mySubjects.forEach(s => {
-        (MASTER_SYLLABUS[s] || []).forEach(c => {
-          const st = currentStudent.chapterProgress?.[s]?.[c] || 'Not Started';
-          if (st === 'Completed') myCompleted++;
-          if (st === 'Need Revision') weakCount++;
+      if (currentStudent) {
+        mySubjects.forEach(s => {
+          (MASTER_SYLLABUS[s] || []).forEach(c => {
+            const st = currentStudent.chapterProgress?.[s]?.[c] || 'Not Started';
+            if (st === 'Completed') myCompleted++;
+            if (st === 'Need Revision') weakCount++;
+          });
         });
-      });
+      }
 
       const myPercent = totalCurriculumChapters > 0 ? Math.round((myCompleted / totalCurriculumChapters) * 100) : 0;
 
@@ -1194,8 +1178,8 @@
         percentile = Math.max(1, Math.round((peersBelow / totalStudents) * 100));
       }
 
-      document.getElementById('statPercentileRank').innerText = `${percentile}th Percentile`;
-      document.getElementById('statPercentileSub').innerText = `Ranked #${myRankIndex + 1} of ${totalStudents} active peers`;
+      document.getElementById('statPercentileRank').innerText = currentStudent ? `${percentile}th Percentile` : `Overview`;
+      document.getElementById('statPercentileSub').innerText = currentStudent ? `Ranked #${myRankIndex + 1} of ${totalStudents} active peers` : `${totalStudents} registered students`;
 
       // Leaderboard
       const rankBody = document.getElementById('cohortRankingsBody');
@@ -1225,9 +1209,11 @@
       mySubjects.forEach(sub => {
         const chaps = MASTER_SYLLABUS[sub] || [];
         let mySubDone = 0;
-        chaps.forEach(c => {
-          if (currentStudent.chapterProgress?.[sub]?.[c] === 'Completed') mySubDone++;
-        });
+        if (currentStudent) {
+          chaps.forEach(c => {
+            if (currentStudent.chapterProgress?.[sub]?.[c] === 'Completed') mySubDone++;
+          });
+        }
         const mySubPct = chaps.length > 0 ? Math.round((mySubDone / chaps.length) * 100) : 0;
 
         let cohortSubSum = 0;
@@ -1328,6 +1314,10 @@
 
     async function setChapterStatus(sub, chap, status) {
       if (!currentStudent) {
+        if (isAdminActive) {
+          alert("You are viewing as Administrator. To track personal progress, set up a student profile!");
+          return;
+        }
         document.getElementById('firstTimeLoginModal').classList.remove('hidden');
         return;
       }
@@ -1388,15 +1378,17 @@
 
     async function handleSendChatMessage(e) {
       e.preventDefault();
-      if (!currentStudent) return;
       const input = document.getElementById('chatMessageInput');
       const text = input.value.trim();
       if (!text) return;
 
+      const studentName = currentStudent ? currentStudent.name : (isAdminActive ? "Admin (Trishan)" : "Anonymous");
+      const studentId = currentStudent ? currentStudent.id : "admin_broadcast";
+
       const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       const messageObj = {
-        studentId: currentStudent.id,
-        studentName: currentStudent.name,
+        studentId: studentId,
+        studentName: studentName,
         text: text,
         timeStr: timeString,
         timestamp: Date.now()
@@ -1646,6 +1638,12 @@
     function checkLogin() {
       const savedId = localStorage.getItem("current_icse_student_id");
       const cachedProfile = localStorage.getItem("current_student_profile_cache");
+      const adminSession = localStorage.getItem("icse_admin_session_active");
+
+      if (adminSession === "true") {
+        setAdminSessionUI();
+        return;
+      }
 
       if (!savedId) {
         document.getElementById('firstTimeLoginModal').classList.remove('hidden');
@@ -1667,6 +1665,16 @@
       }
     }
 
+    function setAdminSessionUI() {
+      isAdminActive = true;
+      document.getElementById('firstTimeLoginModal').classList.add('hidden');
+      document.getElementById('navStudentName').innerText = "🛡️ Administrator";
+      document.getElementById('studentSubjectChoicesSub').innerText = "Administrator Console (All Subjects)";
+      initSubjectDropdowns();
+      renderSubjectsView();
+      computeAnalyticsAndPercentiles();
+    }
+
     async function handleFirstTimeLogin(e) {
       e.preventDefault();
       const nameInput = document.getElementById('firstTimeNameInput');
@@ -1681,7 +1689,6 @@
       submitBtn.disabled = true;
       submitBtn.innerText = "Checking availability...";
 
-      // Duplicate name verification
       let isTaken = false;
       if (typeof db !== "undefined") {
         try {
@@ -1762,6 +1769,10 @@
     }
 
     function openProfileSettingsModal() {
+      if (isAdminActive) {
+        alert("You are logged in as Administrator. To track individual chapters, switch to a student account.");
+        return;
+      }
       if (!currentStudent) return;
       document.getElementById('editStudentNameInput').value = currentStudent.name || "";
       document.getElementById('editLangChoice').value = currentStudent.langChoice || "Bengali";
@@ -1837,11 +1848,12 @@
       if (confirm("Switch student account?")) {
         localStorage.removeItem("current_icse_student_id");
         localStorage.removeItem("current_student_profile_cache");
+        localStorage.removeItem("icse_admin_session_active");
         location.reload();
       }
     }
 
-    // ================= ADMIN WORKSPACE =================
+    // ================= ADMIN WORKSPACE & ZERO-PROFILE LOGIN =================
     function openAdminDirectFromOnboarding() {
       document.getElementById('firstTimeLoginModal').classList.add('hidden');
       openAdminModal();
@@ -1850,7 +1862,7 @@
     function openAdminModal() { document.getElementById('adminPassModal').classList.remove('hidden'); }
     function closeAdminModal() { 
       document.getElementById('adminPassModal').classList.add('hidden'); 
-      if (!currentStudent) {
+      if (!currentStudent && !isAdminActive) {
         document.getElementById('firstTimeLoginModal').classList.remove('hidden');
       }
     }
@@ -1859,6 +1871,9 @@
       e.preventDefault();
       if (document.getElementById('adminPassField').value.trim() === adminPasscode) {
         closeAdminModal();
+        localStorage.setItem("icse_admin_session_active", "true");
+        setAdminSessionUI();
+
         document.getElementById('studentContainer').classList.add('hidden');
         document.getElementById('adminContainer').classList.remove('hidden');
         switchAdminTab('dashboard');
@@ -2161,7 +2176,7 @@
       checkLogin();
       initFirebaseListeners();
 
-      // Countdown Engine (Target Date from Settings)
+      // Countdown Engine
       function tick() {
         const examDate = new Date(targetExamDate + "T09:00:00").getTime();
         const diff = examDate - Date.now();
