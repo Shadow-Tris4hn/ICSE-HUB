@@ -764,7 +764,7 @@
     </div>
   </div>
 
-  <!-- 6. FIRST TIME ONBOARDING MODAL (NAME FIRST, THEN PASSWORD) -->
+  <!-- 6. FIRST TIME ONBOARDING MODAL -->
   <div id="firstTimeLoginModal" class="fixed inset-0 z-50 bg-slate-900/40 dark:bg-black/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
     <div class="glass-panel max-w-md w-full rounded-3xl p-7 md:p-8 text-center shadow-2xl">
       <div class="w-14 h-14 rounded-2xl glass-panel flex items-center justify-center text-3xl mx-auto mb-3 text-blue-600 shadow-xs">🎓</div>
@@ -772,7 +772,7 @@
       <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 mb-4">Enter your name and password to sync your account across devices.</p>
       
       <div id="onboardingNameTakenAlert" class="hidden p-3 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 text-rose-700 dark:text-rose-400 text-xs font-bold mb-3 text-center">
-        ⚠️ Incorrect password for this name! Enter correct password to log in.
+        ⚠️ Incorrect password for this name! Please enter the correct password to log in.
       </div>
 
       <form onsubmit="handleFirstTimeLogin(event)" class="space-y-3.5 text-left">
@@ -991,7 +991,7 @@
       return [...base, lang, app];
     }
 
-    // ================= REALTIME FIREBASE CLOUD LISTENERS =================
+    // ================= REALTIME FIREBASE LISTENERS =================
     function initFirebaseListeners() {
       if (typeof db === "undefined") return;
 
@@ -1640,7 +1640,7 @@
       }
     }
 
-    // ================= PERSISTENT AUTH & ONBOARDING (NAME FIRST, THEN PASSWORD) =================
+    // ================= PERSISTENT AUTH & ONBOARDING =================
     function checkLogin() {
       const savedId = localStorage.getItem("current_icse_student_id");
       const cachedProfile = localStorage.getItem("current_student_profile_cache");
@@ -1699,13 +1699,12 @@
       }
 
       if (existingStudent) {
-        // Name exists -> verify password for multi-device sync
         if (existingStudent.password && existingStudent.password !== password) {
           alertBox.innerText = "⚠️ Incorrect password for this name! Please enter the correct password to log in.";
           alertBox.classList.remove('hidden');
           nameInput.focus();
           submitBtn.disabled = false;
-          submitBtn.innerText = "Open Personalized Tracker →";
+          submitBtn.innerText = "Continue to Tracker →";
           return;
         }
 
@@ -1724,7 +1723,6 @@
         return;
       }
 
-      // Brand new registration
       alertBox.classList.add('hidden');
 
       const studentId = "stu_" + Date.now();
