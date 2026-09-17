@@ -149,10 +149,10 @@
 
       <!-- Profile & Admin Switcher -->
       <div class="flex items-center gap-2 shrink-0">
-        <button onclick="switchStudentAccount()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-2xl glass-interactive text-xs font-semibold text-slate-700 hover:bg-white transition" title="Switch Account">
+        <button onclick="openProfileSettingsModal()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-2xl glass-interactive text-xs font-semibold text-slate-700 hover:bg-white transition" title="Manage Profile & Settings">
           <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
           <span id="navStudentName">Connecting...</span>
-          <span class="text-slate-400 text-[10px]">⇄</span>
+          <span class="text-slate-400 text-[10px]">⚙️</span>
         </button>
         <button onclick="openAdminModal()" class="px-3.5 py-1.5 rounded-2xl glass-interactive hover:bg-white text-xs font-semibold text-indigo-700 border border-indigo-200 shadow-xs">
           🔒 Admin
@@ -175,27 +175,13 @@
   <!-- ================= MAIN APP CONTAINER ================= -->
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 md:px-8 pt-4 md:pt-6 space-y-4 z-10 relative">
 
-    <!-- 1. PERSISTENT NOTICE BANNER (CLICKABLE TO OPEN MODAL) -->
+    <!-- PERSISTENT CLOUD NOTICE BANNER -->
     <div id="announcementBanner" onclick="showLatestAnnouncementModal()" class="cursor-pointer hidden glass-panel rounded-2xl p-3 border border-amber-300 bg-amber-50/80 flex items-center justify-between text-xs text-amber-900 shadow-xs">
       <div class="flex items-center gap-2.5 truncate pr-2">
         <span class="text-sm">📢</span>
         <p id="announcementBannerText" class="font-bold truncate"></p>
       </div>
       <span class="text-[10px] uppercase font-extrabold text-amber-800 bg-amber-200/70 px-2 py-0.5 rounded-full shrink-0">View Notice</span>
-    </div>
-
-    <!-- 2. CLOUD TEST REMINDER RIBBON -->
-    <div id="topTestReminderRibbon" class="hidden glass-panel rounded-2xl p-3.5 border border-indigo-300/80 bg-gradient-to-r from-indigo-50 via-blue-50 to-indigo-50 flex items-center justify-between shadow-xs">
-      <div class="flex items-center gap-3">
-        <span class="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-xs shrink-0">
-          📌
-        </span>
-        <div>
-          <span class="text-[10px] uppercase font-extrabold tracking-wider text-indigo-700 bg-indigo-100/80 px-2 py-0.5 rounded">Upcoming Test Reminder</span>
-          <h4 id="reminderRibbonText" class="text-xs sm:text-sm font-extrabold text-slate-900 mt-0.5">--</h4>
-        </div>
-      </div>
-      <span class="text-[11px] font-mono text-indigo-600 font-bold hidden sm:inline">Active Target</span>
     </div>
 
     <!-- ***************** STUDENT WORKSPACE ***************** -->
@@ -263,6 +249,7 @@
           </div>
         </div>
 
+        <!-- Subject Benchmarks -->
         <div class="glass-panel rounded-3xl p-6">
           <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-6">
             <div>
@@ -283,6 +270,7 @@
           <div id="subjectBenchmarkBars" class="space-y-4"></div>
         </div>
 
+        <!-- Leaderboard Table -->
         <div class="glass-panel rounded-3xl p-6 overflow-hidden">
           <h3 class="text-base font-bold text-slate-900 mb-1">Live Peer Accountability Leaderboard</h3>
           <p class="text-xs text-slate-500 mb-4">Rankings update in real time as students mark chapters complete.</p>
@@ -336,15 +324,20 @@
 
       <!-- TAB 3: STUDY MATERIALS -->
       <section id="tab-materials" class="hidden space-y-4">
-        <div class="flex justify-between items-center">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
           <div>
             <h3 class="text-base md:text-lg font-bold text-slate-900">Verified Study Materials & Notes</h3>
             <p class="text-xs text-slate-500">Upload notes, formula sheets, or sample papers from your device</p>
           </div>
-          <button onclick="openUploadModal()" class="px-4 py-2 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-xs flex items-center gap-1.5 transition">
-            <span class="text-sm">+</span>
-            <span>Upload File</span>
-          </button>
+          <div class="flex flex-col sm:flex-row sm:items-center gap-2 w-full sm:w-auto">
+            <span class="text-[11px] text-slate-400 font-medium italic">
+              *file will be publicly available after admin approves
+            </span>
+            <button onclick="openUploadModal()" class="px-4 py-2 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-xs flex items-center justify-center gap-1.5 transition shrink-0">
+              <span class="text-sm">+</span>
+              <span>Upload File</span>
+            </button>
+          </div>
         </div>
         <div id="materialsCardList" class="grid grid-cols-1 md:grid-cols-2 gap-3.5"></div>
       </section>
@@ -406,11 +399,11 @@
       <div class="flex gap-2 overflow-x-auto scrollbar-none p-1.5 glass-panel rounded-2xl text-xs font-semibold">
         <button onclick="switchAdminTab('dashboard')" class="adm-pill pill-active-light px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="dashboard">Dashboard</button>
         <button onclick="switchAdminTab('announcements')" class="adm-pill text-slate-600 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="announcements">📢 Announcements</button>
-        <button onclick="switchAdminTab('reminders')" class="adm-pill text-slate-600 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="reminders">📌 Test Reminders</button>
         <button onclick="switchAdminTab('students')" class="adm-pill text-slate-600 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="students">Students Roster</button>
         <button onclick="switchAdminTab('materials')" class="adm-pill text-slate-600 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="materials">Study Materials</button>
         <button onclick="switchAdminTab('chatadmin')" class="adm-pill text-slate-600 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="chatadmin">💬 Live Lounge</button>
         <button onclick="switchAdminTab('tickets')" class="adm-pill text-slate-600 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="tickets">Tickets</button>
+        <button onclick="switchAdminTab('settings')" class="adm-pill text-slate-600 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="settings">⚙️ Settings</button>
       </div>
 
       <!-- ADMIN TAB 1: DASHBOARD -->
@@ -457,25 +450,13 @@
         </div>
       </div>
 
-      <!-- ADMIN TAB 3: REMINDERS -->
-      <div id="atab-reminders" class="admin-pane hidden space-y-4">
-        <div class="glass-panel rounded-3xl p-6">
-          <h4 class="text-sm font-bold text-slate-900 mb-1">Set Top Persistent Test Reminder</h4>
-          <p class="text-xs text-slate-500 mb-4">Saved directly to Firebase and synced live to all student devices.</p>
-          <form onsubmit="handleSaveTestReminder(event)" class="space-y-3">
-            <input type="text" id="admTestReminderInput" placeholder="e.g. Science Mock Exam on Monday!" class="w-full glass-interactive p-3 rounded-xl text-xs text-slate-900 outline-none bg-white font-bold" required>
-            <div class="flex justify-end gap-2 pt-2">
-              <button type="button" onclick="clearTestReminder()" class="px-4 py-2 bg-slate-100 text-slate-600 text-xs font-bold rounded-xl hover:bg-slate-200">Remove</button>
-              <button type="submit" class="px-5 py-2 bg-blue-600 text-white text-xs font-bold rounded-xl hover:bg-blue-700 shadow-xs">Pin to Consoles</button>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <!-- ADMIN TAB 4: STUDENTS ROSTER -->
+      <!-- ADMIN TAB 3: STUDENTS ROSTER & DELETION -->
       <div id="atab-students" class="admin-pane hidden space-y-4">
         <div class="glass-panel rounded-3xl p-5 md:p-6 overflow-hidden">
-          <h4 class="text-sm font-bold text-slate-900 uppercase mb-4">Live Student Roster</h4>
+          <div class="flex justify-between items-center mb-4">
+            <h4 class="text-sm font-bold text-slate-900 uppercase">Live Student Roster</h4>
+            <span class="text-xs text-slate-500">Inspect or delete any individual student profile</span>
+          </div>
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs border-collapse">
               <thead class="text-slate-500 border-b border-slate-200 font-mono uppercase pb-2 whitespace-nowrap">
@@ -484,7 +465,7 @@
                   <th class="py-3 px-2">Choices</th>
                   <th class="py-3 px-2">Overall %</th>
                   <th class="py-3 px-3">Last Active</th>
-                  <th class="py-3 px-2 text-right">Details</th>
+                  <th class="py-3 px-2 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody id="admStudentMatrixBody" class="divide-y divide-slate-100"></tbody>
@@ -493,10 +474,10 @@
         </div>
       </div>
 
-      <!-- ADMIN TAB 5: STUDY MATERIALS -->
+      <!-- ADMIN TAB 4: STUDY MATERIALS APPROVAL & MANAGEMENT -->
       <div id="atab-materials" class="admin-pane hidden space-y-4">
         <div class="glass-panel rounded-3xl p-6">
-          <h4 class="text-sm font-bold text-slate-900 mb-2">Upload Material to Cloud</h4>
+          <h4 class="text-sm font-bold text-slate-900 mb-2">Upload Verified Material Directly</h4>
           <form onsubmit="handleAdminAddMaterial(event)" class="space-y-3">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <input type="text" id="admMatTitle" placeholder="Document Title" class="glass-interactive p-2.5 rounded-xl text-xs text-slate-900 outline-none bg-white" required>
@@ -511,9 +492,14 @@
             </div>
           </form>
         </div>
+
+        <div class="glass-panel rounded-3xl p-6">
+          <h4 class="text-sm font-bold text-slate-900 mb-3">All Materials (Approve / Reject)</h4>
+          <div id="admLiveMaterialsList" class="divide-y divide-slate-100"></div>
+        </div>
       </div>
 
-      <!-- ADMIN TAB 6: CHAT MODERATION -->
+      <!-- ADMIN TAB 5: CHAT MODERATION -->
       <div id="atab-chatadmin" class="admin-pane hidden space-y-4">
         <div class="glass-panel rounded-3xl p-6">
           <div class="flex justify-between items-center mb-4">
@@ -526,11 +512,66 @@
         </div>
       </div>
 
-      <!-- ADMIN TAB 7: TICKETS -->
+      <!-- ADMIN TAB 6: TICKETS -->
       <div id="atab-tickets" class="admin-pane hidden space-y-4">
         <div class="glass-panel rounded-3xl p-6">
           <h4 class="text-sm font-bold text-slate-900 mb-3">Student Requests Desk</h4>
           <div id="admTicketsQueue" class="space-y-3"></div>
+        </div>
+      </div>
+
+      <!-- ADMIN TAB 7: SETTINGS -->
+      <div id="atab-settings" class="admin-pane hidden space-y-4">
+        <!-- 1. Change Final Boards Countdown Date -->
+        <div class="glass-panel rounded-3xl p-6">
+          <h4 class="text-sm font-bold text-slate-900 mb-1">Change Final Board Exam Target Date</h4>
+          <p class="text-xs text-slate-500 mb-3">Updates the countdown target on all student devices live via Firestore.</p>
+          <form onsubmit="handleSaveExamDate(event)" class="flex flex-col sm:flex-row gap-3 items-end">
+            <div class="flex-1 w-full">
+              <label class="block text-[11px] font-bold text-slate-600 mb-1">New Examination Date:</label>
+              <input type="date" id="settingsExamDatePicker" class="w-full glass-interactive p-2.5 rounded-xl text-xs outline-none bg-white font-mono font-bold" required>
+            </div>
+            <button type="submit" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs whitespace-nowrap">
+              Update Exam Date Everywhere
+            </button>
+          </form>
+        </div>
+
+        <!-- 2. Change Admin Passcode -->
+        <div class="glass-panel rounded-3xl p-6">
+          <h4 class="text-sm font-bold text-slate-900 mb-1">Update Admin Password</h4>
+          <p class="text-xs text-slate-500 mb-3">Current default passcode is <code class="font-mono text-blue-600 font-bold">icse2026</code>.</p>
+          <form onsubmit="handleSaveAdminPasscode(event)" class="flex flex-col sm:flex-row gap-3">
+            <input type="password" id="newAdminPassInput" placeholder="Enter new master password" class="glass-interactive p-2.5 rounded-xl text-xs outline-none bg-white flex-1" required>
+            <button type="submit" class="px-5 py-2.5 bg-slate-900 hover:bg-black text-white font-bold text-xs rounded-xl shadow-xs">
+              Save New Passcode
+            </button>
+          </form>
+        </div>
+
+        <!-- 3. Delete Student Profile Dropdown Tool -->
+        <div class="glass-panel rounded-3xl p-6 border border-rose-200 bg-rose-50/20">
+          <h4 class="text-sm font-bold text-rose-900 mb-1">Delete Any Student Profile</h4>
+          <p class="text-xs text-slate-500 mb-3">Select a student from the dropdown to permanently delete their progress and record from Firestore.</p>
+          <div class="flex flex-col sm:flex-row gap-3">
+            <select id="admDeleteStudentSelect" class="glass-interactive p-2.5 rounded-xl text-xs outline-none bg-white flex-1 font-semibold">
+              <option value="">-- Choose a student to delete --</option>
+            </select>
+            <button onclick="handleDeleteStudentBySelect()" class="px-5 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl shadow-xs whitespace-nowrap">
+              🗑️ Delete Student Profile
+            </button>
+          </div>
+        </div>
+
+        <!-- 4. Cache Reset -->
+        <div class="glass-panel rounded-3xl p-6">
+          <h4 class="text-sm font-bold text-slate-900 mb-1">Local Maintenance</h4>
+          <p class="text-xs text-slate-500 mb-3">Reset local announcement popups or clear device cache.</p>
+          <div class="flex flex-wrap gap-3">
+            <button onclick="clearAcknowledgeCache()" class="px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-xl text-xs font-bold hover:bg-slate-50 shadow-xs">
+              🔄 Reset Popup Acknowledgment Cache
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -610,22 +651,68 @@
         <h3 class="text-base font-bold text-slate-900">Upload Study Material</h3>
         <button onclick="closeUploadModal()" class="text-slate-400 hover:text-slate-700 text-xl font-bold">&times;</button>
       </div>
+      <p class="text-[11px] text-slate-500 mb-3 italic">
+        *Note: The file will be publicly available in the student console once an admin approves it.
+      </p>
       <form onsubmit="handleStudentUploadSubmit(event)" class="space-y-3">
-        <input type="text" id="stuUpTitle" placeholder="Document Title" class="w-full glass-interactive rounded-xl p-2.5 text-xs text-slate-900 outline-none bg-white" required>
-        <input type="text" id="stuUpSub" placeholder="Subject Name" class="w-full glass-interactive rounded-xl p-2.5 text-xs text-slate-900 outline-none bg-white" required>
+        <input type="text" id="stuUpTitle" placeholder="Document Title (e.g. Acid Bases Formulas)" class="w-full glass-interactive rounded-xl p-2.5 text-xs text-slate-900 outline-none bg-white" required>
+        <input type="text" id="stuUpSub" placeholder="Subject Name (e.g. Chemistry)" class="w-full glass-interactive rounded-xl p-2.5 text-xs text-slate-900 outline-none bg-white" required>
         <div class="p-3 rounded-2xl bg-blue-50/70 border border-blue-200">
           <input type="file" id="stuFileInput" class="text-xs text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-blue-600 file:text-white cursor-pointer w-full">
         </div>
         <input type="url" id="stuUpLink" placeholder="Or paste link" class="w-full glass-interactive rounded-xl p-2.5 text-xs text-slate-900 outline-none bg-white">
         <div class="flex justify-end gap-2 pt-2">
           <button type="button" onclick="closeUploadModal()" class="px-4 py-2 text-xs text-slate-500">Cancel</button>
-          <button type="submit" class="px-5 py-2 bg-blue-600 text-white font-bold text-xs rounded-xl shadow-xs">Submit</button>
+          <button type="submit" class="px-5 py-2 bg-blue-600 text-white font-bold text-xs rounded-xl shadow-xs">Submit for Review</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- 5. FIRST TIME LOGIN MODAL WITH SUBJECT CHOICES -->
+  <!-- 5. STUDENT PROFILE & EDIT SETTINGS MODAL (CHANGE NAME, ELECTIVES) -->
+  <div id="profileSettingsModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-panel max-w-md w-full rounded-3xl p-6 shadow-2xl border border-white bg-white/95">
+      <div class="flex justify-between items-center mb-3">
+        <h3 class="text-base font-extrabold text-slate-900">Student Account & Preferences</h3>
+        <button onclick="closeProfileSettingsModal()" class="text-slate-400 hover:text-slate-700 text-xl font-bold">&times;</button>
+      </div>
+
+      <form onsubmit="handleUpdateStudentProfile(event)" class="space-y-4">
+        <div>
+          <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Your Full Name:</label>
+          <input type="text" id="editStudentNameInput" class="w-full glass-interactive rounded-xl p-2.5 text-xs text-slate-900 outline-none font-bold bg-white" required>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">2nd Language:</label>
+            <select id="editLangChoice" class="w-full glass-interactive rounded-xl p-2 text-xs text-slate-900 outline-none font-semibold bg-white">
+              <option value="Bengali">Bengali (বাংলা)</option>
+              <option value="Hindi">Hindi (हिन्दी)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Group III Elective:</label>
+            <select id="editAppChoice" class="w-full glass-interactive rounded-xl p-2 text-xs text-slate-900 outline-none font-semibold bg-white">
+              <option value="Computer Applications">Computer Applications</option>
+              <option value="Commercial Applications">Commercial Applications</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="pt-2 flex flex-col gap-2">
+          <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-xl text-xs shadow-xs transition">
+            Save Changes
+          </button>
+          <button type="button" onclick="switchStudentAccount()" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl text-xs transition">
+            Log Out / Switch Account
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 6. FIRST TIME LOGIN MODAL WITH SUBJECT CHOICES -->
   <div id="firstTimeLoginModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden">
     <div class="glass-panel max-w-md w-full rounded-3xl p-7 md:p-8 text-center border border-white bg-white/95 shadow-2xl">
       <div class="w-14 h-14 rounded-2xl glass-panel flex items-center justify-center text-3xl mx-auto mb-3 text-blue-600 shadow-xs">🎓</div>
@@ -662,7 +749,7 @@
     </div>
   </div>
 
-  <!-- 6. ADMIN PASSCODE MODAL -->
+  <!-- 7. ADMIN PASSCODE MODAL -->
   <div id="adminPassModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden">
     <div class="glass-panel max-w-sm w-full rounded-3xl p-6 border border-white bg-white/95 shadow-xl">
       <h3 class="text-base font-bold text-slate-900 text-center mb-1">Admin Verification</h3>
@@ -799,8 +886,8 @@
     let ticketsList = [];
     let materialsList = [];
     let noticesList = [];
-    let adminPasscode = "icse2026";
-    let topTestReminder = "Science Test on 25th Sep — Focus on Physics Numerical & Chemical Equations!";
+    let adminPasscode = localStorage.getItem("icse_admin_passcode") || "icse2026";
+    let targetExamDate = localStorage.getItem("icse_target_exam_date") || "2027-02-18";
 
     function getStudentSubjectList(student) {
       const base = [
@@ -816,15 +903,24 @@
     function initFirebaseListeners() {
       if (typeof db === "undefined") return;
 
-      // 1. Reminder
-      db.collection("live_reminders").doc("active_reminder").onSnapshot((snap) => {
-        if (snap.exists) {
-          topTestReminder = snap.data().text || "";
-          renderTopTestReminder();
+      // 1. Target Board Exam Date
+      db.collection("settings").doc("board_exam_target").onSnapshot((snap) => {
+        if (snap.exists && snap.data().date) {
+          targetExamDate = snap.data().date;
+          localStorage.setItem("icse_target_exam_date", targetExamDate);
+          initSettingsView();
         }
       });
 
-      // 2. Announcements
+      // 2. Admin Passcode
+      db.collection("settings").doc("admin_config").onSnapshot((snap) => {
+        if (snap.exists && snap.data().passcode) {
+          adminPasscode = snap.data().passcode;
+          localStorage.setItem("icse_admin_passcode", adminPasscode);
+        }
+      });
+
+      // 3. Announcements
       db.collection("announcements").onSnapshot((querySnapshot) => {
         noticesList = [];
         querySnapshot.forEach(dSnap => noticesList.push({ id: dSnap.id, ...dSnap.data() }));
@@ -834,16 +930,17 @@
         checkInstantAnnouncements();
       });
 
-      // 3. Students
+      // 4. Students Live Sync
       db.collection("students").onSnapshot((querySnapshot) => {
         allStudentsLive = [];
         querySnapshot.forEach(docSnap => allStudentsLive.push(docSnap.data()));
         computeAnalyticsAndPercentiles();
         renderAdminStudentsMatrix();
         updateAdminOverview();
+        populateDeleteStudentDropdown();
       });
 
-      // 4. Chat
+      // 5. Chat
       db.collection("chat_messages").orderBy("timestamp", "asc").limit(100).onSnapshot((snapshot) => {
         liveChatMessages = [];
         snapshot.forEach(docSnap => liveChatMessages.push(docSnap.data()));
@@ -851,7 +948,7 @@
         renderAdminChatLog();
       });
 
-      // 5. Tickets
+      // 6. Tickets
       db.collection("tickets").onSnapshot((snapshot) => {
         ticketsList = [];
         snapshot.forEach(docSnap => ticketsList.push({ id: docSnap.id, ...docSnap.data() }));
@@ -859,11 +956,12 @@
         renderAdminTickets();
       });
 
-      // 6. Materials
+      // 7. Materials
       db.collection("study_materials").onSnapshot((querySnapshot) => {
         materialsList = [];
-        querySnapshot.forEach(dSnap => materialsList.push(dSnap.data()));
+        querySnapshot.forEach(dSnap => materialsList.push({ id: dSnap.id, ...dSnap.data() }));
         renderMaterials();
+        renderAdminMaterialsList();
       });
     }
 
@@ -1156,7 +1254,6 @@
       renderSubjectsView();
       computeAnalyticsAndPercentiles();
 
-      // Update local storage cache immediately
       localStorage.setItem("current_student_profile_cache", JSON.stringify(currentStudent));
 
       if (typeof db !== "undefined") {
@@ -1244,19 +1341,32 @@
       }
     }
 
-    // ================= STUDY MATERIALS =================
+    // ================= STUDY MATERIALS (APPROVAL WORKFLOW) =================
     function renderMaterials() {
       const box = document.getElementById('materialsCardList');
       if (!box) return;
       box.innerHTML = "";
-      materialsList.forEach(m => {
+      
+      // In student view: only show approved materials, OR materials uploaded by current student
+      const visible = materialsList.filter(m => m.approved !== false || (currentStudent && m.uploadedBy === currentStudent.id));
+
+      if (visible.length === 0) {
+        box.innerHTML = `<div class="col-span-2 text-center py-8 text-xs text-slate-400">No study materials published yet.</div>`;
+        return;
+      }
+
+      visible.forEach(m => {
         const isData = m.url && (m.url.startsWith('data:') || m.url.startsWith('blob:'));
+        const isPending = m.approved === false;
         const d = document.createElement('div');
         d.className = "glass-panel p-4 rounded-2xl flex justify-between items-center";
         d.innerHTML = `
           <div class="truncate mr-3">
-            <span class="text-[9px] uppercase font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">${m.subject}</span>
-            <h4 class="text-xs font-bold text-slate-900 mt-1 truncate">${m.name}</h4>
+            <div class="flex items-center gap-1.5 mb-1">
+              <span class="text-[9px] uppercase font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">${m.subject}</span>
+              ${isPending ? '<span class="text-[9px] font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">⏳ Under Review</span>' : ''}
+            </div>
+            <h4 class="text-xs font-bold text-slate-900 truncate">${m.name}</h4>
           </div>
           <a href="${m.url}" download="${m.name}" target="_blank" class="px-3.5 py-2 bg-blue-600 text-white text-xs font-bold rounded-xl shrink-0 hover:bg-blue-700 transition">
             ${isData ? 'Download' : 'Open'}
@@ -1264,6 +1374,50 @@
         `;
         box.appendChild(d);
       });
+    }
+
+    function renderAdminMaterialsList() {
+      const box = document.getElementById('admLiveMaterialsList');
+      if (!box) return;
+      box.innerHTML = "";
+      if (materialsList.length === 0) {
+        box.innerHTML = `<p class="text-slate-400 italic text-xs py-2">No materials uploaded.</p>`;
+        return;
+      }
+
+      materialsList.forEach(m => {
+        const isPending = m.approved === false;
+        const d = document.createElement('div');
+        d.className = "py-3 flex justify-between items-center text-xs";
+        d.innerHTML = `
+          <div class="truncate pr-3">
+            <div class="flex items-center gap-1.5">
+              <span class="font-bold text-slate-900">${m.name}</span>
+              <span class="text-[10px] text-slate-400">(${m.subject})</span>
+              ${isPending ? '<span class="text-[9px] font-bold text-amber-700 bg-amber-100 px-1.5 py-0.2 rounded">Pending</span>' : '<span class="text-[9px] font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.2 rounded">Approved</span>'}
+            </div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            ${isPending ? `<button onclick="approveMaterial('${m.id}')" class="px-2.5 py-1 bg-emerald-600 text-white font-bold rounded-lg text-[10px]">Approve</button>` : ''}
+            <button onclick="deleteMaterial('${m.id}')" class="text-rose-600 hover:underline">Delete</button>
+          </div>
+        `;
+        box.appendChild(d);
+      });
+    }
+
+    async function approveMaterial(matId) {
+      if (typeof db !== "undefined") {
+        await db.collection("study_materials").doc(matId).update({ approved: true });
+        alert("Material approved and now visible to all students!");
+      }
+    }
+
+    async function deleteMaterial(matId) {
+      if (!confirm("Delete this material?")) return;
+      if (typeof db !== "undefined") {
+        await db.collection("study_materials").doc(matId).delete();
+      }
     }
 
     function openUploadModal() { document.getElementById('uploadModal').classList.remove('hidden'); }
@@ -1279,11 +1433,11 @@
       if (fileInput.files && fileInput.files[0]) {
         const reader = new FileReader();
         reader.onload = function(evt) {
-          saveMaterial(title, subject, evt.target.result);
+          saveMaterial(title, subject, evt.target.result, false); // requires admin approval
         };
         reader.readAsDataURL(fileInput.files[0]);
       } else if (urlInput) {
-        saveMaterial(title, subject, urlInput);
+        saveMaterial(title, subject, urlInput, false);
       } else {
         alert("Please select a file or input a URL.");
         return;
@@ -1302,26 +1456,28 @@
       if (fileInput.files && fileInput.files[0]) {
         const reader = new FileReader();
         reader.onload = function(evt) {
-          saveMaterial(title, subject, evt.target.result);
+          saveMaterial(title, subject, evt.target.result, true); // direct admin publish
         };
         reader.readAsDataURL(fileInput.files[0]);
       } else if (urlInput) {
-        saveMaterial(title, subject, urlInput);
+        saveMaterial(title, subject, urlInput, true);
       }
       e.target.reset();
     }
 
-    function saveMaterial(title, subject, url) {
+    function saveMaterial(title, subject, url, isAutoApproved = false) {
       const docObj = {
         name: title,
         subject: subject,
         url: url,
+        approved: isAutoApproved,
+        uploadedBy: currentStudent ? currentStudent.id : 'Admin',
         timestamp: Date.now()
       };
       if (typeof db !== "undefined") {
         db.collection("study_materials").add(docObj);
       }
-      alert("Material published!");
+      alert(isAutoApproved ? "Material published live!" : "Material submitted! It will appear publicly once approved by an admin.");
     }
 
     // ================= TICKETS =================
@@ -1400,41 +1556,6 @@
       }
     }
 
-    // ================= TOP REMINDER RIBBON =================
-    function renderTopTestReminder() {
-      const ribbon = document.getElementById('topTestReminderRibbon');
-      const textElem = document.getElementById('reminderRibbonText');
-      if (topTestReminder && topTestReminder.trim().length > 0) {
-        textElem.innerText = topTestReminder;
-        ribbon.classList.remove('hidden');
-      } else {
-        ribbon.classList.add('hidden');
-      }
-      const admInput = document.getElementById('admTestReminderInput');
-      if (admInput) admInput.value = topTestReminder || '';
-    }
-
-    async function handleSaveTestReminder(e) {
-      e.preventDefault();
-      topTestReminder = document.getElementById('admTestReminderInput').value.trim();
-      renderTopTestReminder();
-      if (typeof db !== "undefined") {
-        await db.collection("live_reminders").doc("active_reminder").set({
-          text: topTestReminder,
-          updatedAt: Date.now()
-        }, { merge: true });
-        alert("Reminder pinned to top!");
-      }
-    }
-
-    async function clearTestReminder() {
-      topTestReminder = "";
-      renderTopTestReminder();
-      if (typeof db !== "undefined") {
-        await db.collection("live_reminders").doc("active_reminder").set({ text: "" }, { merge: true });
-      }
-    }
-
     // ================= PERSISTENT AUTH & ONBOARDING =================
     function checkLogin() {
       const savedId = localStorage.getItem("current_icse_student_id");
@@ -1443,7 +1564,6 @@
       if (!savedId) {
         document.getElementById('firstTimeLoginModal').classList.remove('hidden');
       } else {
-        // 1. Immediately restore from local cache so the modal NEVER pops up on refresh
         if (cachedProfile) {
           try {
             currentStudent = JSON.parse(cachedProfile);
@@ -1457,7 +1577,6 @@
             console.error("Cache read error:", e);
           }
         }
-        // 2. Connect to cloud silently in the background
         bindStudentProfile(savedId);
       }
     }
@@ -1489,11 +1608,9 @@
         (MASTER_SYLLABUS[sub] || []).forEach(ch => newStudentDoc.chapterProgress[sub][ch] = "Not Started");
       });
 
-      // Save locally first so refresh never forgets you
       localStorage.setItem("current_icse_student_id", studentId);
       localStorage.setItem("current_student_profile_cache", JSON.stringify(newStudentDoc));
 
-      // Sync to Firebase
       if (typeof db !== "undefined") {
         try {
           await db.collection("students").doc(studentId).set(newStudentDoc, { merge: true });
@@ -1528,6 +1645,62 @@
       });
     }
 
+    // Modal to change student name and electives
+    function openProfileSettingsModal() {
+      if (!currentStudent) return;
+      document.getElementById('editStudentNameInput').value = currentStudent.name || "";
+      document.getElementById('editLangChoice').value = currentStudent.langChoice || "Bengali";
+      document.getElementById('editAppChoice').value = currentStudent.appChoice || "Computer Applications";
+      document.getElementById('profileSettingsModal').classList.remove('hidden');
+    }
+
+    function closeProfileSettingsModal() {
+      document.getElementById('profileSettingsModal').classList.add('hidden');
+    }
+
+    async function handleUpdateStudentProfile(e) {
+      e.preventDefault();
+      if (!currentStudent) return;
+      const newName = document.getElementById('editStudentNameInput').value.trim();
+      const newLang = document.getElementById('editLangChoice').value;
+      const newApp = document.getElementById('editAppChoice').value;
+      if (!newName) return;
+
+      currentStudent.name = newName;
+      currentStudent.langChoice = newLang;
+      currentStudent.appChoice = newApp;
+
+      // Ensure progress container exists for newly chosen elective
+      const updatedSubs = getStudentSubjectList(currentStudent);
+      if (!currentStudent.chapterProgress) currentStudent.chapterProgress = {};
+      updatedSubs.forEach(s => {
+        if (!currentStudent.chapterProgress[s]) {
+          currentStudent.chapterProgress[s] = {};
+          (MASTER_SYLLABUS[s] || []).forEach(ch => currentStudent.chapterProgress[s][ch] = "Not Started");
+        }
+      });
+
+      localStorage.setItem("current_student_profile_cache", JSON.stringify(currentStudent));
+      document.getElementById('navStudentName').innerText = currentStudent.name;
+      document.getElementById('studentSubjectChoicesSub').innerText = 
+        `Electives: ${currentStudent.langChoice} & ${currentStudent.appChoice}`;
+
+      initSubjectDropdowns();
+      renderSubjectsView();
+      computeAnalyticsAndPercentiles();
+      closeProfileSettingsModal();
+
+      if (typeof db !== "undefined") {
+        await db.collection("students").doc(currentStudent.id).update({
+          name: newName,
+          langChoice: newLang,
+          appChoice: newApp,
+          chapterProgress: currentStudent.chapterProgress
+        });
+      }
+      alert("Profile and name updated successfully!");
+    }
+
     function switchStudentAccount() {
       if (confirm("Switch student account?")) {
         localStorage.removeItem("current_icse_student_id");
@@ -1536,7 +1709,7 @@
       }
     }
 
-    // ================= ADMIN WORKSPACE =================
+    // ================= ADMIN SETTINGS & MANAGEMENT =================
     function openAdminModal() { document.getElementById('adminPassModal').classList.remove('hidden'); }
     function closeAdminModal() { document.getElementById('adminPassModal').classList.add('hidden'); }
 
@@ -1574,11 +1747,11 @@
 
       if (tag === 'dashboard') updateAdminOverview();
       if (tag === 'announcements') renderAdminAnnouncements();
-      if (tag === 'reminders') renderTopTestReminder();
       if (tag === 'students') renderAdminStudentsMatrix();
-      if (tag === 'materials') renderMaterials();
+      if (tag === 'materials') renderAdminMaterialsList();
       if (tag === 'chatadmin') renderAdminChatLog();
       if (tag === 'tickets') renderAdminTickets();
+      if (tag === 'settings') initSettingsView();
     }
 
     function updateAdminOverview() {
@@ -1628,12 +1801,106 @@
           <td class="py-3 px-2 font-mono text-[10px] text-slate-500">${st.langChoice || 'Bengali'} + ${st.appChoice === 'Commercial Applications' ? 'Comm' : 'Comp'}</td>
           <td class="py-3 px-2 font-mono font-bold text-blue-600">${overall}%</td>
           <td class="py-3 px-3 font-mono text-[11px] text-slate-400">${st.lastActive || 'Recent'}</td>
-          <td class="py-3 px-2 text-right">
-            <button onclick="inspectStudentDetails('${st.id}')" class="px-2.5 py-1 bg-blue-50 text-blue-700 font-bold rounded-lg text-[10px]">Inspect</button>
+          <td class="py-3 px-2 text-right space-x-1.5">
+            <button onclick="inspectStudentDetails('${st.id}')" class="px-2.5 py-1 bg-blue-50 text-blue-700 font-bold rounded-lg text-[10px] hover:bg-blue-100">Inspect</button>
+            <button onclick="deleteStudentProfile('${st.id}', '${st.name.replace(/'/g, "\\'")}')" class="px-2.5 py-1 bg-rose-50 text-rose-700 font-bold rounded-lg text-[10px] hover:bg-rose-100">🗑️ Delete</button>
           </td>
         `;
         tbody.appendChild(tr);
       });
+    }
+
+    async function deleteStudentProfile(studentId, studentName) {
+      if (!confirm(`Are you sure you want to permanently delete student profile for "${studentName}"?`)) return;
+
+      if (typeof db !== "undefined") {
+        try {
+          await db.collection("students").doc(studentId).delete();
+          alert(`Student "${studentName}" deleted successfully!`);
+          
+          if (currentStudent && currentStudent.id === studentId) {
+            localStorage.removeItem("current_icse_student_id");
+            localStorage.removeItem("current_student_profile_cache");
+          }
+        } catch (err) {
+          alert("Error deleting student profile: " + err.message);
+        }
+      }
+    }
+
+    function populateDeleteStudentDropdown() {
+      const sel = document.getElementById('admDeleteStudentSelect');
+      if (!sel) return;
+      sel.innerHTML = `<option value="">-- Choose a student to delete --</option>` + 
+        allStudentsLive.map(st => `<option value="${st.id}">${st.name} (${st.langChoice || 'Bengali'} / ${st.appChoice || 'Computer'})</option>`).join('');
+    }
+
+    async function handleDeleteStudentBySelect() {
+      const sel = document.getElementById('admDeleteStudentSelect');
+      const studentId = sel.value;
+      if (!studentId) {
+        alert("Please select a student to delete.");
+        return;
+      }
+      const student = allStudentsLive.find(s => s.id === studentId);
+      deleteStudentProfile(studentId, student ? student.name : "Selected Student");
+    }
+
+    function initSettingsView() {
+      const picker = document.getElementById('settingsExamDatePicker');
+      if (picker) picker.value = targetExamDate;
+      const formattedDate = new Date(targetExamDate + "T00:00:00").toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+      const heading = document.getElementById('targetDateDisplayHeading');
+      if (heading) heading.innerText = `Target: ${formattedDate}`;
+    }
+
+    async function handleSaveExamDate(e) {
+      e.preventDefault();
+      targetExamDate = document.getElementById('settingsExamDatePicker').value;
+      localStorage.setItem("icse_target_exam_date", targetExamDate);
+      initSettingsView();
+
+      if (typeof db !== "undefined") {
+        try {
+          await db.collection("settings").doc("board_exam_target").set({
+            date: targetExamDate,
+            updatedAt: Date.now()
+          }, { merge: true });
+          alert("Board Examination date successfully updated for all students!");
+        } catch(err) {
+          alert("Cloud Sync Error: " + err.message);
+        }
+      }
+    }
+
+    async function handleSaveAdminPasscode(e) {
+      e.preventDefault();
+      const p = document.getElementById('newAdminPassInput').value.trim();
+      if (p.length < 4) {
+        alert("Password must be at least 4 characters.");
+        return;
+      }
+      adminPasscode = p;
+      localStorage.setItem("icse_admin_passcode", adminPasscode);
+      document.getElementById('newAdminPassInput').value = "";
+
+      if (typeof db !== "undefined") {
+        try {
+          await db.collection("settings").doc("admin_config").set({
+            passcode: adminPasscode,
+            updatedAt: Date.now()
+          }, { merge: true });
+        } catch(err) {
+          console.error(err);
+        }
+      }
+      alert("Admin password updated successfully!");
+    }
+
+    function clearAcknowledgeCache() {
+      localStorage.removeItem("icse_seen_notices_cache");
+      alert("Popup cache reset! Active announcements will pop up once again.");
+      checkInstantAnnouncements();
     }
 
     function inspectStudentDetails(studentId) {
@@ -1706,13 +1973,13 @@
 
     // App Initialization
     document.addEventListener("DOMContentLoaded", () => {
-      renderTopTestReminder();
+      initSettingsView();
       checkLogin();
       initFirebaseListeners();
 
-      // Countdown Engine (Target: Feb 18, 2027)
+      // Countdown Engine (Target Date from Settings)
       function tick() {
-        const examDate = new Date("2027-02-18T09:00:00").getTime();
+        const examDate = new Date(targetExamDate + "T09:00:00").getTime();
         const diff = examDate - Date.now();
         if (diff <= 0) return;
         document.getElementById('cd-days').innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
