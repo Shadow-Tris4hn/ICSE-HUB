@@ -1279,7 +1279,7 @@
       });
     }
 
-    // ================= SUBJECTS & CHAPTERS VIEW (SAFE INDEX MAPPING) =================
+    // ================= SUBJECTS & CHAPTERS VIEW (SAFE NUMERIC INDEX MAPPING) =================
     function initSubjectDropdowns() {
       const filter = document.getElementById('studentSubjectFilter');
       if (!filter) return;
@@ -1346,14 +1346,14 @@
           </div>
           <div class="flex items-center gap-1.5 self-end sm:self-center shrink-0">
             ${!isRevisionCard ? `
-              <button type="button" onclick="toggleChapterStatus('${sub}', ${idx}, 'Need Revision')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isWeak ? 'bg-rose-600 text-white' : 'glass-interactive text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900'}">
+              <button type="button" onclick="toggleChapterByIndex('${sub}', ${idx}, 'Need Revision')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isWeak ? 'bg-rose-600 text-white' : 'glass-interactive text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900'}">
                 🔴 Revision
               </button>
             ` : ''}
-            <button type="button" onclick="toggleChapterStatus('${sub}', ${idx}, 'In Progress')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isInProg ? 'bg-blue-600 text-white' : 'glass-interactive text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900'}">
+            <button type="button" onclick="toggleChapterByIndex('${sub}', ${idx}, 'In Progress')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isInProg ? 'bg-blue-600 text-white' : 'glass-interactive text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900'}">
               In Progress
             </button>
-            <button type="button" onclick="toggleChapterStatus('${sub}', ${idx}, 'Completed')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isDone ? 'bg-emerald-600 text-white' : 'glass-interactive text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900'}">
+            <button type="button" onclick="toggleChapterByIndex('${sub}', ${idx}, 'Completed')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isDone ? 'bg-emerald-600 text-white' : 'glass-interactive text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900'}">
               ${isDone ? '✓ Done' : 'Mark Done'}
             </button>
           </div>
@@ -1368,7 +1368,7 @@
       document.getElementById('currentSubjectPct').innerText = `${pct}%`;
     }
 
-    async function toggleChapterStatus(sub, chapIndex, targetStatus) {
+    async function toggleChapterByIndex(sub, chapIndex, targetStatus) {
       if (!currentStudent) {
         document.getElementById('firstTimeLoginModal').classList.remove('hidden');
         return;
@@ -1393,10 +1393,14 @@
       localStorage.setItem("current_student_profile_cache", JSON.stringify(currentStudent));
 
       if (typeof db !== "undefined") {
-        await db.collection("students").doc(currentStudent.id).update({
-          [`chapterProgress.${sub}.${chap}`]: newStatus,
-          lastActive: currentStudent.lastActive
-        });
+        try {
+          await db.collection("students").doc(currentStudent.id).update({
+            [`chapterProgress.${sub}.${chap}`]: newStatus,
+            lastActive: currentStudent.lastActive
+          });
+        } catch(err) {
+          console.error("Firestore update error:", err);
+        }
       }
     }
 
