@@ -180,26 +180,26 @@
 
       <!-- Navigation Tabs -->
       <nav id="studentHeaderNav" class="hidden lg:flex items-center gap-1.5 p-1 rounded-2xl glass-panel text-xs font-semibold">
-        <button onclick="switchTab('analytics')" class="desk-nav-btn pill-active-light px-3.5 py-2 rounded-xl transition" data-target="analytics">📊 Analytics</button>
-        <button onclick="switchTab('subjects')" class="desk-nav-btn text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-3.5 py-2 rounded-xl transition" data-target="subjects">📖 Syllabus Tracker</button>
-        <button onclick="switchTab('materials')" class="desk-nav-btn text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-3.5 py-2 rounded-xl transition" data-target="materials">📄 Study Materials</button>
-        <button onclick="switchTab('chat')" class="desk-nav-btn text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-3.5 py-2 rounded-xl transition" data-target="chat">💬 Class Lounge</button>
-        <button onclick="switchTab('tickets')" class="desk-nav-btn text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-3.5 py-2 rounded-xl transition" data-target="tickets">🎫 Tickets</button>
+        <button type="button" onclick="switchTab('analytics')" class="desk-nav-btn pill-active-light px-3.5 py-2 rounded-xl transition" data-target="analytics">📊 Analytics</button>
+        <button type="button" onclick="switchTab('subjects')" class="desk-nav-btn text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-3.5 py-2 rounded-xl transition" data-target="subjects">📖 Syllabus Tracker</button>
+        <button type="button" onclick="switchTab('materials')" class="desk-nav-btn text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-3.5 py-2 rounded-xl transition" data-target="materials">📄 Study Materials</button>
+        <button type="button" onclick="switchTab('chat')" class="desk-nav-btn text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-3.5 py-2 rounded-xl transition" data-target="chat">💬 Class Lounge</button>
+        <button type="button" onclick="switchTab('tickets')" class="desk-nav-btn text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-3.5 py-2 rounded-xl transition" data-target="tickets">🎫 Tickets</button>
       </nav>
 
       <!-- Profile, Theme Toggle & Admin Access -->
       <div class="flex items-center gap-2 shrink-0">
-        <button onclick="toggleTheme()" id="themeToggleBtn" class="w-9 h-9 rounded-2xl glass-interactive flex items-center justify-center text-sm shadow-xs hover:scale-105 transition" title="Toggle Light / Dark Mode">
+        <button type="button" onclick="toggleTheme()" id="themeToggleBtn" class="w-9 h-9 rounded-2xl glass-interactive flex items-center justify-center text-sm shadow-xs hover:scale-105 transition" title="Toggle Light / Dark Mode">
           🌙
         </button>
 
-        <button id="userProfileBtn" onclick="openProfileSettingsModal()" class="flex items-center gap-1.5 px-3 py-2 rounded-2xl glass-interactive text-xs font-semibold text-slate-700 dark:text-slate-200 transition" title="Manage Profile & Settings">
+        <button type="button" id="userProfileBtn" onclick="openProfileSettingsModal()" class="flex items-center gap-1.5 px-3 py-2 rounded-2xl glass-interactive text-xs font-semibold text-slate-700 dark:text-slate-200 transition" title="Manage Profile & Settings">
           <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
           <span id="navStudentName">Connecting...</span>
           <span class="text-slate-400 text-[10px]">⚙️</span>
         </button>
 
-        <button onclick="openAdminModal()" class="px-3.5 py-1.5 rounded-2xl glass-interactive text-xs font-semibold text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800 shadow-xs">
+        <button type="button" onclick="openAdminModal()" class="px-3.5 py-1.5 rounded-2xl glass-interactive text-xs font-semibold text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800 shadow-xs">
           🔒 Admin
         </button>
       </div>
@@ -209,11 +209,11 @@
   <!-- ================= MOBILE SUB-NAV (< 1024px) ================= -->
   <div id="studentMobileNav" class="lg:hidden px-4 pt-3 z-10 relative">
     <nav class="flex items-center gap-1.5 p-1.5 glass-panel rounded-2xl overflow-x-auto scrollbar-none text-xs font-semibold">
-      <button onclick="switchTab('analytics')" class="mob-tab-btn pill-active-light px-3.5 py-2 rounded-xl whitespace-nowrap transition" data-target="analytics">📊 Analytics</button>
-      <button onclick="switchTab('subjects')" class="mob-tab-btn text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap transition" data-target="subjects">📖 Syllabus</button>
-      <button onclick="switchTab('materials')" class="mob-tab-btn text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap transition" data-target="materials">📄 Materials</button>
-      <button onclick="switchTab('chat')" class="mob-tab-btn text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap transition" data-target="chat">💬 Lounge</button>
-      <button onclick="switchTab('tickets')" class="mob-tab-btn text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap transition" data-target="tickets">🎫 Tickets</button>
+      <button type="button" onclick="switchTab('analytics')" class="mob-tab-btn pill-active-light px-3.5 py-2 rounded-xl whitespace-nowrap transition" data-target="analytics">📊 Analytics</button>
+      <button type="button" onclick="switchTab('subjects')" class="mob-tab-btn text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap transition" data-target="subjects">📖 Syllabus</button>
+      <button type="button" onclick="switchTab('materials')" class="mob-tab-btn text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap transition" data-target="materials">📄 Materials</button>
+      <button type="button" onclick="switchTab('chat')" class="mob-tab-btn text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap transition" data-target="chat">💬 Lounge</button>
+      <button type="button" onclick="switchTab('tickets')" class="mob-tab-btn text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap transition" data-target="tickets">🎫 Tickets</button>
     </nav>
   </div>
 
@@ -378,7 +378,7 @@
             <span class="text-[11px] text-slate-400 font-medium italic">
               *file will be publicly available after admin approves
             </span>
-            <button onclick="openUploadModal()" class="px-4 py-2 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-xs flex items-center justify-center gap-1.5 transition shrink-0">
+            <button type="button" onclick="openUploadModal()" class="px-4 py-2 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-xs flex items-center justify-center gap-1.5 transition shrink-0">
               <span class="text-sm">+</span>
               <span>Upload File</span>
             </button>
@@ -422,7 +422,7 @@
             <h3 class="text-base md:text-lg font-bold text-slate-900 dark:text-white">Feedback & Resource Tickets</h3>
             <p class="text-xs text-slate-500 dark:text-slate-400">Report curriculum issues, request topics, or ask the admin directly.</p>
           </div>
-          <button onclick="openTicketModal()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-xs">
+          <button type="button" onclick="openTicketModal()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-xs">
             + New Ticket
           </button>
         </div>
@@ -437,18 +437,18 @@
           <span class="text-[10px] uppercase font-bold tracking-widest bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-300 px-2.5 py-0.5 rounded-full">Admin Center</span>
           <h2 class="text-lg font-extrabold text-slate-900 dark:text-white mt-1">Class 10 Administrative Suite</h2>
         </div>
-        <button onclick="exitAdmin()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold">Exit Admin Mode</button>
+        <button type="button" onclick="exitAdmin()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold">Exit Admin Mode</button>
       </div>
 
       <!-- Admin Tab Switcher -->
       <div class="flex gap-2 overflow-x-auto scrollbar-none p-1.5 glass-panel rounded-2xl text-xs font-semibold">
-        <button onclick="switchAdminTab('dashboard')" class="adm-pill pill-active-light px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="dashboard">Dashboard</button>
-        <button onclick="switchAdminTab('announcements')" class="adm-pill text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="announcements">📢 Announcements</button>
-        <button onclick="switchAdminTab('students')" class="adm-pill text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="students">Students Roster</button>
-        <button onclick="switchAdminTab('materials')" class="adm-pill text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="materials">Study Materials</button>
-        <button onclick="switchAdminTab('chatadmin')" class="adm-pill text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="chatadmin">💬 Live Lounge</button>
-        <button onclick="switchAdminTab('tickets')" class="adm-pill text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="tickets">Tickets</button>
-        <button onclick="switchAdminTab('settings')" class="adm-pill text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="settings">⚙️ Settings</button>
+        <button type="button" onclick="switchAdminTab('dashboard')" class="adm-pill pill-active-light px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="dashboard">Dashboard</button>
+        <button type="button" onclick="switchAdminTab('announcements')" class="adm-pill text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="announcements">📢 Announcements</button>
+        <button type="button" onclick="switchAdminTab('students')" class="adm-pill text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="students">Students Roster</button>
+        <button type="button" onclick="switchAdminTab('materials')" class="adm-pill text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="materials">Study Materials</button>
+        <button type="button" onclick="switchAdminTab('chatadmin')" class="adm-pill text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="chatadmin">💬 Live Lounge</button>
+        <button type="button" onclick="switchAdminTab('tickets')" class="adm-pill text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="tickets">Tickets</button>
+        <button type="button" onclick="switchAdminTab('settings')" class="adm-pill text-slate-600 dark:text-slate-300 px-3.5 py-2 rounded-xl whitespace-nowrap" data-atab="settings">⚙️ Settings</button>
       </div>
 
       <!-- ADMIN TAB 1: DASHBOARD -->
@@ -549,7 +549,7 @@
         <div class="glass-panel rounded-3xl p-6">
           <div class="flex justify-between items-center mb-4">
             <h4 class="text-sm font-bold text-slate-900 dark:text-white">Live Chat Moderation</h4>
-            <button onclick="purgeClassChat()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold">
+            <button type="button" onclick="purgeClassChat()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold">
               ⚠️ Clear All Messages
             </button>
           </div>
@@ -595,7 +595,7 @@
         <div class="glass-panel rounded-3xl p-6 border border-amber-300 dark:border-amber-700 bg-amber-50/20 dark:bg-amber-950/20">
           <h4 class="text-sm font-bold text-amber-900 dark:text-amber-400 mb-1">Clean Duplicate & Inactive Profiles</h4>
           <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">Scans Firestore to delete duplicate student entries with 0 progress.</p>
-          <button onclick="cleanDuplicateProfiles()" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-xs">
+          <button type="button" onclick="cleanDuplicateProfiles()" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-xs">
             🧹 Delete Phantom / Duplicate Profiles
           </button>
         </div>
@@ -607,7 +607,7 @@
             <select id="admDeleteStudentSelect" class="glass-interactive p-2.5 rounded-xl text-xs outline-none flex-1 font-semibold">
               <option value="">-- Choose a student to delete --</option>
             </select>
-            <button onclick="handleDeleteStudentBySelect()" class="px-5 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl shadow-xs whitespace-nowrap">
+            <button type="button" onclick="handleDeleteStudentBySelect()" class="px-5 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl shadow-xs whitespace-nowrap">
               🗑️ Delete Student Profile
             </button>
           </div>
@@ -616,7 +616,7 @@
         <div class="glass-panel rounded-3xl p-6">
           <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1">Local Maintenance</h4>
           <div class="flex flex-wrap gap-3 mt-3">
-            <button onclick="clearAcknowledgeCache()" class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold hover:bg-slate-50 shadow-xs">
+            <button type="button" onclick="clearAcknowledgeCache()" class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold hover:bg-slate-50 shadow-xs">
               🔄 Reset Popup Cache
             </button>
           </div>
@@ -656,7 +656,7 @@
       <p id="bigAnnouncementBody" class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed whitespace-pre-wrap"></p>
       
       <div class="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800">
-        <button onclick="closeBigAnnouncementModal(true)" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-xl text-xs shadow-xs transition">
+        <button type="button" onclick="closeBigAnnouncementModal(true)" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-xl text-xs shadow-xs transition">
           I Acknowledge & Understand
         </button>
       </div>
@@ -671,7 +671,7 @@
           <h3 id="admDetailStudentName" class="text-base font-bold text-slate-900 dark:text-white">Student Name</h3>
           <p id="admDetailStudentSub" class="text-xs text-slate-500 dark:text-slate-400 font-medium">Chapter Status Details</p>
         </div>
-        <button onclick="closeStudentDetailModal()" class="text-slate-400 hover:text-slate-700 text-2xl font-bold">&times;</button>
+        <button type="button" onclick="closeStudentDetailModal()" class="text-slate-400 hover:text-slate-700 text-2xl font-bold">&times;</button>
       </div>
       <div id="admDetailStudentBody" class="overflow-y-auto flex-1 py-4 space-y-4"></div>
     </div>
@@ -697,7 +697,7 @@
     <div class="glass-panel max-w-md w-full rounded-3xl p-6 shadow-xl">
       <div class="flex justify-between items-center mb-2">
         <h3 class="text-base font-bold text-slate-900 dark:text-white">Upload Study Material</h3>
-        <button onclick="closeUploadModal()" class="text-slate-400 hover:text-slate-700 text-xl font-bold">&times;</button>
+        <button type="button" onclick="closeUploadModal()" class="text-slate-400 hover:text-slate-700 text-xl font-bold">&times;</button>
       </div>
       <p class="text-[11px] text-slate-500 dark:text-slate-400 mb-3 italic">
         *Note: The file will be publicly available once an admin approves it.
@@ -722,7 +722,7 @@
     <div class="glass-panel max-w-md w-full rounded-3xl p-6 shadow-2xl">
       <div class="flex justify-between items-center mb-3">
         <h3 class="text-base font-extrabold text-slate-900 dark:text-white">Student Account & Preferences</h3>
-        <button onclick="closeProfileSettingsModal()" class="text-slate-400 hover:text-slate-700 text-xl font-bold">&times;</button>
+        <button type="button" onclick="closeProfileSettingsModal()" class="text-slate-400 hover:text-slate-700 text-xl font-bold">&times;</button>
       </div>
 
       <form onsubmit="handleUpdateStudentProfile(event)" class="space-y-4">
@@ -1126,7 +1126,7 @@
             <span class="font-bold text-slate-900 dark:text-white">${n.title}</span>
             <span class="text-slate-500 dark:text-slate-400 block text-[11px] mt-0.5">${n.text}</span>
           </div>
-          <button onclick="deleteAnnouncement('${n.id}')" class="text-rose-600 dark:text-rose-400 hover:underline ml-3 shrink-0">Delete</button>
+          <button type="button" onclick="deleteAnnouncement('${n.id}')" class="text-rose-600 dark:text-rose-400 hover:underline ml-3 shrink-0">Delete</button>
         </div>
       `).join('');
     }
@@ -1261,7 +1261,7 @@
       });
     }
 
-    // ================= SUBJECTS & CHAPTERS VIEW (FIXED BY CHAPTER NAME KEY) =================
+    // ================= SUBJECTS & CHAPTERS VIEW (ROBUST KEY MATCHING) =================
     function initSubjectDropdowns() {
       const filter = document.getElementById('studentSubjectFilter');
       if (!filter) return;
@@ -1279,7 +1279,6 @@
 
       let completedCount = 0;
       chapters.forEach((ch, idx) => {
-        // Use exact chapter name string as key to prevent index mismatch bugs
         const status = (currentStudent && currentStudent.chapterProgress?.[sub]?.[ch]) ? currentStudent.chapterProgress[sub][ch] : "Not Started";
         if (status === "Completed") completedCount++;
 
@@ -1304,13 +1303,13 @@
             </div>
           </div>
           <div class="flex items-center gap-1.5 self-end sm:self-center shrink-0">
-            <button onclick="setChapterStatus('${sub}', '${ch.replace(/'/g, "\\'")}', 'Need Revision')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isWeak ? 'bg-rose-600 text-white' : 'glass-interactive text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900'}">
+            <button type="button" onclick="setChapterStatus('${sub}', '${ch.replace(/'/g, "\\'")}', 'Need Revision')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isWeak ? 'bg-rose-600 text-white' : 'glass-interactive text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900'}">
               🔴 Revision
             </button>
-            <button onclick="setChapterStatus('${sub}', '${ch.replace(/'/g, "\\'")}', 'In Progress')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isInProg ? 'bg-blue-600 text-white' : 'glass-interactive text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900'}">
+            <button type="button" onclick="setChapterStatus('${sub}', '${ch.replace(/'/g, "\\'")}', 'In Progress')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isInProg ? 'bg-blue-600 text-white' : 'glass-interactive text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900'}">
               In Progress
             </button>
-            <button onclick="setChapterStatus('${sub}', '${ch.replace(/'/g, "\\'")}', 'Completed')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isDone ? 'bg-emerald-600 text-white' : 'glass-interactive text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900'}">
+            <button type="button" onclick="setChapterStatus('${sub}', '${ch.replace(/'/g, "\\'")}', 'Completed')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isDone ? 'bg-emerald-600 text-white' : 'glass-interactive text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900'}">
               ${isDone ? '✓ Done' : 'Mark Done'}
             </button>
           </div>
@@ -1483,8 +1482,8 @@
             </div>
           </div>
           <div class="flex items-center gap-2 shrink-0">
-            ${isPending ? `<button onclick="approveMaterial('${m.id}')" class="px-2.5 py-1 bg-emerald-600 text-white font-bold rounded-lg text-[10px]">Approve</button>` : ''}
-            <button onclick="deleteMaterial('${m.id}')" class="text-rose-600 dark:text-rose-400 hover:underline">Delete</button>
+            ${isPending ? `<button type="button" onclick="approveMaterial('${m.id}')" class="px-2.5 py-1 bg-emerald-600 text-white font-bold rounded-lg text-[10px]">Approve</button>` : ''}
+            <button type="button" onclick="deleteMaterial('${m.id}')" class="text-rose-600 dark:text-rose-400 hover:underline">Delete</button>
           </div>
         `;
         box.appendChild(d);
@@ -1624,7 +1623,7 @@
           <p class="text-slate-600 dark:text-slate-300">${t.desc || ''}</p>
           <div class="flex gap-2 pt-2">
             <input type="text" id="ans_${t.id}" value="${t.response || ''}" placeholder="Reply..." class="flex-1 p-2 border rounded-lg outline-none dark:bg-slate-700 dark:border-slate-600">
-            <button onclick="replyTicket('${t.id}')" class="px-3 py-1 bg-blue-600 text-white font-bold rounded-lg">Reply</button>
+            <button type="button" onclick="replyTicket('${t.id}')" class="px-3 py-1 bg-blue-600 text-white font-bold rounded-lg">Reply</button>
           </div>
         </div>
       `).join('');
@@ -1641,7 +1640,7 @@
       }
     }
 
-    // ================= PERSISTENT AUTH & ONBOARDING (NAME FIRST, THEN PASSWORD) =================
+    // ================= PERSISTENT AUTH & ONBOARDING =================
     function checkLogin() {
       const savedId = localStorage.getItem("current_icse_student_id");
       const cachedProfile = localStorage.getItem("current_student_profile_cache");
@@ -1700,7 +1699,6 @@
       }
 
       if (existingStudent) {
-        // Name exists -> Verify password for multi-device sync
         if (existingStudent.password && existingStudent.password !== password) {
           alertBox.innerText = "⚠️ Incorrect password for this name! Please enter the correct password to log in.";
           alertBox.classList.remove('hidden');
@@ -1725,7 +1723,6 @@
         return;
       }
 
-      // Brand new registration
       alertBox.classList.add('hidden');
 
       const studentId = "stu_" + Date.now();
@@ -1951,8 +1948,8 @@
           <td class="py-3 px-2 font-mono font-bold text-blue-600 dark:text-blue-400">${overall}%</td>
           <td class="py-3 px-3 font-mono text-[11px] text-slate-400">${st.lastActive || 'Recent'}</td>
           <td class="py-3 px-2 text-right space-x-1.5">
-            <button onclick="inspectStudentDetails('${st.id}')" class="px-2.5 py-1 bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-400 font-bold rounded-lg text-[10px] hover:bg-blue-100">Inspect</button>
-            <button onclick="deleteStudentProfile('${st.id}', '${st.name.replace(/'/g, "\\'")}')" class="px-2.5 py-1 bg-rose-50 dark:bg-rose-950 text-rose-700 dark:text-rose-400 font-bold rounded-lg text-[10px] hover:bg-rose-100">🗑️ Delete</button>
+            <button type="button" onclick="inspectStudentDetails('${st.id}')" class="px-2.5 py-1 bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-400 font-bold rounded-lg text-[10px] hover:bg-blue-100">Inspect</button>
+            <button type="button" onclick="deleteStudentProfile('${st.id}', '${st.name.replace(/'/g, "\\'")}')" class="px-2.5 py-1 bg-rose-50 dark:bg-rose-950 text-rose-700 dark:text-rose-400 font-bold rounded-lg text-[10px] hover:bg-rose-100">🗑️ Delete</button>
           </td>
         `;
         tbody.appendChild(tr);
