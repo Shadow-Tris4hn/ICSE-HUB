@@ -346,7 +346,7 @@
           </div>
           <div class="flex items-center gap-2">
             <label class="text-xs font-semibold text-slate-700 dark:text-slate-300">Subject:</label>
-            <select id="studentSubjectFilter" onchange="renderSubjectsView()" class="glass-interactive text-xs font-bold text-blue-800 dark:text-blue-400 rounded-xl px-3.5 py-2 outline-none">
+            <select id="studentSubjectFilter" onchange="handleSubjectDropdownChange(this.value)" class="glass-interactive text-xs font-bold text-blue-800 dark:text-blue-400 rounded-xl px-3.5 py-2 outline-none">
             </select>
           </div>
         </div>
@@ -820,7 +820,7 @@
     <div class="glass-panel max-w-sm w-full rounded-3xl p-6 shadow-xl">
       <h3 class="text-base font-bold text-slate-900 dark:text-white text-center mb-1">Admin Verification</h3>
       <form onsubmit="verifyAdminPass(event)" class="space-y-3 mt-4">
-        <input type="password" id="adminPassField" placeholder="Admin password" class="w-full glass-interactive rounded-2xl p-3 text-sm outline-none" required autofocus>
+        <input type="password" id="adminPassField" placeholder="Admin password" class="w-full glass-interactive rounded-xl p-3 text-sm outline-none" required autofocus>
         <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl text-xs">Unlock Console</button>
         <button type="button" onclick="closeAdminModal()" class="w-full py-2 text-xs text-slate-500">Cancel</button>
       </form>
@@ -954,6 +954,8 @@
     let noticesList = [];
     let adminPasscode = localStorage.getItem("icse_admin_passcode") || "icse2026";
     let targetExamDate = localStorage.getItem("icse_target_exam_date") || "2027-02-18";
+    let activeSubjectFilter = localStorage.getItem("icse_active_subject") || null;
+    let activeTabTag = localStorage.getItem("icse_active_tab") || "analytics";
 
     // Theme Engine
     function initTheme() {
@@ -1261,18 +1263,42 @@
       });
     }
 
-    // ================= SUBJECTS & CHAPTERS VIEW (TOGGLE UNCHECK FIX) =================
+    // ================= SUBJECTS & CHAPTERS VIEW (PRESERVES ACTIVE SUBJECT) =================
     function initSubjectDropdowns() {
       const filter = document.getElementById('studentSubjectFilter');
       if (!filter) return;
       const mySubs = currentStudent ? getStudentSubjectList(currentStudent) : Object.keys(MASTER_SYLLABUS);
+      
       filter.innerHTML = mySubs.map(s => `<option value="${s}">${s}</option>`).join('');
+
+      // Restore previously remembered active subject filter if it belongs to this student
+      if (activeSubjectFilter && mySubs.includes(activeSubjectFilter)) {
+        filter.value = activeSubjectFilter;
+      } else {
+        activeSubjectFilter = mySubs[0];
+        filter.value = activeSubjectFilter;
+      }
+    }
+
+    function handleSubjectDropdownChange(val) {
+      activeSubjectFilter = val;
+      localStorage.setItem("icse_active_subject", val);
+      renderSubjectsView();
     }
 
     function renderSubjectsView() {
       const filterEl = document.getElementById('studentSubjectFilter');
       const mySubs = currentStudent ? getStudentSubjectList(currentStudent) : Object.keys(MASTER_SYLLABUS);
-      const sub = (filterEl && filterEl.value) ? filterEl.value : mySubs[0];
+      
+      if (filterEl && filterEl.value) {
+        activeSubjectFilter = filterEl.value;
+      } else if (!activeSubjectFilter || !mySubs.includes(activeSubjectFilter)) {
+        activeSubjectFilter = mySubs[0];
+      }
+
+      if (filterEl) filterEl.value = activeSubjectFilter;
+
+      const sub = activeSubjectFilter;
       const chapters = MASTER_SYLLABUS[sub] || [];
       const listContainer = document.getElementById('chaptersListContainer');
       listContainer.innerHTML = "";
@@ -1324,7 +1350,6 @@
       document.getElementById('currentSubjectPct').innerText = `${pct}%`;
     }
 
-    // Toggle logic: clicking the already active status button clears it back to "Not Started"
     async function toggleChapterStatus(sub, chap, targetStatus) {
       if (!currentStudent) {
         document.getElementById('firstTimeLoginModal').classList.remove('hidden');
@@ -1661,6 +1686,7 @@
             initSubjectDropdowns();
             renderSubjectsView();
             computeAnalyticsAndPercentiles();
+            applySavedTabState();
           } catch(e) {
             console.error("Cache read error:", e);
           }
@@ -1775,6 +1801,7 @@
           renderSubjectsView();
           computeAnalyticsAndPercentiles();
           renderStudentTickets();
+          applySavedTabState();
         } else if (currentStudent) {
           db.collection("students").doc(studentId).set(currentStudent, { merge: true });
         }
@@ -1845,6 +1872,8 @@
       if (confirm("Log out?")) {
         localStorage.removeItem("current_icse_student_id");
         localStorage.removeItem("current_student_profile_cache");
+        localStorage.removeItem("icse_active_tab");
+        localStorage.removeItem("icse_active_subject");
         location.reload();
       }
     }
@@ -2131,8 +2160,11 @@
       document.getElementById('adminStudentDetailModal').classList.add('hidden');
     }
 
-    // ================= NAVIGATION CONTROLLER =================
+    // ================= NAVIGATION CONTROLLER & PERSISTENT TAB MEMORY =================
     function switchTab(tag) {
+      activeTabTag = tag;
+      localStorage.setItem("icse_active_tab", tag);
+
       ['analytics', 'subjects', 'materials', 'chat', 'tickets'].forEach(t => {
         const el = document.getElementById(`tab-${t}`);
         if (el) el.classList.add('hidden');
@@ -2155,6 +2187,12 @@
       if (tag === 'materials') renderMaterials();
       if (tag === 'chat') renderChatMessages();
       if (tag === 'tickets') renderStudentTickets();
+    }
+
+    function applySavedTabState() {
+      if (activeTabTag) {
+        switchTab(activeTabTag);
+      }
     }
 
     // App Initialization
