@@ -1261,7 +1261,7 @@
       });
     }
 
-    // ================= SUBJECTS & CHAPTERS VIEW =================
+    // ================= SUBJECTS & CHAPTERS VIEW (FIXED BY CHAPTER NAME KEY) =================
     function initSubjectDropdowns() {
       const filter = document.getElementById('studentSubjectFilter');
       if (!filter) return;
@@ -1279,6 +1279,7 @@
 
       let completedCount = 0;
       chapters.forEach((ch, idx) => {
+        // Use exact chapter name string as key to prevent index mismatch bugs
         const status = (currentStudent && currentStudent.chapterProgress?.[sub]?.[ch]) ? currentStudent.chapterProgress[sub][ch] : "Not Started";
         if (status === "Completed") completedCount++;
 
@@ -1640,7 +1641,7 @@
       }
     }
 
-    // ================= PERSISTENT AUTH & ONBOARDING =================
+    // ================= PERSISTENT AUTH & ONBOARDING (NAME FIRST, THEN PASSWORD) =================
     function checkLogin() {
       const savedId = localStorage.getItem("current_icse_student_id");
       const cachedProfile = localStorage.getItem("current_student_profile_cache");
@@ -1699,6 +1700,7 @@
       }
 
       if (existingStudent) {
+        // Name exists -> Verify password for multi-device sync
         if (existingStudent.password && existingStudent.password !== password) {
           alertBox.innerText = "⚠️ Incorrect password for this name! Please enter the correct password to log in.";
           alertBox.classList.remove('hidden');
@@ -1723,6 +1725,7 @@
         return;
       }
 
+      // Brand new registration
       alertBox.classList.add('hidden');
 
       const studentId = "stu_" + Date.now();
