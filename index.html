@@ -831,7 +831,7 @@
   <script>
     const MASTER_SYLLABUS = {
       "English Language": [
-        "Composition / Essay Writing (300-350 words)",
+        "Composition Essay Writing (300-350 words)",
         "Formal & Informal Letter Writing",
         "Notice Writing & Email Drafting",
         "Unseen Passage Comprehension & Précis Writing",
@@ -1261,7 +1261,7 @@
       });
     }
 
-    // ================= SUBJECTS & CHAPTERS VIEW (ROBUST KEY MATCHING) =================
+    // ================= SUBJECTS & CHAPTERS VIEW (TOGGLE UNCHECK FIX) =================
     function initSubjectDropdowns() {
       const filter = document.getElementById('studentSubjectFilter');
       if (!filter) return;
@@ -1303,13 +1303,13 @@
             </div>
           </div>
           <div class="flex items-center gap-1.5 self-end sm:self-center shrink-0">
-            <button type="button" onclick="setChapterStatus('${sub}', '${ch.replace(/'/g, "\\'")}', 'Need Revision')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isWeak ? 'bg-rose-600 text-white' : 'glass-interactive text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900'}">
+            <button type="button" onclick="toggleChapterStatus('${sub}', '${ch.replace(/'/g, "\\'")}', 'Need Revision')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isWeak ? 'bg-rose-600 text-white' : 'glass-interactive text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900'}">
               🔴 Revision
             </button>
-            <button type="button" onclick="setChapterStatus('${sub}', '${ch.replace(/'/g, "\\'")}', 'In Progress')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isInProg ? 'bg-blue-600 text-white' : 'glass-interactive text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900'}">
+            <button type="button" onclick="toggleChapterStatus('${sub}', '${ch.replace(/'/g, "\\'")}', 'In Progress')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isInProg ? 'bg-blue-600 text-white' : 'glass-interactive text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900'}">
               In Progress
             </button>
-            <button type="button" onclick="setChapterStatus('${sub}', '${ch.replace(/'/g, "\\'")}', 'Completed')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isDone ? 'bg-emerald-600 text-white' : 'glass-interactive text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900'}">
+            <button type="button" onclick="toggleChapterStatus('${sub}', '${ch.replace(/'/g, "\\'")}', 'Completed')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isDone ? 'bg-emerald-600 text-white' : 'glass-interactive text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900'}">
               ${isDone ? '✓ Done' : 'Mark Done'}
             </button>
           </div>
@@ -1324,7 +1324,8 @@
       document.getElementById('currentSubjectPct').innerText = `${pct}%`;
     }
 
-    async function setChapterStatus(sub, chap, status) {
+    // Toggle logic: clicking the already active status button clears it back to "Not Started"
+    async function toggleChapterStatus(sub, chap, targetStatus) {
       if (!currentStudent) {
         document.getElementById('firstTimeLoginModal').classList.remove('hidden');
         return;
@@ -1333,7 +1334,10 @@
       if (!currentStudent.chapterProgress) currentStudent.chapterProgress = {};
       if (!currentStudent.chapterProgress[sub]) currentStudent.chapterProgress[sub] = {};
 
-      currentStudent.chapterProgress[sub][chap] = status;
+      const currentStatus = currentStudent.chapterProgress[sub][chap];
+      const newStatus = (currentStatus === targetStatus) ? "Not Started" : targetStatus;
+
+      currentStudent.chapterProgress[sub][chap] = newStatus;
       currentStudent.lastActive = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
 
       renderSubjectsView();
@@ -1343,7 +1347,7 @@
 
       if (typeof db !== "undefined") {
         await db.collection("students").doc(currentStudent.id).update({
-          [`chapterProgress.${sub}.${chap}`]: status,
+          [`chapterProgress.${sub}.${chap}`]: newStatus,
           lastActive: currentStudent.lastActive
         });
       }
