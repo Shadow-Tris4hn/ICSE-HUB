@@ -1381,27 +1381,50 @@
       if (!currentStudent.chapterProgress) currentStudent.chapterProgress = {};
       if (!currentStudent.chapterProgress[sub]) currentStudent.chapterProgress[sub] = {};
 
-      const currentStatus = currentStudent.chapterProgress[sub][chap];
+      const currentStatus = currentStudent.chapterProgress[sub][chap] || "Not Started";
       const newStatus = (currentStatus === targetStatus) ? "Not Started" : targetStatus;
 
-      currentStudent.chapterProgress[sub][chap] = newStatus;
-      currentStudent.lastActive = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-
-      renderSubjectsView();
-      computeAnalyticsAndPercentiles();
-
-      localStorage.setItem("current_student_profile_cache", JSON.stringify(currentStudent));
+      const lastActive = new Date().toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
 
       if (typeof db !== "undefined") {
         try {
-          await db.collection("students").doc(currentStudent.id).update({
-            [`chapterProgress.${sub}.${chap}`]: newStatus,
-            lastActive: currentStudent.lastActive
-          });
-        } catch(err) {
-          console.error("Firestore update error:", err);
+          // IMPORTANT: Bengali/Hindi chapter names contain periods (e.g. "গল্প: ১.").
+          // A normal dotted Firestore field path would interpret those periods as
+          // nested fields. FieldPath treats the chapter name as ONE field key.
+          const chapterField = new firebase.firestore.FieldPath(
+            "chapterProgress",
+            sub,
+            chap
+          );
+
+          // Update ONLY the clicked chapter. Do not replace chapterProgress.
+          await db.collection("students").doc(currentStudent.id).update(
+            chapterField, newStatus,
+            "lastActive", lastActive
+          );
+        } catch (err) {
+          console.error("Firestore chapter update error:", err);
+          alert("Could not save this chapter status. Please try again.");
+          return;
         }
       }
+
+      // Keep local state in sync only after the Firestore update succeeds.
+      currentStudent.chapterProgress[sub][chap] = newStatus;
+      currentStudent.lastActive = lastActive;
+
+      localStorage.setItem(
+        "current_student_profile_cache",
+        JSON.stringify(currentStudent)
+      );
+
+      renderSubjectsView();
+      computeAnalyticsAndPercentiles();
     }
 
     // ================= LIVE CHAT LOUNGE =================
