@@ -364,7 +364,7 @@
           </div>
         </div>
 
-        <div id="chaptersListContainer" class="space-y-2.5"></div>
+        <div id="chaptersListContainer" class="space-y-4"></div>
       </section>
 
       <!-- TAB 3: STUDY MATERIALS -->
@@ -830,136 +830,184 @@
   <!-- ================= JAVASCRIPT ENGINE ================= -->
   <script>
     const MASTER_SYLLABUS = {
-      "English Language": [
-        "Composition Essay Writing (300-350 words)",
-        "Formal & Informal Letter Writing",
-        "Notice Writing & Email Drafting",
-        "Unseen Passage Comprehension & Précis Writing",
-        "Functional Grammar: Sentence Transformation & Prepositions",
-        "ENGLISH LANGUAGE FULL REVISION 1 ⭐",
-        "ENGLISH LANGUAGE FULL REVISION 2 ⭐",
-        "ENGLISH LANGUAGE FULL REVISION 3 ⭐"
-      ],
-      "English Literature": [
-        "Prose: The Elevator - William Sleator",
-        "Prose: The Girl Who Can - Ama Ata Aidoo",
-        "Prose: The Last Lesson - Alphonse Daudet",
-        "Prose: The Pedestrian - Ray Bradbury",
-        "Prose: With the Photographer - Stephen Leacock",
-        "Verse: The Power of Music - Sukumar Ray",
-        "Verse: When Great Trees Fall - Maya Angelou",
-        "Verse: Haunted Houses - H.W. Longfellow",
-        "Verse: A Considerable Speck - Robert Frost",
-        "Verse: The Glove and the Lions - Leigh Hunt",
-        "Drama: Julius Caesar - Act 3 (Scenes 1 to 3)",
-        "Drama: Julius Caesar - Act 4 (Scenes 1 to 3)",
-        "Drama: Julius Caesar - Act 5 (Scenes 1 to 5)",
-        "ENGLISH LITERATURE FULL REVISION 1 ⭐",
-        "ENGLISH LITERATURE FULL REVISION 2 ⭐",
-        "ENGLISH LITERATURE FULL REVISION 3 ⭐"
-      ],
-      "Physics": [
-        "Force", "Work, Energy and Power", "Machines", "Refraction of Light at Plane Surfaces",
-        "Refraction through a Lens", "Spectrum", "Sound", "Current Electricity",
-        "Household Circuits", "Electro-magnetism", "Calorimetry", "Radioactivity",
-        "PHYSICS FULL REVISION 1 ⭐", "PHYSICS FULL REVISION 2 ⭐", "PHYSICS FULL REVISION 3 ⭐"
-      ],
-      "Chemistry": [
-        "Periodic Table & Properties", "Chemical Bonding", "Acids, Bases and Salts",
-        "Analytical Chemistry", "Mole Concept & Stoichiometry", "Electrolysis", "Metallurgy",
-        "Study of Compounds (HCl, NH3, HNO3, H2SO4)", "Organic Chemistry", "Practical Work",
-        "CHEMISTRY FULL REVISION 1 ⭐", "CHEMISTRY FULL REVISION 2 ⭐", "CHEMISTRY FULL REVISION 3 ⭐"
-      ],
-      "Mathematics": [
-        "Goods and Services Tax (GST)", "Banking (Recurring Deposit)", "Shares and Dividends",
-        "Linear Inequations", "Quadratic Equations", "Factorisation of Polynomials",
-        "Ratio and Proportion & Matrices", "Arithmetic and Geometric Progressions",
-        "Coordinate Geometry", "Geometry (Similarity, Circles, Constructions)",
-        "Mensuration, Trigonometry & Statistics/Probability",
-        "MATHEMATICS FULL REVISION 1 ⭐", "MATHEMATICS FULL REVISION 2 ⭐", "MATHEMATICS FULL REVISION 3 ⭐"
-      ],
-      "Biology": [
-        "Basic Biology (Cell Division)", "Chromosomes & Genetics", "Absorption by Roots",
-        "Transpiration", "Photosynthesis", "Plant Coordination", "Circulatory System",
-        "Excretory System", "Nervous System & Sense Organs", "Endocrine System",
-        "Reproductive System", "Evolution, Population & Pollution",
-        "BIOLOGY FULL REVISION 1 ⭐", "BIOLOGY FULL REVISION 2 ⭐", "BIOLOGY FULL REVISION 3 ⭐"
-      ],
-      "History & Civics": [
-        "First War of Independence (1857)", "Growth of Nationalism", "Early & Assertive Nationalists",
-        "Muslim League", "Mass Phase of Movement", "Partition of India", "Contemporary World (WW1, WW2, UN)",
-        "Civics: Union Parliament", "Civics: President & Vice-President", "Civics: Prime Minister & Cabinet",
-        "Civics: Supreme Court & High Courts",
-        "HISTORY & CIVICS FULL REVISION 1 ⭐", "HISTORY & CIVICS FULL REVISION 2 ⭐", "HISTORY & CIVICS FULL REVISION 3 ⭐"
-      ],
-      "Geography": [
-        "Topographical Survey Maps & Contours", "Location & Physical Features of India", "Climate of India",
-        "Soil Resources of India", "Natural Vegetation", "Water Resources & Irrigation", "Mineral & Energy Resources",
-        "Agriculture in India (Food & Cash Crops)", "Manufacturing Industries, Transport & Waste Management",
-        "GEOGRAPHY FULL REVISION 1 ⭐", "GEOGRAPHY FULL REVISION 2 ⭐", "GEOGRAPHY FULL REVISION 3 ⭐"
-      ],
-      "Bengali": [
-        "গল্প: ১. বামা (Bama)",
-        "গল্প: ২. নাম (Naam)",
-        "গল্প: ৩. অসহযোগী (Ashahajogi)",
-        "গল্প: ৪. গন্ধটা খুব সন্দেহজনক (Gandhata Khub Sandehojanak)",
-        "গল্প: ৫. লোকটি (Lokti)",
-        "কবিতা: ১. বঙ্গভূমির প্রতি (Bongobhumir Proti)",
-        "কবিতা: ২. কুলি মজুর (Kuli Majur)",
-        "কবিতা: ৩. আবার আসিব ফিরে (Abar Ashibo Phire)",
-        "কবিতা: ৪. অমলকান্তি (Amalkanti)",
-        "কবিতা: ৫. খো খো (Kho Kho)",
-        "বাংলা ব্যাকরণ ও নির্মিতি (Grammar, Essay & Letter)",
-        "BENGALI FULL REVISION 1 ⭐", "BENGALI FULL REVISION 2 ⭐", "BENGALI FULL REVISION 3 ⭐"
-      ],
-      "Hindi": [
-        "Short Stories: 1. Bade Ghar Ki Beti - Premchand",
-        "Short Stories: 2. Sandeh - Jaishankar Prashad",
-        "Short Stories: 3. Bheed me Khoya Aadmi - Leeladhar Sharma Parvatiya",
-        "Short Stories: 4. Bheden Aur Bhediye - Hari Shankar Parsai",
-        "Short Stories: 5. Do Kalakaar - Mannu Bhandari",
-        "Poems: 1. Sur Ke Pad - Surdas",
-        "Poems: 2. Vinay Ke Pad - Tulsidas",
-        "Poems: 3. Bhikshuk - Surya Kant Tripathi 'Nirala'",
-        "Poems: 4. Chalna Hamaraa Kaam Hai - Shivmangal Singh 'Suman'",
-        "Poems: 5. Matri Mandir Ki Or - Subhadra Kumari Chauhan",
-        "Novel: Naya Raasta - Sushma Agarwal (Sarg 14 to Sarg 26)",
-        "Ekanki: Sookhi Dali - Upendranath 'Ashq'",
-        "Ekanki: Mahabharat Ki Ek Saanjh - Bharat Bhushan Agrawal",
-        "Ekanki: Deepdan - Ram Kumar Verma",
-        "Hindi Vyakaran (Essay, Letter, Comprehension & Grammar)",
-        "HINDI FULL REVISION 1 ⭐", "HINDI FULL REVISION 2 ⭐", "HINDI FULL REVISION 3 ⭐"
-      ],
-      "Computer Applications": [
-        "Revision of Class IX Syllabus & OOP Concepts",
-        "Class as the Basis of all Computation",
-        "User-Defined Methods",
-        "Constructors",
-        "Library Classes & Wrapper Classes",
-        "Encapsulation",
-        "Arrays (One Dimension, Sort & Search, Double Dimension)",
-        "String Handling",
-        "Programs Overall & Specimen Practices",
-        "COMPUTER APPLICATIONS FULL REVISION 1 ⭐", "COMPUTER APPLICATIONS FULL REVISION 2 ⭐", "COMPUTER APPLICATIONS FULL REVISION 3 ⭐"
-      ],
-      "Commercial Applications": [
-        "1. Stakeholders in Commercial Organisations",
-        "2. Marketing and Sales",
-        "3. Advertising and Sales Promotion",
-        "4. Consumer Protection",
-        "5. E-Commerce",
-        "6. Capital and Revenue Expenditure/Income",
-        "7. Final Accounts of Sole Proprietorship",
-        "8. Fundamental Concepts of Cost",
-        "9. Budgeting",
-        "10. Sources of Finance",
-        "11. Recruitment, Selection and Training",
-        "12. Industrial Relations, Trade Unions and Social Security",
-        "13. Logistics and Insurance",
-        "14. Banking",
-        "15. Striving for a Better Environment",
-        "COMMERCIAL APPLICATIONS FULL REVISION 1 ⭐", "COMMERCIAL APPLICATIONS FULL REVISION 2 ⭐", "COMMERCIAL APPLICATIONS FULL REVISION 3 ⭐"
-      ]
+      "English Language": {
+        "Chapters": [
+          "Composition Essay Writing (300-350 words)",
+          "Formal & Informal Letter Writing",
+          "Notice Writing & Email Drafting",
+          "Unseen Passage Comprehension & Précis Writing",
+          "Functional Grammar: Sentence Transformation & Prepositions"
+        ],
+        "HasRevision": true
+      },
+      "English Literature": {
+        "Chapters": [
+          "Prose: The Elevator - William Sleator",
+          "Prose: The Girl Who Can - Ama Ata Aidoo",
+          "Prose: The Last Lesson - Alphonse Daudet",
+          "Prose: The Pedestrian - Ray Bradbury",
+          "Prose: With the Photographer - Stephen Leacock",
+          "Verse: The Power of Music - Sukumar Ray",
+          "Verse: When Great Trees Fall - Maya Angelou",
+          "Verse: Haunted Houses - H.W. Longfellow",
+          "Verse: A Considerable Speck - Robert Frost",
+          "Verse: The Glove and the Lions - Leigh Hunt",
+          "Drama: Julius Caesar - Act 3 (Scenes 1 to 3)",
+          "Drama: Julius Caesar - Act 4 (Scenes 1 to 3)",
+          "Drama: Julius Caesar - Act 5 (Scenes 1 to 5)"
+        ],
+        "HasRevision": true
+      },
+      "Physics": {
+        "Chapters": [
+          "Force", "Work, Energy and Power", "Machines", "Refraction of Light at Plane Surfaces",
+          "Refraction through a Lens", "Spectrum", "Sound", "Current Electricity",
+          "Household Circuits", "Electro-magnetism", "Calorimetry", "Radioactivity"
+        ],
+        "HasRevision": true
+      },
+      "Chemistry": {
+        "Chapters": [
+          "Periodic Table & Properties", "Chemical Bonding", "Acids, Bases and Salts",
+          "Analytical Chemistry", "Mole Concept & Stoichiometry", "Electrolysis", "Metallurgy",
+          "Study of Compounds (HCl, NH3, HNO3, H2SO4)", "Organic Chemistry", "Practical Work"
+        ],
+        "HasRevision": true
+      },
+      "Mathematics": {
+        "Chapters": [
+          "Goods and Services Tax (GST)", "Banking (Recurring Deposit)", "Shares and Dividends",
+          "Linear Inequations", "Quadratic Equations", "Factorisation of Polynomials",
+          "Ratio and Proportion & Matrices", "Arithmetic and Geometric Progressions",
+          "Coordinate Geometry", "Geometry (Similarity, Circles, Constructions)",
+          "Mensuration, Trigonometry & Statistics/Probability"
+        ],
+        "HasRevision": true
+      },
+      "Biology": {
+        "Chapters": [
+          "Basic Biology (Cell Division)", "Chromosomes & Genetics", "Absorption by Roots",
+          "Transpiration", "Photosynthesis", "Plant Coordination", "Circulatory System",
+          "Excretory System", "Nervous System & Sense Organs", "Endocrine System",
+          "Reproductive System", "Evolution, Population & Pollution"
+        ],
+        "HasRevision": true
+      },
+      "History & Civics": {
+        "Sections": [
+          {
+            "title": "📜 History (Indian National Movement)",
+            "chapters": [
+              "First War of Independence (1857)", "Growth of Nationalism", "Early & Assertive Nationalists",
+              "Muslim League", "Mass Phase of Movement", "Partition of India"
+            ]
+          },
+          {
+            "title": "🌍 Contemporary World",
+            "chapters": [
+              "First World War", "Rise of Dictatorships (Fascism & Nazism)", "Second World War",
+              "United Nations (Organs & Functions)", "Non-Aligned Movement (NAM)"
+            ]
+          },
+          {
+            "title": "🏛️ Civics (Indian Polity)",
+            "chapters": [
+              "The Union Parliament (Lok Sabha & Rajya Sabha)", "The President & Vice-President",
+              "Prime Minister & Council of Ministers", "The Supreme Court & High Courts"
+            ]
+          }
+        ],
+        "HasRevision": true
+      },
+      "Geography": {
+        "Chapters": [
+          "Topographical Survey Maps & Contours", "Location & Physical Features of India", "Climate of India",
+          "Soil Resources of India", "Natural Vegetation", "Water Resources & Irrigation", "Mineral & Energy Resources",
+          "Agriculture in India (Food & Cash Crops)", "Manufacturing Industries, Transport & Waste Management"
+        ],
+        "HasRevision": true
+      },
+      "Bengali": {
+        "Sections": [
+          {
+            "title": "📖 গল্প (Stories)",
+            "chapters": [
+              "১. বামা (Bama)", "২. নাম (Naam)", "৩. অসহযোগী (Ashahajogi)",
+              "৪. গন্ধটা খুব সন্দেহজনক (Gandhata Khub Sandehojanak)", "৫. লোকটি (Lokti)"
+            ]
+          },
+          {
+            "title": "✨ কবিতা (Poems)",
+            "chapters": [
+              "১. বঙ্গভূমির প্রতি (Bongobhumir Proti)", "২. কুলি মজুর (Kuli Majur)",
+              "৩. আবার আসিব ফিরে (Abar Ashibo Phire)", "৪. অমলকান্তি (Amalkanti)", "৫. খো খো (Kho Kho)"
+            ]
+          },
+          {
+            "title": "✍️ বাংলা ব্যাকরণ ও নির্মিতি (Grammar)",
+            "chapters": [
+              "বাংলা ব্যাকরণ (Bengali Grammar)", "প্রবন্ধ রচনা (Essay Writing)", "চিঠিপত্র (Letter Writing)"
+            ]
+          }
+        ],
+        "HasRevision": true
+      },
+      "Hindi": {
+        "Sections": [
+          {
+            "title": "📖 गद्य संकलन (Prose)",
+            "chapters": [
+              "1. Bade Ghar Ki Beti - Premchand", "2. Sandeh - Jaishankar Prashad",
+              "3. Bheed me Khoya Aadmi - Leeladhar Sharma", "4. Bheden Aur Bhediye - Harishankar Parsai", "5. Do Kalakaar - Mannu Bhandari"
+            ]
+          },
+          {
+            "title": "✨ पद्य भाग (Poems)",
+            "chapters": [
+              "1. Sur Ke Pad - Surdas", "2. Vinay Ke Pad - Tulsidas",
+              "3. Bhikshuk - Surya Kant Tripathi 'Nirala'", "4. Chalna Hamaraa Kaam Hai - Shivmangal Singh", "5. Matri Mandir Ki Or - Subhadra Kumari Chauhan"
+            ]
+          },
+          {
+            "title": "🎭 एकांकी संचय (Ekanki)",
+            "chapters": [
+              "1. Sookhi Dali - Upendranath 'Ashq'", "2. Mahabharat Ki Ek Saanjh - Bharat Bhushan", "3. Deepdan - Ram Kumar Verma"
+            ]
+          },
+          {
+            "title": "📚 नया रास्ता (Novel)",
+            "chapters": [
+              "Naya Raasta - Sushma Agarwal (Sarg 14 to Sarg 26)"
+            ]
+          },
+          {
+            "title": "✍️ व्याकरण (Grammar)",
+            "chapters": [
+              "Hindi Vyakaran (Essay, Letter, Comprehension & Grammar)"
+            ]
+          }
+        ],
+        "HasRevision": true
+      },
+      "Computer Applications": {
+        "Chapters": [
+          "Revision of Class IX Syllabus & OOP Concepts", "Class as the Basis of all Computation",
+          "User-Defined Methods", "Constructors", "Library Classes & Wrapper Classes",
+          "Encapsulation", "Arrays (One Dimension, Sort & Search, Double Dimension)",
+          "String Handling", "Programs Overall & Specimen Practices"
+        ],
+        "HasRevision": true
+      },
+      "Commercial Applications": {
+        "Chapters": [
+          "1. Stakeholders in Commercial Organisations", "2. Marketing and Sales", "3. Advertising and Sales Promotion",
+          "4. Consumer Protection", "5. E-Commerce", "6. Capital and Revenue Expenditure/Income",
+          "7. Final Accounts of Sole Proprietorship", "8. Fundamental Concepts of Cost", "9. Budgeting",
+          "10. Sources of Finance", "11. Recruitment, Selection and Training", "12. Industrial Relations, Trade Unions and Social Security",
+          "13. Logistics and Insurance", "14. Banking", "15. Striving for a Better Environment"
+        ],
+        "HasRevision": true
+      }
     };
 
     let currentStudent = null;
@@ -972,6 +1020,25 @@
     let targetExamDate = localStorage.getItem("icse_target_exam_date") || "2027-02-18";
     let activeSubjectFilter = localStorage.getItem("icse_active_subject") || null;
     let activeTabTag = localStorage.getItem("icse_active_tab") || "analytics";
+
+    // Helper to extract flat list of chapters from either flat arrays or structured sections
+    function getSubjectChaptersList(subName) {
+      const subData = MASTER_SYLLABUS[subName];
+      if (!subData) return [];
+      let list = [];
+      if (subData.Chapters) {
+        list = [...subData.Chapters];
+      } else if (subData.Sections) {
+        subData.Sections.forEach(sec => list.push(...sec.chapters));
+      }
+      if (subData.HasRevision !== false) {
+        const uppercaseSub = subName.toUpperCase();
+        list.push(`${uppercaseSub} FULL REVISION 1 ⭐`);
+        list.push(`${uppercaseSub} FULL REVISION 2 ⭐`);
+        list.push(`${uppercaseSub} FULL REVISION 3 ⭐`);
+      }
+      return list;
+    }
 
     // Theme Engine
     function initTheme() {
@@ -1161,12 +1228,12 @@
 
       const mySubjects = getStudentSubjectList(currentStudent);
       let totalCurriculumChapters = 0;
-      mySubjects.forEach(s => totalCurriculumChapters += (MASTER_SYLLABUS[s] ? MASTER_SYLLABUS[s].length : 0));
+      mySubjects.forEach(s => totalCurriculumChapters += getSubjectChaptersList(s).length);
 
       let myCompleted = 0;
       let weakCount = 0;
       mySubjects.forEach(s => {
-        (MASTER_SYLLABUS[s] || []).forEach(c => {
+        getSubjectChaptersList(s).forEach(c => {
           const st = currentStudent.chapterProgress?.[s]?.[c] || 'Not Started';
           if (st === 'Completed') myCompleted++;
           if (st === 'Need Revision') weakCount++;
@@ -1185,8 +1252,9 @@
         const subs = getStudentSubjectList(st);
         let tot = 0, comp = 0;
         subs.forEach(s => {
-          tot += (MASTER_SYLLABUS[s] ? MASTER_SYLLABUS[s].length : 0);
-          (MASTER_SYLLABUS[s] || []).forEach(c => {
+          const chaps = getSubjectChaptersList(s);
+          tot += chaps.length;
+          chaps.forEach(c => {
             if (st.chapterProgress?.[s]?.[c] === 'Completed') comp++;
           });
         });
@@ -1239,7 +1307,7 @@
       benchBox.innerHTML = "";
 
       mySubjects.forEach(sub => {
-        const chaps = MASTER_SYLLABUS[sub] || [];
+        const chaps = getSubjectChaptersList(sub);
         let mySubDone = 0;
         chaps.forEach(c => {
           if (currentStudent.chapterProgress?.[sub]?.[c] === 'Completed') mySubDone++;
@@ -1279,7 +1347,7 @@
       });
     }
 
-    // ================= SUBJECTS & CHAPTERS VIEW (SAFE NUMERIC INDEX MAPPING) =================
+    // ================= SUBJECTS & CHAPTERS VIEW (ROBUST INDEX MAPPING) =================
     function initSubjectDropdowns() {
       const filter = document.getElementById('studentSubjectFilter');
       if (!filter) return;
@@ -1314,68 +1382,106 @@
       if (filterEl) filterEl.value = activeSubjectFilter;
 
       const sub = activeSubjectFilter;
-      const chapters = MASTER_SYLLABUS[sub] || [];
+      const subData = MASTER_SYLLABUS[sub];
       const listContainer = document.getElementById('chaptersListContainer');
       listContainer.innerHTML = "";
 
       let completedCount = 0;
-      chapters.forEach((ch, idx) => {
-        const status = (currentStudent && currentStudent.chapterProgress?.[sub]?.[ch]) ? currentStudent.chapterProgress[sub][ch] : "Not Started";
-        if (status === "Completed") completedCount++;
+      let totalCount = getSubjectChaptersList(sub).length;
+      let globalIndex = 0;
 
-        const isDone = status === "Completed";
-        const isWeak = status === "Need Revision";
-        const isInProg = status === "In Progress";
-        const isRevisionCard = ch.includes("FULL REVISION");
+      // Helper to render a block of chapters
+      function renderChapterRows(chapterArray) {
+        let html = '<div class="space-y-2.5">';
+        chapterArray.forEach(ch => {
+          const idx = globalIndex++;
+          const status = (currentStudent && currentStudent.chapterProgress?.[sub]?.[ch]) ? currentStudent.chapterProgress[sub][ch] : "Not Started";
+          if (status === "Completed") completedCount++;
 
-        const div = document.createElement('div');
-        div.className = "glass-panel p-3.5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3";
-        div.innerHTML = `
-          <div class="flex items-center gap-3">
-            <span class="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono font-bold flex items-center justify-center text-slate-700 dark:text-slate-200 shrink-0">
-              ${idx + 1}
-            </span>
-            <div>
-              <p class="text-xs sm:text-sm font-bold ${isDone ? 'line-through text-slate-400' : 'text-slate-800 dark:text-slate-100'}">
-                ${ch}
-              </p>
-              <span class="text-[10px] font-bold ${isDone ? 'text-emerald-600 dark:text-emerald-400' : (isWeak ? 'text-rose-600 dark:text-rose-400' : (isInProg ? 'text-blue-600 dark:text-blue-400' : 'text-slate-400'))}">
-                ${status === 'Need Revision' ? '🔴 Need Revision' : status}
-              </span>
+          const isDone = status === "Completed";
+          const isWeak = status === "Need Revision";
+          const isInProg = status === "In Progress";
+          const isRevisionCard = ch.includes("FULL REVISION");
+
+          html += `
+            <div class="glass-panel p-3.5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <span class="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono font-bold flex items-center justify-center text-slate-700 dark:text-slate-200 shrink-0">
+                  ${idx + 1}
+                </span>
+                <div>
+                  <p class="text-xs sm:text-sm font-bold ${isDone ? 'line-through text-slate-400' : 'text-slate-800 dark:text-slate-100'}">
+                    ${ch}
+                  </p>
+                  <span class="text-[10px] font-bold ${isDone ? 'text-emerald-600 dark:text-emerald-400' : (isWeak ? 'text-rose-600 dark:text-rose-400' : (isInProg ? 'text-blue-600 dark:text-blue-400' : 'text-slate-400'))}">
+                    ${status === 'Need Revision' ? '🔴 Need Revision' : status}
+                  </span>
+                </div>
+              </div>
+              <div class="flex items-center gap-1.5 self-end sm:self-center shrink-0">
+                ${!isRevisionCard ? `
+                  <button type="button" onclick="toggleChapterByIndex('${sub}', ${idx}, 'Need Revision')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isWeak ? 'bg-rose-600 text-white' : 'glass-interactive text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900'}">
+                    🔴 Revision
+                  </button>
+                ` : ''}
+                <button type="button" onclick="toggleChapterByIndex('${sub}', ${idx}, 'In Progress')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isInProg ? 'bg-blue-600 text-white' : 'glass-interactive text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900'}">
+                  In Progress
+                </button>
+                <button type="button" onclick="toggleChapterByIndex('${sub}', ${idx}, 'Completed')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isDone ? 'bg-emerald-600 text-white' : 'glass-interactive text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900'}">
+                  ${isDone ? '✓ Done' : 'Mark Done'}
+                </button>
+              </div>
             </div>
-          </div>
-          <div class="flex items-center gap-1.5 self-end sm:self-center shrink-0">
-            ${!isRevisionCard ? `
-              <button type="button" onclick="toggleChapterByIndex('${sub}', ${idx}, 'Need Revision')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isWeak ? 'bg-rose-600 text-white' : 'glass-interactive text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900'}">
-                🔴 Revision
-              </button>
-            ` : ''}
-            <button type="button" onclick="toggleChapterByIndex('${sub}', ${idx}, 'In Progress')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isInProg ? 'bg-blue-600 text-white' : 'glass-interactive text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900'}">
-              In Progress
-            </button>
-            <button type="button" onclick="toggleChapterByIndex('${sub}', ${idx}, 'Completed')" class="px-2.5 py-1 text-[10px] font-bold rounded-lg border ${isDone ? 'bg-emerald-600 text-white' : 'glass-interactive text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900'}">
-              ${isDone ? '✓ Done' : 'Mark Done'}
-            </button>
-          </div>
-        `;
-        listContainer.appendChild(div);
-      });
+          `;
+        });
+        html += '</div>';
+        return html;
+      }
 
-      const pct = chapters.length > 0 ? Math.round((completedCount / chapters.length) * 100) : 0;
+      if (subData.Chapters) {
+        listContainer.innerHTML += renderChapterRows(subData.Chapters);
+      } else if (subData.Sections) {
+        subData.Sections.forEach(sec => {
+          const secWrapper = document.createElement('div');
+          secWrapper.className = "space-y-2 mt-3";
+          secWrapper.innerHTML = `
+            <h4 class="text-xs font-black uppercase tracking-wider text-blue-700 dark:text-blue-400 px-1 pt-2">${sec.title}</h4>
+          `;
+          secWrapper.innerHTML += renderChapterRows(sec.chapters);
+          listContainer.appendChild(secWrapper);
+        });
+      }
+
+      // Render Full Revision items at the bottom if enabled
+      if (subData.HasRevision !== false) {
+        const uppercaseSub = sub.toUpperCase();
+        const revChapters = [
+          `${uppercaseSub} FULL REVISION 1 ⭐`,
+          `${uppercaseSub} FULL REVISION 2 ⭐`,
+          `${uppercaseSub} FULL REVISION 3 ⭐`
+        ];
+        const revWrapper = document.createElement('div');
+        revWrapper.className = "space-y-2 mt-4";
+        revWrapper.innerHTML = `<h4 class="text-xs font-black uppercase tracking-wider text-amber-600 dark:text-amber-400 px-1 pt-2">⭐ Full Exam Revisions</h4>`;
+        revWrapper.innerHTML += renderChapterRows(revChapters);
+        listContainer.appendChild(revWrapper);
+      }
+
+      const pct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
       document.getElementById('currentSubjectName').innerText = sub;
-      document.getElementById('currentSubjectStats').innerText = `${completedCount} of ${chapters.length} chapters completed`;
+      document.getElementById('currentSubjectStats').innerText = `${completedCount} of ${totalCount} chapters completed`;
       document.getElementById('currentSubjectBar').style.width = `${pct}%`;
       document.getElementById('currentSubjectPct').innerText = `${pct}%`;
     }
 
-    async function toggleChapterByIndex(sub, chapIndex, targetStatus) {
+    async function toggleChapterByIndex(sub, globalIdx, targetStatus) {
       if (!currentStudent) {
         document.getElementById('firstTimeLoginModal').classList.remove('hidden');
         return;
       }
 
-      const chapters = MASTER_SYLLABUS[sub] || [];
-      const chap = chapters[chapIndex];
+      const chapters = getSubjectChaptersList(sub);
+      const chap = chapters[globalIdx];
       if (!chap) return;
 
       if (!currentStudent.chapterProgress) currentStudent.chapterProgress = {};
@@ -1795,7 +1901,7 @@
       const selectedSubs = getStudentSubjectList(newStudentDoc);
       selectedSubs.forEach(sub => {
         newStudentDoc.chapterProgress[sub] = {};
-        (MASTER_SYLLABUS[sub] || []).forEach(ch => newStudentDoc.chapterProgress[sub][ch] = "Not Started");
+        getSubjectChaptersList(sub).forEach(ch => newStudentDoc.chapterProgress[sub][ch] = "Not Started");
       });
 
       localStorage.setItem("current_icse_student_id", studentId);
@@ -1868,7 +1974,7 @@
       updatedSubs.forEach(s => {
         if (!currentStudent.chapterProgress[s]) {
           currentStudent.chapterProgress[s] = {};
-          (MASTER_SYLLABUS[s] || []).forEach(ch => currentStudent.chapterProgress[s][ch] = "Not Started");
+          getSubjectChaptersList(s).forEach(ch => currentStudent.chapterProgress[s][ch] = "Not Started");
         }
       });
 
@@ -1962,7 +2068,7 @@
     function updateAdminOverview() {
       document.getElementById('admStatStudents').innerText = allStudentsLive.length;
       let totalAll = 0;
-      for (const s in MASTER_SYLLABUS) totalAll += MASTER_SYLLABUS[s].length;
+      for (const s in MASTER_SYLLABUS) totalAll += getSubjectChaptersList(s).length;
       document.getElementById('admStatChapters').innerText = totalAll;
 
       let totalPctSum = 0;
@@ -1970,8 +2076,9 @@
         const subs = getStudentSubjectList(st);
         let sTot = 0, comp = 0;
         subs.forEach(s => {
-          sTot += (MASTER_SYLLABUS[s] || []).length;
-          (MASTER_SYLLABUS[s] || []).forEach(c => {
+          const chaps = getSubjectChaptersList(s);
+          sTot += chaps.length;
+          chaps.forEach(c => {
             if (st.chapterProgress?.[s]?.[c] === 'Completed') comp++;
           });
         });
@@ -1992,8 +2099,9 @@
         const subs = getStudentSubjectList(st);
         let sTot = 0, comp = 0;
         subs.forEach(s => {
-          sTot += (MASTER_SYLLABUS[s] || []).length;
-          (MASTER_SYLLABUS[s] || []).forEach(c => {
+          const chaps = getSubjectChaptersList(s);
+          sTot += chaps.length;
+          chaps.forEach(c => {
             if (st.chapterProgress?.[s]?.[c] === 'Completed') comp++;
           });
         });
@@ -2155,7 +2263,7 @@
 
       const mySubs = getStudentSubjectList(st);
       mySubs.forEach(sub => {
-        const chaps = MASTER_SYLLABUS[sub] || [];
+        const chaps = getSubjectChaptersList(sub);
         const card = document.createElement('div');
         card.className = "glass-panel rounded-2xl p-4 bg-white dark:bg-slate-800";
         card.innerHTML = `<h5 class="text-xs font-bold text-slate-900 dark:text-white mb-2">${sub}</h5>`;
